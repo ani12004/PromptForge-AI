@@ -48,17 +48,15 @@ export function Navbar() {
                     >
                         {/* Logo */}
                         <Link href="/" className="flex items-center gap-3 group z-50">
-                            <div className="relative h-10 w-10">
+                            <div className="relative h-10 w-48">
                                 <Image
-                                    src="/logo.png"
+                                    src="/logo_navi.png"
                                     alt="PromptForge"
                                     fill
-                                    className="object-contain"
+                                    className="object-contain object-left"
+                                    priority
                                 />
                             </div>
-                            <span className="font-bold text-lg text-white tracking-tight">
-                                PromptForge
-                            </span>
                         </Link>
 
                         {/* Desktop Nav */}

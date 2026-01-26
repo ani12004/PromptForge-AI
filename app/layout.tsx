@@ -21,9 +21,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "PromptForge AI",
   description: "Transform raw user intent into high-quality, optimized AI prompts.",
-  icons: {
-    icon: "/logo.png",
-  },
+
 };
 
 import { ClerkProvider } from "@clerk/nextjs";
