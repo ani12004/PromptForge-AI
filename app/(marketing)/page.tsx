@@ -54,7 +54,7 @@ export default function HomePage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.4 }}
-                        className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
+                        className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10"
                     >
                         <Link href="/studio">
                             <Button size="lg" className="h-14 px-10 text-lg shadow-glow hover:scale-105 transition-all duration-300 bg-brand-purple hover:bg-brand-purple/90 rounded-full">

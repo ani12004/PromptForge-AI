@@ -55,7 +55,7 @@ export function InteractiveInputDemo() {
     }, [charIndex, isDeleting, ghostIndex])
 
     return (
-        <div className="w-full max-w-2xl mx-auto mt-24 mb-16 relative z-20">
+        <div className="w-full max-w-2xl mx-auto mt-8 mb-12 relative z-20">
             <div className="relative group cursor-default"> {/* Cursor default to indicate no interaction */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-brand-purple to-brand-violet rounded-2xl opacity-20 blur transition duration-500" />
                 <div className="relative bg-[#0A0A0A] border border-white/10 rounded-xl p-3 flex items-center shadow-2xl">
