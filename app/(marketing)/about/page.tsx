@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/Card"
-import { Github, Twitter, Linkedin, Heart } from "lucide-react"
+import { Github, Linkedin, Heart } from "lucide-react"
 
 export default function AboutPage() {
     return (
@@ -46,6 +46,8 @@ export default function AboutPage() {
                         name="Anil Suthar"
                         role="Founder & CEO"
                         imageSrc="/anil_suthar_profile.jpg"
+                        githubUrl="https://github.com/ani12004"
+                        linkedinUrl="https://www.linkedin.com/in/sutharani738/"
                     />
                 </div>
             </div>
@@ -65,7 +67,7 @@ function ValueCard({ title, desc }: { title: string, desc: string }) {
 
 import Image from "next/image"
 
-function TeamCard({ name, role, imageSrc }: { name: string, role: string, imageSrc: string }) {
+function TeamCard({ name, role, imageSrc, githubUrl, linkedinUrl }: { name: string, role: string, imageSrc: string, githubUrl?: string, linkedinUrl?: string }) {
     return (
         <Card variant="interactive" className="p-6 text-center group bg-[#0A0A0A] border-white/5 hover:border-brand-purple/30 max-w-sm w-full">
             <div className="w-32 h-32 rounded-full bg-white/5 mx-auto mb-6 overflow-hidden transition-all duration-500 border border-white/10 group-hover:border-brand-purple/50 shadow-lg relative">
@@ -79,9 +81,16 @@ function TeamCard({ name, role, imageSrc }: { name: string, role: string, imageS
             <h3 className="font-bold text-lg text-white mb-1 group-hover:text-brand-purple transition-colors">{name}</h3>
             <p className="text-sm text-gray-500 mb-6 uppercase tracking-wider font-medium text-[10px]">{role}</p>
             <div className="flex justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0 duration-300">
-                <Twitter className="h-4 w-4 text-gray-500 hover:text-white cursor-pointer transition-colors" />
-                <Github className="h-4 w-4 text-gray-500 hover:text-white cursor-pointer transition-colors" />
-                <Linkedin className="h-4 w-4 text-gray-500 hover:text-white cursor-pointer transition-colors" />
+                {githubUrl && (
+                    <a href={githubUrl} target="_blank" rel="noopener noreferrer">
+                        <Github className="h-4 w-4 text-gray-500 hover:text-white cursor-pointer transition-colors" />
+                    </a>
+                )}
+                {linkedinUrl && (
+                    <a href={linkedinUrl} target="_blank" rel="noopener noreferrer">
+                        <Linkedin className="h-4 w-4 text-gray-500 hover:text-white cursor-pointer transition-colors" />
+                    </a>
+                )}
             </div>
         </Card>
     )
