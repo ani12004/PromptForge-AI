@@ -11,10 +11,10 @@ import { motion, AnimatePresence } from "framer-motion"
 
 export default function HomePage() {
     return (
-        <div className="flex flex-col gap-32 pb-32 overflow-hidden">
+        <div className="flex flex-col gap-12 pb-32 overflow-hidden">
 
             {/* Hero Section */}
-            <section className="relative pt-32 pb-10 md:pt-48 md:pb-20 px-6">
+            <section className="relative pt-32 pb-0 md:pt-48 md:pb-0 px-6">
                 {/* Background Decor */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[600px] bg-brand-purple/20 blur-[120px] rounded-full opacity-40 pointer-events-none" />
                 <div className="absolute top-[20%] right-[10%] w-[300px] h-[300px] bg-brand-violet/10 blur-[80px] rounded-full pointing-events-none animate-float-delayed" />
@@ -54,7 +54,7 @@ export default function HomePage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.4 }}
-                        className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10"
+                        className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8"
                     >
                         <Link href="/studio">
                             <Button size="lg" className="h-14 px-10 text-lg shadow-glow hover:scale-105 transition-all duration-300 bg-brand-purple hover:bg-brand-purple/90 rounded-full">
