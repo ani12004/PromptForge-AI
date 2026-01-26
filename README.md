@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PromptForge AI
 
-## Getting Started
+PromptForge AI is a specialized middleware platform designed to bridge the gap between human intent and large language model (LLM) execution. It serves as an advanced development environment for prompt engineering, allowing developers and prompt engineers to structure, refine, and optimize raw inputs into production-grade instructions.
 
-First, run the development server:
+The system leverages heuristic analysis and semantic understanding to detect ambiguity in natural language, automatically restructuring requests into high-fidelity prompts that improve model performance, consistency, and reduced latency across various LLM providers.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Key Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Semantic Intent Analysis
+The core engine analyzes user input to determine the underlying objective—whether it be code generation, creative writing, or data analysis. It identifies vague constraints and negative patterns, replacing them with precise, enforceable instructions.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Studio Environment
+A dedicated workspace for crafting and iterating on prompts. The Studio offers real-time feedback, version history, and "cognitive status" updates that visualize the refinement process as it happens.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Subscription & Quota Management
+Integrated limits ensure fair usage across the platform:
+- **Hobbyist Tier**: Access to standard refinement tools with a monthly cap on generations.
+- **Pro Engineer Tier**: Unlimited access to the refinement engine, priority processing, and advanced intent analysis features.
 
-## Learn More
+### Robust History & Persistence
+All generated prompts and their versions are stored securely. Users can revisit previous iterations, compare outputs, and retrieve optimized prompts for immediate use in production workflows.
 
-To learn more about Next.js, take a look at the following resources:
+### Secure Architecture
+Built with enterprise-grade security in mind:
+- **Authentication**: Managed via Clerk with strict session handling.
+- **Data Storage**: Row Level Security (RLS) enabled on Supabase to ensure complete data isolation between users.
+- **Encryption**: API keys and sensitive configuration data are managed via secure environment variables.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Technology Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend**: Next.js 15 (App Router), React 19, Tailwind CSS
+- **Backend**: Server Actions, Supabase (PostgreSQL), Clerk Webhooks
+- **AI / Logic**: Google Gemini 1.5 Pro/Flash models
+- **Infrastructure**: Vercel-ready architecture
