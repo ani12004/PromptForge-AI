@@ -154,6 +154,7 @@ OUTPUT RULES:
 - Return ONLY the refined prompt.
 - Do NOT wrap output in quotes.
 - Do NOT include explanations or meta commentary.
+- Do NOT use markdown formatting (no bolding, no italics, no asterisks). Use plain text only.
 
 VAGUE INPUT HANDLING:
 If the input is extremely vague (e.g., "help", "build AI"),
