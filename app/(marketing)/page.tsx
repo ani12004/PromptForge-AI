@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from "framer-motion"
 
 export default function HomePage() {
     return (
-        <div className="flex flex-col gap-12 pb-32 overflow-hidden">
+        <div className="flex flex-col gap-32 pb-32 overflow-hidden">
 
             {/* Hero Section */}
             <section className="relative pt-32 pb-0 md:pt-48 md:pb-0 px-6">
