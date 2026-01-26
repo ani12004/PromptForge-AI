@@ -14,7 +14,7 @@ export default function HomePage() {
         <div className="flex flex-col gap-32 pb-32 overflow-hidden">
 
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6">
+            <section className="relative pt-32 pb-10 md:pt-48 md:pb-20 px-6">
                 {/* Background Decor */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[600px] bg-brand-purple/20 blur-[120px] rounded-full opacity-40 pointer-events-none" />
                 <div className="absolute top-[20%] right-[10%] w-[300px] h-[300px] bg-brand-violet/10 blur-[80px] rounded-full pointing-events-none animate-float-delayed" />
