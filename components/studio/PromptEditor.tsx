@@ -168,14 +168,14 @@ export function PromptEditor({ prompt, setPrompt, detailLevel, setDetailLevel, o
                 <button
                     onClick={onGenerate}
                     disabled={isGenerating || !prompt.trim()}
-                    className="group relative flex items-center gap-3 bg-white text-black px-8 py-3 rounded-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-all active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)] w-full md:w-auto justify-center"
+                    className="group relative flex items-center gap-3 bg-brand-purple text-white px-8 py-3 rounded-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-brand-purple/90 transition-all active:scale-95 shadow-[0_0_20px_rgba(124,58,237,0.3)] w-full md:w-auto justify-center"
                 >
                     <span className="relative z-10 flex items-center gap-2">
                         {isGenerating ? "FORGING..." : "INITIATE FORGE"}
                         {!isGenerating && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
                     </span>
                     {/* Subtle Glow */}
-                    <div className="absolute inset-0 rounded-lg bg-white/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 rounded-lg bg-brand-purple/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
                 </button>
             </div>
         </div>
