@@ -130,14 +130,11 @@ export default function StudioPage() {
             {/* LEFT PANEL: Construction Surface */}
             <div className={`flex-1 flex flex-col min-h-[50vh] lg:min-h-auto border-b lg:border-b-0 lg:border-r border-white/5 relative z-10 transition-all duration-500 ease-in-out ${isGenerating ? "opacity-40 grayscale pointer-events-none" : "opacity-100"}`}>
                 <div className="flex-1 p-6 md:p-8 flex flex-col max-w-4xl mx-auto w-full">
-                    <header className="mb-8">
+                    <header className="mb-4">
                         <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">Prompt Studio</span>
                             <span className="px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider bg-brand-purple/20 border border-brand-purple/30 text-brand-purple uppercase shadow-glow-sm">PRO</span>
                         </h1>
-                        <p className="text-gray-400 text-sm mt-2 max-w-lg leading-relaxed">
-                            Design, refine, and engineer high-fidelity prompts with our semantic intelligence engine.
-                        </p>
                     </header>
 
                     <div className="flex-1 h-full min-h-0">
