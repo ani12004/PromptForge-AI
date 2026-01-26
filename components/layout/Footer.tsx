@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { Sparkles, Twitter, Github, Linkedin, Heart } from "lucide-react"
 import { NAV_LINKS } from "@/lib/constants"
@@ -11,10 +12,14 @@ export function Footer() {
                     {/* Brand Column */}
                     <div className="md:col-span-5 space-y-6">
                         <Link href="/" className="flex items-center gap-3 group w-fit">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.03] border border-white/10 group-hover:border-brand-purple/50 transition-colors">
-                                <Sparkles className="h-5 w-5 text-brand-purple" />
+                            <div className="relative h-12 w-48">
+                                <Image
+                                    src="/logo_navi.png"
+                                    alt="PromptForge"
+                                    fill
+                                    className="object-contain object-left"
+                                />
                             </div>
-                            <span className="font-bold text-2xl text-white tracking-tight">PromptForge</span>
                         </Link>
                         <p className="text-gray-400 leading-relaxed max-w-sm text-base">
                             Transforming raw intent into production-grade AI prompts. <br />
