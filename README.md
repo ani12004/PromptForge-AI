@@ -34,3 +34,10 @@ Built with enterprise-grade security in mind:
 - **Backend**: Server Actions, Supabase (PostgreSQL), Clerk Webhooks
 - **AI / Logic**: Google Gemini 1.5 Pro/Flash models
 - **Infrastructure**: Vercel-ready architecture
+
+## License
+
+**Copyright (c) 2026 PromptForge AI. All Rights Reserved.**
+
+This project is proprietary and confidential. Unauthorized copying, distribution, or use of this source code is strictly prohibited. 
+See the [LICENSE](LICENSE) file for more details.
