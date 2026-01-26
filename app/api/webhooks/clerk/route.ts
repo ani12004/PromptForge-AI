@@ -1,8 +1,7 @@
-
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
-import { createClient } from '@supabase/supabase-js'
+import { createAdminClient } from '@/lib/supabaseAdmin'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
@@ -49,11 +48,8 @@ export async function POST(req: Request) {
         })
     }
 
-    // Sync to Supabase
-    const supabase = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    );
+    // Sync to Supabase using Secure Admin Client
+    const supabase = createAdminClient();
 
     const eventType = evt.type;
 
@@ -70,16 +66,6 @@ export async function POST(req: Request) {
                 email: email,
                 full_name: fullName,
                 avatar_url: image_url,
-                // We preserve existing fields if they exist, but upsert overrides. 
-                // To avoid overwriting subscription_tier with default 'free' on update if we don't pass it,
-                // we rely on Supabase to not touch columns we don't specify IF it was an update.
-                // BUT upsert replaces the row. 
-                // Better strategy: Use 'onConflict' do update. 
-                // Supabase Javascript client 'upsert' works.
-                // If we want to preserve subscription_tier, we should ideally fetch it or use a partial update?
-                // Actually upsert with just these fields will SET the others to NULL or Default if it's a new row. 
-                // If it's an existing row, it updates the specified columns.
-                // Wait, Supabase `.upsert()` defaults to `ignoreDuplicates: false`, which means it updates.
             })
 
         if (error) console.error('Supabase upsert error:', error);
