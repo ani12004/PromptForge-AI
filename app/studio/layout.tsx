@@ -2,12 +2,35 @@ import { UserButton } from "@clerk/nextjs"
 import { Sparkles, History, Settings, Home, LogOut } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { auth } from "@clerk/nextjs/server"
+import { createClerkSupabaseClient } from "@/lib/supabaseClient"
 
-export default function StudioLayout({
+export default async function StudioLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
+    const { userId, getToken } = await auth();
+    let planName = "Free Plan";
+
+    if (userId) {
+        try {
+            const token = await getToken({ template: "supabase" });
+            const supabase = createClerkSupabaseClient(token);
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('subscription_tier')
+                .eq('user_id', userId)
+                .single();
+
+            if (profile?.subscription_tier === 'pro') {
+                planName = "Pro Plan";
+            }
+        } catch (error) {
+            console.error("Failed to fetch plan:", error);
+        }
+    }
+
     return (
         <div className="flex h-screen bg-[#050508] overflow-hidden">
             {/* Background Gradients */}
@@ -88,7 +111,7 @@ export default function StudioLayout({
                     />
                     <div className="hidden md:flex flex-col">
                         <span className="text-sm font-medium text-white">My Account</span>
-                        <span className="text-xs text-brand-purple font-medium">Pro Plan</span>
+                        <span className="text-xs text-brand-purple font-medium">{planName}</span>
                     </div>
                 </div>
             </aside>
