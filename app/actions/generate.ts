@@ -229,6 +229,7 @@ This is a simulated response generated without a live model.`;
 
         let refinedPrompt: string | null = null;
         let lastError: any = null;
+        let modelUsed: string = "";
 
         /* MODEL EXECUTION LOOP */
         for (const apiKey of API_KEYS) {
@@ -253,7 +254,10 @@ This is a simulated response generated without a live model.`;
                     ]);
 
                     refinedPrompt = result.response.text().trim();
-                    if (refinedPrompt) break;
+                    if (refinedPrompt) {
+                        modelUsed = modelName;
+                        break;
+                    }
                 } catch (err: any) {
                     // Logic to handle model/key failure
                     console.warn(`[Key Ending ...${apiKey.slice(-4)}] Model ${modelName} failed:`, err.message);
@@ -285,7 +289,8 @@ This is a simulated response generated without a live model.`;
                 original_prompt: prompt,
                 refined_prompt: refinedPrompt,
                 detail_level: detailLevel, // detailLevel is string, fits DB? yes used to
-                intent: "Inferred"
+                intent: "Inferred",
+                model_used: modelUsed
             });
         } catch (dbErr) {
             console.error("DB Update failed", dbErr);
