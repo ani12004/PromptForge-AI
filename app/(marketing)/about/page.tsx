@@ -75,7 +75,7 @@ function TeamCard({ name, role, imageSrc, githubUrl, linkedinUrl }: { name: stri
                     src={imageSrc}
                     alt={name}
                     fill
-                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                    className="object-cover transition-all duration-500"
                 />
             </div>
             <h3 className="font-bold text-lg text-white mb-1 group-hover:text-brand-purple transition-colors">{name}</h3>

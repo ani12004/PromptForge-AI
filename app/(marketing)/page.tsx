@@ -8,6 +8,8 @@ import { Card } from "@/components/ui/Card"
 import { cn } from "@/lib/utils"
 import { InteractiveInputDemo } from "@/components/interactive/InteractiveInputDemo"
 import { motion, AnimatePresence } from "framer-motion"
+import { ABTestingArena } from "@/components/marketing/ABTestingArena"
+import { GranularControls } from "@/components/marketing/GranularControls"
 
 export default function HomePage() {
     return (
@@ -131,6 +133,9 @@ export default function HomePage() {
                 </div>
             </section>
 
+            <ABTestingArena />
+            <GranularControls />
+
             {/* Interface Preview Section */}
             <section className="container mx-auto px-6 max-w-7xl">
                 <div className="relative rounded-3xl border border-white/10 bg-[#0A0A0A] overflow-hidden shadow-2xl shadow-brand-purple/10">
@@ -249,7 +254,7 @@ export default function HomePage() {
                     </div>
                 </div>
             </section>
-        </div>
+        </div >
     )
 }
 
