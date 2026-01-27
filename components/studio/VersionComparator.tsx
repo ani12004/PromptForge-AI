@@ -203,39 +203,46 @@ export function VersionComparator({ versions, onClose }: VersionComparatorProps)
                                         )}
                                     </div>
 
-                                    {/* Content Scroll */}
-                                    <div className="flex-1 overflow-y-auto p-8 relative">
-                                        {version ? (
-                                            <pre className="whitespace-pre-wrap font-mono text-sm text-gray-300 leading-relaxed font-ligatures-none">
-                                                {version.content}
-                                            </pre>
-                                        ) : (
-                                            <div className="flex flex-col items-center justify-center h-full text-gray-700 gap-4">
-                                                <div className="w-16 h-16 rounded-full border-2 border-dashed border-gray-800 flex items-center justify-center">
-                                                    <span className="text-lg font-bold text-gray-600">+</span>
+                                    {/* Content Area */}
+                                    <div className="flex-1 relative min-h-0">
+                                        <div className="absolute inset-0 overflow-y-auto p-8 custom-scrollbar">
+                                            {version ? (
+                                                <pre className="whitespace-pre-wrap font-mono text-sm text-gray-300 leading-relaxed font-ligatures-none pb-32">
+                                                    {version.content}
+                                                </pre>
+                                            ) : (
+                                                <div className="flex flex-col items-center justify-center h-full text-gray-700 gap-4">
+                                                    <div className="w-16 h-16 rounded-full border-2 border-dashed border-gray-800 flex items-center justify-center">
+                                                        <span className="text-lg font-bold text-gray-600">+</span>
+                                                    </div>
+                                                    <p>Select prompt from sidebar</p>
                                                 </div>
-                                                <p>Select prompt from sidebar</p>
-                                            </div>
-                                        )}
+                                            )}
+                                        </div>
 
                                         {/* Result Overlay */}
                                         {result && (
-                                            <div className={cn("absolute inset-x-0 bottom-0 p-6 backdrop-blur-md border-t transition-all transform duration-500",
-                                                isWinner ? "bg-green-900/20 border-green-500/30 translate-y-0" : "bg-red-900/10 border-red-500/10 translate-y-full opacity-50"
+                                            <div className={cn("absolute inset-x-0 bottom-0 p-6 backdrop-blur-xl border-t transition-all duration-500 z-10",
+                                                isWinner ? "bg-green-950/40 border-green-500/30" : "bg-red-950/20 border-red-500/10 opacity-60 grayscale"
                                             )}>
-                                                {isWinner && (
-                                                    <div>
-                                                        <h4 className="flex items-center gap-2 text-green-400 font-bold mb-2">
-                                                            <CheckCircle2 className="h-5 w-5" /> Winning Variation
+                                                {isWinner ? (
+                                                    <div className="animate-in slide-in-from-bottom-4 duration-500 fade-in">
+                                                        <h4 className="flex items-center gap-2 text-green-400 font-bold mb-3 shadow-green-glow">
+                                                            <CheckCircle2 className="h-5 w-5 fill-green-500/20" />
+                                                            Winning Variation
                                                         </h4>
-                                                        <ul className="space-y-1">
+                                                        <ul className="space-y-2">
                                                             {result.insights.map((insight, i) => (
-                                                                <li key={i} className="text-xs text-green-200/70 flex items-start gap-2">
-                                                                    <span className="mt-1 w-1 h-1 bg-green-400 rounded-full" />
+                                                                <li key={i} className="text-xs text-green-100/80 flex items-start gap-2 theme-transition">
+                                                                    <div className="mt-1.5 w-1 h-1 bg-green-400 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.8)]" />
                                                                     {insight}
                                                                 </li>
                                                             ))}
                                                         </ul>
+                                                    </div>
+                                                ) : (
+                                                    <div className="h-full flex items-center justify-center text-red-500/40 font-mono text-xs uppercase tracking-widest">
+                                                        Analysis indicates suboptimal performance
                                                     </div>
                                                 )}
                                             </div>
