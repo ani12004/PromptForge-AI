@@ -77,7 +77,7 @@ export function VersionComparator({ versions, onClose }: VersionComparatorProps)
     }
 
     return (
-        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col animate-in fade-in duration-300">
             {/* Header */}
             <div className="h-16 border-b border-white/10 flex items-center justify-between px-6 bg-[#0A0A0A]">
                 <div className="flex items-center gap-3">
