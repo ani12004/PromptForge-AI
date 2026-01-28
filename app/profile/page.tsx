@@ -18,7 +18,7 @@ export default function ProfilePage() {
         }
     }, [isLoaded, isSignedIn, router])
 
-    if (!isLoaded || !isSignedIn) {
+    if (!isLoaded || !isSignedIn || !user) {
         return (
             <div className="flex h-screen items-center justify-center bg-[#0A0A0A]">
                 <Loader2 className="h-8 w-8 animate-spin text-brand-purple" />
