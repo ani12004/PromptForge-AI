@@ -24,6 +24,13 @@ export default async function DashboardPage({
         full_name: user.fullName || user.username || "Unknown",
     })
 
+    const { data: prompts } = await supabase
+        .from('prompts')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(3)
+
     const initialPrompt = searchParams.prompt
 
     return (
@@ -75,7 +82,7 @@ export default async function DashboardPage({
                     </div>
                 ) : null}
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                     <div className="glass-panel p-6 rounded-2xl border border-white/5 bg-white/[0.02] h-64 flex flex-col items-center justify-center text-center gap-4 hover:bg-white/[0.04] transition-colors group">
                         <div className="p-4 bg-brand-purple/10 border border-brand-purple/20 rounded-2xl group-hover:scale-110 transition-transform duration-300">
                             <span className="text-3xl filter drop-shadow-lg">🗄️</span>
@@ -106,6 +113,41 @@ export default async function DashboardPage({
                         </div>
                         <p className="text-sm text-gray-500 font-medium">New Project</p>
                     </div>
+                </div>
+
+                {/* Recent Prompts Section */}
+                <div>
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-xl font-bold text-white">Recent Prompts</h2>
+                        <a href="/studio/history" className="text-sm text-brand-purple hover:text-white transition-colors">View All</a>
+                    </div>
+
+                    {prompts && prompts.length > 0 ? (
+                        <div className="grid gap-4 md:grid-cols-3">
+                            {prompts.map((prompt: any) => (
+                                <div key={prompt.id} className="glass-panel p-5 rounded-xl border border-white/5 bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04] transition-all group group relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 w-20 h-20 bg-brand-purple/5 blur-[30px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    <div className="flex items-start justify-between mb-3 relative z-10">
+                                        <div className="px-2 py-1 rounded bg-white/5 text-[10px] uppercase font-mono text-gray-400 border border-white/5">
+                                            {prompt.model_used || "AI"}
+                                        </div>
+                                        <span className="text-xs text-gray-500">{new Date(prompt.created_at).toLocaleDateString()}</span>
+                                    </div>
+                                    <p className="text-gray-300 text-sm line-clamp-3 mb-4 leading-relaxed relative z-10">
+                                        {prompt.refined_prompt || prompt.original_prompt}
+                                    </p>
+                                    <div className="flex items-center gap-2 mt-auto relative z-10">
+                                        <div className="h-1 w-1 rounded-full bg-brand-purple" />
+                                        <span className="text-xs text-gray-500 font-medium">{prompt.detail_level}</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-12 rounded-2xl border border-white/5 bg-white/[0.01] border-dashed">
+                            <p className="text-gray-500">No prompts generated yet. Start creating!</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

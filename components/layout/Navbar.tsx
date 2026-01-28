@@ -8,7 +8,8 @@ import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { NAV_LINKS } from "@/lib/constants"
 import { Button } from "@/components/ui/Button"
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
+import { UserMenu } from "@/components/layout/UserMenu"
+import { SignedIn, SignedOut } from "@clerk/nextjs"
 
 export function Navbar() {
     const [isOpen, setIsOpen] = React.useState(false)
@@ -94,14 +95,7 @@ export function Navbar() {
                                 </Link>
                             </SignedOut>
                             <SignedIn>
-                                <UserButton
-                                    afterSignOutUrl="/"
-                                    appearance={{
-                                        elements: {
-                                            avatarBox: "h-9 w-9 border-2 border-white/20"
-                                        }
-                                    }}
-                                />
+                                <UserMenu />
                             </SignedIn>
 
                             <button

@@ -1,4 +1,4 @@
-import { UserButton } from "@clerk/nextjs"
+import { UserMenu } from "@/components/layout/UserMenu"
 import { Sparkles, History, Settings, Home, LogOut } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -62,13 +62,9 @@ export default async function StudioLayout({
 
                 {/* User Profile */}
                 <div className="p-2 flex items-center gap-3 border-t border-white/5 pt-4">
-                    <UserButton afterSignOutUrl="/"
-                        appearance={{
-                            elements: {
-                                avatarBox: "h-9 w-9 border-2 border-white/10"
-                            }
-                        }}
-                    />
+                    <div className="pl-2">
+                        <UserMenu />
+                    </div>
                     <div className="hidden md:flex flex-col">
                         <span className="text-sm font-medium text-white">My Account</span>
                         <span className="text-xs text-brand-purple font-medium">{planName}</span>
