@@ -78,7 +78,7 @@ export function UserMenu({ showUpwards = false }: { showUpwards?: boolean }) {
 
                         <div className="space-y-1">
                             <Link
-                                href="/settings"
+                                href="/profile"
                                 className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors group"
                                 onClick={() => setIsOpen(false)}
                             >
