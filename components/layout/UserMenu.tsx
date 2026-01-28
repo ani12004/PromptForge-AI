@@ -7,7 +7,7 @@ import { Settings, User, LayoutDashboard, LogOut, ChevronDown } from "lucide-rea
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 
-export function UserMenu() {
+export function UserMenu({ showUpwards = false }: { showUpwards?: boolean }) {
     const { user } = useUser()
     const { signOut } = useClerk()
     const [isOpen, setIsOpen] = React.useState(false)
@@ -58,11 +58,14 @@ export function UserMenu() {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        initial={{ opacity: 0, y: showUpwards ? -10 : 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        exit={{ opacity: 0, y: showUpwards ? -10 : 10, scale: 0.95 }}
                         transition={{ duration: 0.15, ease: "easeOut" }}
-                        className="absolute right-0 top-full mt-2 w-64 p-2 rounded-xl bg-[#18181b] border border-white/10 shadow-xl overflow-hidden z-50 origin-top-right"
+                        className={cn(
+                            "absolute right-0 w-64 p-2 rounded-xl bg-[#18181b] border border-white/10 shadow-xl overflow-hidden z-50",
+                            showUpwards ? "bottom-full mb-2 origin-bottom-right" : "top-full mt-2 origin-top-right"
+                        )}
                     >
                         <div className="px-3 py-3 border-b border-white/5 mb-2">
                             <p className="text-sm font-medium text-white truncate">

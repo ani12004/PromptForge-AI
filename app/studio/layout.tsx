@@ -53,7 +53,7 @@ export default async function StudioLayout({
                             <History className="h-5 w-5" />
                             <span className="hidden md:block font-medium">History</span>
                         </Link>
-                        <Link href="/studio/settings" className="flex items-center gap-3 p-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200">
+                        <Link href="/settings" className="flex items-center gap-3 p-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200">
                             <Settings className="h-5 w-5" />
                             <span className="hidden md:block font-medium">Settings</span>
                         </Link>
@@ -62,12 +62,8 @@ export default async function StudioLayout({
 
                 {/* User Profile */}
                 <div className="p-2 flex items-center gap-3 border-t border-white/5 pt-4">
-                    <div className="pl-2">
-                        <UserMenu />
-                    </div>
-                    <div className="hidden md:flex flex-col">
-                        <span className="text-sm font-medium text-white">My Account</span>
-                        <span className="text-xs text-brand-purple font-medium">{planName}</span>
+                    <div className="w-full">
+                        <UserMenu showUpwards={true} />
                     </div>
                 </div>
             </aside>
