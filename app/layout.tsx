@@ -3,6 +3,7 @@ import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Shell } from "@/components/layout/Shell";
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -43,6 +44,7 @@ export default function RootLayout({
           {/* Subtle global gradient background */}
           <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-purple/10 via-brand-dark to-brand-dark pointer-events-none z-[-1]" />
           <Shell>{children}</Shell>
+          <Analytics />
         </body>
       </html>
     </ClerkProvider >
