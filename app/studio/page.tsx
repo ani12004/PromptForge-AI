@@ -54,6 +54,11 @@ export default function StudioPage() {
     const handleGenerate = async () => {
         if (!prompt.trim()) return
 
+        if (prompt.trim().length < 10) {
+            showToast("Prompt too short: Please enter at least 10 characters.", "error")
+            return
+        }
+
         // 1. Client-Side Offline Check (Strict)
         if (typeof navigator !== "undefined" && !navigator.onLine) {
             showToast("Network Error: You appear to be offline. Please check your connection.", "error")
