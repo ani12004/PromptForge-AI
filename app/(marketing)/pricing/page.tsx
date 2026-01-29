@@ -28,7 +28,7 @@ export default function PricingPage() {
                     <p className="text-gray-400 text-sm mb-8 leading-relaxed">Perfect for experimenting with prompt engineering basics.</p>
                     <Button variant="secondary" className="w-full mb-8 rounded-xl h-12 bg-white/5 hover:bg-white/10 border-white/10 text-white">Get Started</Button>
                     <ul className="space-y-4">
-                        <FeatureItem>50 Prompts / mo</FeatureItem>
+                        <FeatureItem>30 Prompts / mo</FeatureItem>
                         <FeatureItem>Basic Analysis</FeatureItem>
                         <FeatureItem>Community Templates</FeatureItem>
                         <FeatureItem>Export to JSON</FeatureItem>
