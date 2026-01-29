@@ -63,21 +63,109 @@ This is a simulated response. In production, the system will apply the full "Eli
             throw new Error("Free tier limit reached");
         }
 
+        /* STRUCTURAL TEMPLATES */
+        let structuralInstructions = "";
+
+        if (detailLevel === "short") {
+            structuralInstructions = `
+STRUCTURAL REQUIREMENTS (SHORT MODE):
+Output MUST be concise and strictly follow this minimal format:
+
+ROLE: [Concise Role]
+OBJECTIVE: [One sentence goal]
+INSTRUCTIONS:
+- [Instruction 1]
+- [Instruction 2]
+- [Instruction 3]
+
+CONSTRAINT: KEEP TOTAL OUTPUT UNDER 100 WORDS. NO FLUFF.
+`;
+        } else if (detailLevel === "medium") {
+            structuralInstructions = `
+STRUCTURAL REQUIREMENTS (MEDIUM MODE):
+Output should be balanced and follow this standard format:
+
+ROLE: [Role Name]
+OBJECTIVE: [Clear objective]
+CONTEXT: [Brief context if needed]
+INSTRUCTIONS:
+[Bulleted list of core instructions]
+TONE & STYLE: [Desired tone]
+OUTPUT FORMAT: [Format definition]
+
+CONSTRAINT: FOCUS ON CLARITY AND USABILITY. AVOID EXCESSIVE VERBIOSITY.
+`;
+        } else {
+            // detailed or granular
+            structuralInstructions = `
+STRUCTURAL REQUIREMENTS (FULL PROFESSIONAL MODE):
+Use the following comprehensive structure:
+
+ROLE
+OBJECTIVE
+THINKING & EXECUTION INSTRUCTIONS
+TARGET AUDIENCE
+CORE EXPERIENCE GOAL
+SIGNATURE DIFFERENTIATOR
+KEY SECTIONS / COMPONENTS
+FUNCTIONAL REQUIREMENTS
+DESIGN & STYLE DIRECTION
+TECHNICAL / PLATFORM NOTES
+QUALITY BAR
+OUTPUT REQUIREMENTS
+
+CONSTRAINT: PROVIDE DEEP, EXPERT-LEVEL GUIDANCE RELEVANT TO THE DOMAIN.
+`;
+        }
+
         /* DETAIL LEVEL MODIFIER */
         const modifier =
             detailLevel === "short"
-                ? "STRICT SHORT MODE: Under 50 words. Only core directives. No elaboration."
+                ? "STRICT SHORT MODE: Abstract instructions into their simplest form. Maximum impact, minimum words."
                 : detailLevel === "medium"
-                    ? "MEDIUM MODE: Clear structure with strong defaults. Balanced length."
+                    ? "MEDIUM MODE: Balanced detail. Strong defaults but not exhaustive."
                     : detailLevel === "detailed"
-                        ? "DETAILED MODE: Professional-grade completeness with full section coverage."
+                        ? "DETAILED MODE: Professional, complete, and thorough."
                         : `GRANULAR MODE:
-Expert-level depth with implementation hints, edge-case awareness, and production considerations.
-Increase insight, not length.
-Avoid repetition across sections.`;
+Expert-level depth. Include edge cases, error handling strategies, and architectural considerations.
+Focus on "how" and "why", not just "what".
+`;
 
         /* SYSTEM INSTRUCTION */
-        const systemInstruction = `
+        let systemInstruction = "";
+
+        if (detailLevel === "short" || detailLevel === "medium") {
+            systemInstruction = `
+You are an elite, execution-first prompt engineering system used by senior professionals, founders, and product teams.
+
+CORE MISSION:
+Transform raw user intent into a production-ready, expert-grade SYSTEM PROMPT that reliably produces superior results.
+
+${modifier}
+
+${structuralInstructions}
+
+ABSOLUTE OUTPUT RULES:
+- The first character of your response must be part of the refined prompt itself
+- Output MUST be directly usable as a system or master prompt for an LLM
+- Do NOT explain reasoning
+- Do NOT include conversational language
+- Do NOT include markdown symbols or formatting (unless part of the prompt structure)
+- Output plain, professional text only
+
+INTENT & EXECUTION PROTOCOL:
+1. Intent Lock: Identify if Creative, Technical, or Strategic.
+2. Domain Stabilization: Infer norms and constraints.
+3. Vision Elevation: Convert vague intent into specific objectives.
+4. Constraint Engineering: Add missing execution constraints.
+
+QUALITY BAR (STRICTLY ENFORCED):
+The result must outperform an average senior professional’s first draft.
+For SHORT mode, brevity is the primary quality metric.
+`;
+        } else {
+            // DETAILED / GRANULAR MODE - Use full Elite Execution Protocol
+            systemInstruction = `
 You are an elite, execution-first prompt engineering system used by senior professionals, founders, and product teams.
 
 CORE MISSION:
@@ -158,14 +246,6 @@ INTENT & EXECUTION PROTOCOL:
 DETAIL LEVEL INTELLIGENCE MODE:
 ${modifier}
 
-DETAIL LEVEL BEHAVIOR:
-- Short: Minimal, decisive, no optional elements, no elaboration.
-- Medium: Clear structure, strong defaults, controlled depth.
-- Detailed: Full professional coverage with execution clarity.
-- Granular: Expert-level depth with prioritization, implementation-aware guidance,
-  scalability considerations, edge-case handling, fallback strategies, and progressive enhancement.
-  Granular mode must never become verbose, repetitive, or unfocused.
-
 QUALITY BAR (STRICTLY ENFORCED):
 Assume the output will be executed by senior designers, engineers,
 or product leads without further clarification.
@@ -187,6 +267,7 @@ generate a SYSTEM INTAKE PROMPT that extracts the minimum
 required execution details while maintaining authority.
 Do not default to intake mode if intent can be reasonably inferred.
 `;
+        }
 
 
 

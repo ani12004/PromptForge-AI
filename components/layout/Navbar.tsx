@@ -49,7 +49,7 @@ export function Navbar() {
                     >
                         {/* Logo */}
                         <Link href="/" className="flex items-center gap-3 group z-50">
-                            <div className="relative h-14 w-60">
+                            <div className="relative h-10 w-32 md:h-14 md:w-60 transition-all duration-300">
                                 <Image
                                     src="/logo_navi.png"
                                     alt="PromptForge"
@@ -62,22 +62,28 @@ export function Navbar() {
 
                         {/* Desktop Nav */}
                         <nav className="hidden md:flex items-center gap-1 bg-white/[0.03] rounded-full p-1 border border-white/[0.05] backdrop-blur-md">
-                            {NAV_LINKS.map((link) => (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    className={cn(
-                                        "relative px-5 py-2 text-sm font-medium transition-all duration-300 rounded-full",
-                                        pathname === link.href
-                                            ? "text-white bg-white/10 shadow-inner"
-                                            : link.href === "/studio"
-                                                ? "text-brand-purple hover:text-white hover:bg-white/5 font-semibold"
-                                                : "text-gray-400 hover:text-white hover:bg-white/5"
-                                    )}
-                                >
-                                    {link.name}
-                                </Link>
-                            ))}
+                            {NAV_LINKS.map((link) => {
+                                const isActive = pathname === link.href;
+                                return (
+                                    <Link
+                                        key={link.href}
+                                        href={link.href}
+                                        className={cn(
+                                            "relative px-5 py-2 text-sm font-medium transition-colors duration-300 rounded-full z-10",
+                                            isActive ? "text-white" : "text-gray-400 hover:text-white"
+                                        )}
+                                    >
+                                        {isActive && (
+                                            <motion.div
+                                                layoutId="navbar-indicator"
+                                                className="absolute inset-0 bg-white/10 rounded-full shadow-inner"
+                                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                            />
+                                        )}
+                                        <span className="relative z-10">{link.name}</span>
+                                    </Link>
+                                );
+                            })}
                         </nav>
 
                         {/* Actions */}
@@ -88,7 +94,7 @@ export function Navbar() {
                                         Log in
                                     </Button>
                                 </Link>
-                                <Link href="/signup">
+                                <Link href="/signup" className="hidden md:block">
                                     <Button className="h-10 px-5 bg-white text-brand-dark hover:bg-gray-100 font-semibold shadow-xl shadow-white/5 border-0 rounded-xl">
                                         Get Started
                                     </Button>
@@ -113,18 +119,19 @@ export function Navbar() {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
+                        initial={{ opacity: 0, y: -20, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                        exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
+                        transition={{ duration: 0.3, ease: "circOut" }}
                         className="fixed inset-0 z-40 bg-brand-dark/95 backdrop-blur-3xl md:hidden flex flex-col pt-32 px-6"
                     >
                         <nav className="flex flex-col gap-6">
                             {NAV_LINKS.map((link, idx) => (
                                 <motion.div
                                     key={link.href}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.1 + idx * 0.05 }}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.1 + idx * 0.05, duration: 0.3 }}
                                 >
                                     <Link
                                         href={link.href}
@@ -143,9 +150,9 @@ export function Navbar() {
                                 </motion.div>
                             ))}
                             <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.4 }}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.3, duration: 0.3 }}
                                 className="mt-8 flex flex-col gap-4"
                             >
                                 <Link href="/signup" className="w-full">
