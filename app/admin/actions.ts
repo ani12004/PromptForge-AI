@@ -138,7 +138,7 @@ export async function sendEmailReply(to: string, subject: string, message: strin
 
     try {
         const { data, error } = await resend.emails.send({
-            from: 'PromptForge AI <admin@promptforge.ai>', // Update this if user has custom domain
+            from: 'PromptForge AI <admin@promptforgeai.com>', // Update this if user has custom domain
             to: [to],
             // Ensure subject starts with Re: if not present
             subject: subject.startsWith('Re:') ? subject : `Re: ${subject}`,
