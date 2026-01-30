@@ -1,5 +1,5 @@
 import { UserMenu } from "@/components/layout/UserMenu"
-import { Sparkles, History, Settings, Home, LogOut } from "lucide-react"
+import { Sparkles, History, Settings, Home, LogOut, Bell } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { auth } from "@clerk/nextjs/server"
@@ -56,6 +56,10 @@ export default async function StudioLayout({
                         <Link href="/settings" className="flex items-center gap-3 p-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200">
                             <Settings className="h-5 w-5" />
                             <span className="hidden md:block font-medium">Settings</span>
+                        </Link>
+                        <Link href="/studio/notifications" className="flex items-center gap-3 p-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200">
+                            <Bell className="h-5 w-5" />
+                            <span className="hidden md:block font-medium">Notifications</span>
                         </Link>
                     </nav>
                 </div>

@@ -3,10 +3,11 @@
 import * as React from "react"
 import Link from "next/link"
 import { useUser, useClerk } from "@clerk/nextjs"
-import { Settings, User, LayoutDashboard, LogOut, ChevronDown } from "lucide-react"
+import { Settings, User, LayoutDashboard, LogOut, ChevronDown, ShieldAlert } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { getUserSubscription } from "@/app/actions/subscription"
+import { getUserRole } from "@/app/actions/auth"
 
 interface UserMenuProps {
     withDropdown?: boolean;
@@ -18,6 +19,7 @@ export function UserMenu({ withDropdown = true, direction = 'up' }: UserMenuProp
     const { signOut } = useClerk()
     const [isOpen, setIsOpen] = React.useState(false)
     const [tier, setTier] = React.useState<string | null>(null)
+    const [role, setRole] = React.useState<string | null>(null)
     const menuRef = React.useRef<HTMLDivElement>(null)
 
     React.useEffect(() => {
@@ -32,6 +34,7 @@ export function UserMenu({ withDropdown = true, direction = 'up' }: UserMenuProp
 
     React.useEffect(() => {
         getUserSubscription().then(setTier)
+        getUserRole().then(setRole)
     }, [])
 
     if (!user) return null
@@ -139,6 +142,17 @@ export function UserMenu({ withDropdown = true, direction = 'up' }: UserMenuProp
                                 <LayoutDashboard className="h-4 w-4 text-gray-500 group-hover:text-blue-400 transition-colors" />
                                 Dashboard
                             </Link>
+
+                            {role === 'admin' && (
+                                <Link
+                                    href="/admin"
+                                    className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors group"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    <ShieldAlert className="h-4 w-4 text-gray-500 group-hover:text-red-400 transition-colors" />
+                                    Admin Panel
+                                </Link>
+                            )}
 
                             <Link
                                 href="/settings"

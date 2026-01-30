@@ -1,13 +1,19 @@
-import { currentUser } from "@clerk/nextjs/server"
+import { auth } from "@clerk/nextjs/server"
+import { createAdminClient } from "@/lib/supabaseAdmin"
 
 export async function isAdmin() {
-    const user = await currentUser()
-    const adminEmails = process.env.ADMIN_EMAILS?.split(",") || []
+    const { userId } = await auth()
 
-    if (!user || !user.emailAddresses.length) {
+    if (!userId) {
         return false
     }
 
-    const userEmail = user.emailAddresses[0].emailAddress
-    return adminEmails.includes(userEmail)
+    const supabase = createAdminClient()
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('user_id', userId)
+        .single()
+
+    return profile?.role === 'admin'
 }
