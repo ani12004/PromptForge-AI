@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Users, Mail, BarChart3, Send, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 // We will simple fetch on load for simplicity in this V1
-import { getAdminStats, getUsers, getContactMessages, sendBroadcastNotification } from "./actions"
+import { getAdminStats, getUsers, getContactMessages, sendBroadcastNotification, updateMessageStatus } from "./actions"
 import { useActionState } from "react"
 
 export default function AdminDashboard() {
@@ -17,6 +17,15 @@ export default function AdminDashboard() {
 
     // Broadcast form state
     const [broadcastState, broadcastAction, isBroadcasting] = useActionState(sendBroadcastNotification, null)
+
+    const [selectedMessage, setSelectedMessage] = React.useState<any>(null)
+
+    const handleMarkAsRead = async (id: string) => {
+        await updateMessageStatus(id, 'read')
+        // Optimistic update
+        setMessages(msgs => msgs.map(m => m.id === id ? { ...m, status: 'read' } : m))
+        setSelectedMessage(null)
+    }
 
     React.useEffect(() => {
         const loadmv = async () => {
@@ -127,17 +136,21 @@ export default function AdminDashboard() {
                                 </thead>
                                 <tbody className="divide-y divide-white/5">
                                     {messages.map((msg: any) => (
-                                        <tr key={msg.id} className="hover:bg-white/[0.02]">
+                                        <tr
+                                            key={msg.id}
+                                            onClick={() => setSelectedMessage(msg)}
+                                            className="hover:bg-white/[0.02] cursor-pointer transition-colors group"
+                                        >
                                             <td className="p-4 whitespace-nowrap">{new Date(msg.created_at).toLocaleDateString()}</td>
                                             <td className="p-4">
-                                                <div className="text-white">{msg.name}</div>
+                                                <div className="text-white font-medium group-hover:text-brand-purple transition-colors">{msg.name}</div>
                                                 <div className="text-xs text-gray-500">{msg.email}</div>
                                             </td>
-                                            <td className="p-4 text-white font-medium">{msg.subject}</td>
-                                            <td className="p-4 max-w-xs truncate" title={msg.message}>{msg.message}</td>
+                                            <td className="p-4 text-white group-hover:text-white/90">{msg.subject}</td>
+                                            <td className="p-4 max-w-xs truncate text-gray-500">{msg.message}</td>
                                             <td className="p-4">
-                                                <span className={cn("px-2 py-1 rounded-full text-xs font-medium",
-                                                    msg.status === 'unread' ? "bg-red-500/20 text-red-400" : "bg-green-500/20 text-green-400"
+                                                <span className={cn("px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider",
+                                                    msg.status === 'unread' ? "bg-red-500/10 text-red-400 border border-red-500/20" : "bg-green-500/10 text-green-400 border border-green-500/20"
                                                 )}>
                                                     {msg.status}
                                                 </span>
@@ -146,7 +159,7 @@ export default function AdminDashboard() {
                                     ))}
                                 </tbody>
                             </table>
-                            {messages.length === 0 && <div className="p-8 text-center">No messages found</div>}
+                            {messages.length === 0 && <div className="p-8 text-center text-gray-500">No messages found</div>}
                         </div>
                     )}
 
@@ -208,6 +221,94 @@ export default function AdminDashboard() {
                         </div>
                     )}
                 </motion.div>
+            </AnimatePresence>
+
+            {/* Message Details Modal */}
+            <AnimatePresence>
+                {selectedMessage && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setSelectedMessage(null)}
+                            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            className="relative w-full max-w-lg bg-[#18181b] border border-white/10 rounded-2xl shadow-2xl p-6 overflow-hidden"
+                        >
+                            <div className="flex justify-between items-start mb-6">
+                                <div>
+                                    <h3 className="text-xl font-bold text-white mb-1">{selectedMessage.subject}</h3>
+                                    <div className="flex items-center gap-2 text-sm text-gray-400">
+                                        <span>{new Date(selectedMessage.created_at).toLocaleString()}</span>
+                                        <span>•</span>
+                                        <span className={cn(
+                                            "uppercase text-[10px] font-bold px-1.5 py-0.5 rounded border",
+                                            selectedMessage.status === 'unread' ? "text-red-400 border-red-500/20 bg-red-500/10" : "text-green-400 border-green-500/20 bg-green-500/10 "
+                                        )}>{selectedMessage.status}</span>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => setSelectedMessage(null)}
+                                    className="p-1 hover:bg-white/10 rounded-lg transition-colors text-gray-400 hover:text-white"
+                                >
+                                    <span className="sr-only">Close</span>
+                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            </div>
+
+                            <div className="space-y-4 mb-8">
+                                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5 space-y-3">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">From</span>
+                                        {selectedMessage.user_id && <span className="text-xs font-mono text-gray-600">ID: {selectedMessage.user_id}</span>}
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="h-10 w-10 rounded-full bg-brand-purple/20 flex items-center justify-center text-brand-purple font-bold">
+                                            {selectedMessage.name.charAt(0).toUpperCase()}
+                                        </div>
+                                        <div>
+                                            <div className="text-white font-medium">{selectedMessage.name}</div>
+                                            <div className="text-sm text-brand-purple hover:underline cursor-pointer" onClick={() => window.open(`mailto:${selectedMessage.email}`)}>
+                                                {selectedMessage.email}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Message</span>
+                                    <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5 text-gray-300 whitespace-pre-wrap leading-relaxed">
+                                        {selectedMessage.message}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center gap-3 pt-4 border-t border-white/10">
+                                <a
+                                    href={`mailto:${selectedMessage.email}?subject=Re: ${selectedMessage.subject}`}
+                                    className="flex-1 flex items-center justify-center gap-2 bg-white text-black font-semibold py-2.5 rounded-xl hover:bg-gray-100 transition-colors"
+                                >
+                                    <Send className="w-4 h-4" />
+                                    Reply via Email
+                                </a>
+                                {selectedMessage.status === 'unread' && (
+                                    <button
+                                        onClick={() => handleMarkAsRead(selectedMessage.id)}
+                                        className="flex-1 flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white font-semibold py-2.5 rounded-xl border border-white/10 transition-colors"
+                                    >
+                                        <Mail className="w-4 h-4" />
+                                        Mark as Read
+                                    </button>
+                                )}
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
             </AnimatePresence>
         </div>
     )

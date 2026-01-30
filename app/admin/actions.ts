@@ -107,3 +107,20 @@ export async function sendBroadcastNotification(prevState: any, formData: FormDa
         message: "Notification published to all users."
     }
 }
+
+export async function updateMessageStatus(id: string, status: 'read' | 'unread') {
+    await checkAdmin()
+    const supabase = createAdminClient()
+
+    const { error } = await supabase
+        .from('contact_messages')
+        .update({ status })
+        .eq('id', id)
+
+    if (error) {
+        console.error("Error updating message status", error)
+        return { error: "Failed to update status" }
+    }
+
+    return { success: true }
+}
