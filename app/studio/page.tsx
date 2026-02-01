@@ -190,28 +190,27 @@ export default function StudioPage() {
             />
 
             {/* LEFT PANEL: Construction Surface */}
-            <div className={`flex-1 flex flex-col min-h-[50vh] lg:min-h-auto border-b lg:border-b-0 lg:border-r border-white/5 relative z-10 transition-all duration-500 ease-in-out ${isGenerating ? "opacity-40 grayscale pointer-events-none" : "opacity-100"}`}>
-                <div className="flex-1 p-6 md:p-8 flex flex-col max-w-4xl mx-auto w-full">
-                    <header className="mb-4 flex items-center justify-between">
-                        <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">Prompt Studio</span>
+            <div className={`flex-1 flex flex-col min-h-[50vh] lg:min-h-auto relative z-10 transition-all duration-500 ease-in-out ${isGenerating ? "opacity-40 grayscale pointer-events-none" : "opacity-100"}`}>
+                <div className="flex-1 p-6 flex flex-col w-full h-full max-w-5xl mx-auto">
+
+                    {/* Simplified Header */}
+                    <header className="mb-6 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <h1 className="text-xl font-bold text-white tracking-tight">Studio</h1>
                             {subscriptionTier === 'pro' && (
-                                <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider bg-brand-purple/10 border border-brand-purple/20 text-brand-purple uppercase shadow-[0_0_15px_-3px_rgba(168,85,247,0.15)]">PRO</span>
+                                <span className="px-2 py-0.5 rounded text-[9px] font-bold tracking-wider bg-brand-purple/20 text-brand-purple uppercase border border-brand-purple/20">PRO</span>
                             )}
-                            {subscriptionTier === 'free' && (
-                                <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider bg-white/5 border border-white/10 text-gray-400 uppercase">FREE</span>
-                            )}
-                        </h1>
+                        </div>
                         <button
                             onClick={() => setShowComparator(true)}
-                            className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 text-xs font-mono text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                            className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 text-xs font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
                         >
                             <Trophy className="w-3 h-3" />
-                            BENCHMARK
+                            Benchmark
                         </button>
                     </header>
 
-                    <div className="flex-1 h-full min-h-0">
+                    <div className="flex-1 min-h-0">
                         <PromptEditor
                             prompt={prompt}
                             setPrompt={setPrompt}
