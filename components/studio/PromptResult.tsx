@@ -9,6 +9,8 @@ interface Version {
     content: string
     timestamp: number
     detailLevel: string
+    promptId?: string
+    versionId?: string
 }
 
 interface PromptResultProps {
@@ -54,8 +56,8 @@ export function PromptResult({ versions, isGenerating }: PromptResultProps) {
                             key={v.id}
                             onClick={() => setSelectedVersionId(v.id)}
                             className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono transition-all whitespace-nowrap ${(activeVersion?.id === v.id)
-                                    ? "bg-white/10 border-white/20 text-white"
-                                    : "border-transparent text-gray-600 hover:text-gray-400 hover:bg-white/5"
+                                ? "bg-white/10 border-white/20 text-white"
+                                : "border-transparent text-gray-600 hover:text-gray-400 hover:bg-white/5"
                                 }`}
                         >
                             <GitBranch className="w-3 h-3" />
@@ -86,6 +88,10 @@ export function PromptResult({ versions, isGenerating }: PromptResultProps) {
 
                 {/* Toolbar */}
                 <div className="absolute top-4 right-4 flex gap-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <FeedbackButtons
+                        versionId={activeVersion?.versionId}
+                        promptVersionId={activeVersion?.versionId} // Ensure we pass the ID correctly
+                    />
                     <button
                         onClick={handleCopy}
                         className="p-2 rounded-lg bg-[#1A1A1A] border border-white/10 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
@@ -101,10 +107,60 @@ export function PromptResult({ versions, isGenerating }: PromptResultProps) {
             {/* Meta Info */}
             {activeVersion && (
                 <div className="mt-4 flex justify-between items-center text-[10px] font-mono text-gray-600 uppercase tracking-wider">
-                    <span>Depth: {activeVersion.detailLevel}</span>
-                    <span>{(activeVersion.content.length / 5).toFixed(0)} Tokens</span>
+                    <div className="flex gap-4">
+                        <span>Depth: {activeVersion.detailLevel}</span>
+                        <span>{(activeVersion.content.length / 5).toFixed(0)} Tokens</span>
+                    </div>
                 </div>
             )}
         </div>
     )
+}
+
+import { ThumbsUp, ThumbsDown } from "lucide-react"
+import { submitFeedback } from "@/app/actions/analytics"
+
+function FeedbackButtons({ versionId, promptVersionId }: { versionId?: string, promptVersionId?: string }) {
+    const [status, setStatus] = useState<'idle' | 'up' | 'down'>('idle');
+    const targetId = versionId || promptVersionId;
+
+    if (!targetId) return null;
+
+    const handleVote = async (score: number, type: 'up' | 'down') => {
+        if (status !== 'idle') return; // Prevent double voting for now
+        setStatus(type);
+        try {
+            await submitFeedback(targetId, score);
+        } catch (e) {
+            console.error(e);
+            setStatus('idle'); // Revert on failure
+        }
+    };
+
+    return (
+        <>
+            <button
+                onClick={() => handleVote(1, 'up')}
+                disabled={status !== 'idle'}
+                className={`p-2 rounded-lg border transition-colors ${status === 'up'
+                    ? "bg-green-500/20 border-green-500/50 text-green-400"
+                    : "bg-[#1A1A1A] border-white/10 hover:bg-white/10 text-gray-400 hover:text-white"
+                    }`}
+                title="Helpful"
+            >
+                <ThumbsUp className="w-4 h-4" />
+            </button>
+            <button
+                onClick={() => handleVote(-1, 'down')}
+                disabled={status !== 'idle'}
+                className={`p-2 rounded-lg border transition-colors ${status === 'down'
+                    ? "bg-red-500/20 border-red-500/50 text-red-400"
+                    : "bg-[#1A1A1A] border-white/10 hover:bg-white/10 text-gray-400 hover:text-white"
+                    }`}
+                title="Not Helpful"
+            >
+                <ThumbsDown className="w-4 h-4" />
+            </button>
+        </>
+    );
 }

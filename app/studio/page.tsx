@@ -11,6 +11,8 @@ import { VersionComparator } from "@/components/studio/VersionComparator"
 import { UpgradeModal } from "@/components/studio/UpgradeModal"
 import { getUserSubscription } from "@/app/actions/subscription"
 import { Sparkles, Trophy } from "lucide-react"
+import { auditPrompt, type AuditResult } from "@/app/actions/audit"
+import { AuditModal } from "@/components/studio/AuditModal"
 
 // Types
 interface Version {
@@ -18,6 +20,8 @@ interface Version {
     content: string
     timestamp: number
     detailLevel: string
+    promptId?: string
+    versionId?: string
 }
 
 export default function StudioPage() {
@@ -42,13 +46,36 @@ export default function StudioPage() {
         getUserSubscription().then(setSubscriptionTier)
     }, [])
 
-    // Toast State
     const [toast, setToast] = useState<{ msg: string; type: ToastType; visible: boolean }>({
         msg: "", type: "success", visible: false
     })
 
+    // Audit State
+    const [isAuditing, setIsAuditing] = useState(false)
+    const [auditResult, setAuditResult] = useState<AuditResult | null>(null)
+    const [showAuditModal, setShowAuditModal] = useState(false)
+
     const showToast = (msg: string, type: ToastType = "success") => {
         setToast({ msg, type, visible: true })
+    }
+
+    const handleAudit = async () => {
+        if (!prompt.trim() || prompt.length < 10) return;
+
+        setIsAuditing(true);
+        try {
+            const result = await auditPrompt(prompt);
+            if (result.success && result.data) {
+                setAuditResult(result.data);
+                setShowAuditModal(true);
+            } else {
+                showToast(result.error || "Audit failed", "error");
+            }
+        } catch (e) {
+            showToast("System Error during audit", "error");
+        } finally {
+            setIsAuditing(false);
+        }
     }
 
     const handleGenerate = async () => {
@@ -82,14 +109,14 @@ export default function StudioPage() {
             // Race: Action vs Timeout
             const actionPromise = refinePrompt(prompt, detailLevel, granularOptions)
 
-            const [_, result] = await Promise.all([
+            const [_, response] = await Promise.all([
                 minTime,
                 Promise.race([actionPromise, timeoutPromise])
             ])
 
-            if (result && result.startsWith("Error:")) {
+            if (response && !response.success) {
                 // 3. System-Responsible Error Mapping
-                const rawError = result.replace("Error: ", "")
+                const rawError = response.error || "Unknown Error"
                 const elapsed = Date.now() - startTime
 
                 let finalMessage = "System Error: Unable to complete enhancement."
@@ -111,17 +138,21 @@ export default function StudioPage() {
                     finalMessage = "Configuration Error: System credentials missing."
                 } else if (rawError.includes("Model") || rawError.includes("Overloaded")) {
                     finalMessage = "Capacity Warning: The AI service is momentarily busy."
+                } else {
+                    finalMessage = rawError
                 }
 
                 showToast(finalMessage, "error")
 
-            } else if (result) {
+            } else if (response && response.success && response.content) {
                 // Success Path
                 const newVersion: Version = {
                     id: crypto.randomUUID(),
-                    content: result,
+                    content: response.content,
                     timestamp: Date.now(),
-                    detailLevel
+                    detailLevel,
+                    promptId: response.promptId,
+                    versionId: response.versionId
                 }
                 setVersions(prev => [newVersion, ...prev])
                 showToast("Enhancement complete. Logic optimized.")
@@ -142,7 +173,7 @@ export default function StudioPage() {
             }
 
             // Always preserve input
-            showToast(userMessage + " Your input is preserved.", "error")
+            showToast(userMessage + " Your input is preserved.", "error") // Keeping old prompt input
 
         } finally {
             setIsGenerating(false)
@@ -190,6 +221,8 @@ export default function StudioPage() {
                             isGenerating={isGenerating}
                             granularOptions={granularOptions}
                             setGranularOptions={setGranularOptions}
+                            onAudit={handleAudit}
+                            isAuditing={isAuditing}
                         />
                     </div>
                 </div>
@@ -234,6 +267,13 @@ export default function StudioPage() {
                     onClose={() => setShowComparator(false)}
                 />
             )}
+
+            {/* Audit Modal */}
+            <AuditModal
+                isOpen={showAuditModal}
+                onClose={() => setShowAuditModal(false)}
+                result={auditResult}
+            />
 
             {/* Upgrade Modal */}
             <UpgradeModal

@@ -14,6 +14,8 @@ interface PromptEditorProps {
     isGenerating: boolean
     granularOptions: GranularOptions
     setGranularOptions: (opts: GranularOptions) => void
+    onAudit: () => void
+    isAuditing: boolean
 }
 
 const DETAIL_LEVELS = [
@@ -31,7 +33,9 @@ export function PromptEditor({
     onGenerate,
     isGenerating,
     granularOptions,
-    setGranularOptions
+    setGranularOptions,
+    onAudit,
+    isAuditing
 }: PromptEditorProps) {
     const textareaRef = useRef<HTMLTextAreaElement>(null)
     const [focused, setFocused] = useState(false)
@@ -196,18 +200,28 @@ export function PromptEditor({
                 </div>
 
                 {/* Main Action */}
-                <button
-                    onClick={onGenerate}
-                    disabled={isGenerating || !prompt.trim()}
-                    className="group relative flex items-center gap-3 bg-brand-purple text-white px-8 py-3 rounded-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-brand-purple/90 transition-all active:scale-95 shadow-[0_0_20px_rgba(124,58,237,0.3)] w-full md:w-auto justify-center"
-                >
-                    <span className="relative z-10 flex items-center gap-2">
-                        {isGenerating ? "FORGING..." : "INITIATE FORGE"}
-                        {!isGenerating && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
-                    </span>
-                    {/* Subtle Glow */}
-                    <div className="absolute inset-0 rounded-lg bg-brand-purple/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
-                </button>
+                <div className="flex gap-4 w-full md:w-auto">
+                    <button
+                        onClick={onAudit}
+                        disabled={isAuditing || !prompt.trim()}
+                        className="px-6 py-3 rounded-lg border border-white/10 font-bold text-gray-400 hover:text-white hover:bg-white/5 transition-colors disabled:opacity-50"
+                    >
+                        {isAuditing ? "ANALYZING..." : "AUDIT"}
+                    </button>
+
+                    <button
+                        onClick={onGenerate}
+                        disabled={isGenerating || !prompt.trim()}
+                        className="group relative flex-1 md:flex-none flex items-center gap-3 bg-brand-purple text-white px-8 py-3 rounded-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-brand-purple/90 transition-all active:scale-95 shadow-[0_0_20px_rgba(124,58,237,0.3)] justify-center"
+                    >
+                        <span className="relative z-10 flex items-center gap-2">
+                            {isGenerating ? "FORGING..." : "INITIATE FORGE"}
+                            {!isGenerating && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+                        </span>
+                        {/* Subtle Glow */}
+                        <div className="absolute inset-0 rounded-lg bg-brand-purple/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </button>
+                </div>
             </div>
         </div>
     )
