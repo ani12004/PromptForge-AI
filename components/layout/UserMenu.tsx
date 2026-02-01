@@ -91,14 +91,9 @@ export function UserMenu({ withDropdown = true, direction = 'up' }: UserMenuProp
                     )}
                 </div>
                 <div className="flex flex-col overflow-hidden hidden sm:flex">
-                    <div className="flex items-center gap-1.5">
-                        <span className="text-sm font-medium text-white leading-none truncate">
-                            {user.firstName || user.username}
-                        </span>
-                        {role === 'admin' && (
-                            <img src="/admin-crown.png" alt="Admin" className="w-3.5 h-3.5 object-contain" title="Administrator" />
-                        )}
-                    </div>
+                    <span className="text-sm font-medium text-white leading-none truncate">
+                        {user.firstName || user.username}
+                    </span>
                     <span className="text-[10px] font-bold text-brand-purple uppercase tracking-wider mt-0.5 whitespace-nowrap">
                         {tier === 'pro' ? 'PRO PLAN' : 'FREE PLAN'}
                     </span>

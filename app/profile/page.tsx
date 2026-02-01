@@ -4,13 +4,19 @@ import { useUser, useClerk } from "@clerk/nextjs"
 import { Loader2, Shield, User, LogOut, Github } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
+import { getUserRole } from "@/app/actions/auth"
 
 export default function ProfilePage() {
     const { user, isLoaded, isSignedIn } = useUser()
     const { signOut } = useClerk()
     const router = useRouter()
+    const [role, setRole] = useState<string | null>(null)
+
+    useEffect(() => {
+        getUserRole().then(setRole)
+    }, [])
 
     useEffect(() => {
         if (isLoaded && !isSignedIn) {
@@ -60,9 +66,19 @@ export default function ProfilePage() {
                         </div>
 
                         <div className="flex-1 space-y-1">
-                            <h2 className="text-2xl font-semibold text-white">
-                                {user.fullName || user.username || "User"}
-                            </h2>
+                            <div className="flex items-center gap-2">
+                                <h2 className="text-2xl font-semibold text-white">
+                                    {user.fullName || user.username || "User"}
+                                </h2>
+                                {role === 'admin' && (
+                                    <img
+                                        src="/admin-crown.png"
+                                        alt="Admin"
+                                        className="w-5 h-5 object-contain -mt-1"
+                                        title="Administrator"
+                                    />
+                                )}
+                            </div>
                             <p className="text-gray-400">{user.primaryEmailAddress?.emailAddress}</p>
 
                             {githubAccount && (
