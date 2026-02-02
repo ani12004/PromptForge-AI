@@ -20,10 +20,15 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: "PromptForge AI | Master the Art of Prompt Engineering",
-    template: "%s | PromptForge AI"
+    default: "Prompt Forge Studio | Master the Art of Prompt Engineering",
+    template: "%s | Prompt Forge Studio"
   },
   description: "Transform raw user intent into high-quality, optimized AI prompts. The professional studio for prompt engineering, testing, and management.",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
   keywords: ["prompt engineering", "AI prompts", "prompt optimizer", "LLM tools", "GPT-4 prompts", "Claude prompts", "Gemini prompts", "prompt testing", "A/B testing prompts"],
   authors: [{ name: "PromptForge Team" }],
   creator: "PromptForge AI",
@@ -31,15 +36,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://prompt-forge-studio.vercel.app",
-    siteName: "PromptForge AI",
-    title: "PromptForge AI | Master the Art of Prompt Engineering",
+    siteName: "Prompt Forge Studio",
+    title: "Prompt Forge Studio | Master the Art of Prompt Engineering",
     description: "Transform raw user intent into high-quality, optimized AI prompts. The professional studio for prompt engineering.",
     images: [
       {
-        url: "/og-image.png", // We should create this or use a placeholder
-        width: 1200,
-        height: 630,
-        alt: "PromptForge AI Studio Interface",
+        url: "/icon.png",
+        width: 512, // Assuming standard icon size, will verify
+        height: 512,
+        alt: "Prompt Forge Studio Icon",
       },
     ],
   },
