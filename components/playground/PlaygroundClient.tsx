@@ -5,7 +5,7 @@ import { SCENARIOS, Scenario, Evaluation } from "./types"
 import { PromptEditor } from "./PromptEditor"
 import { AnalysisPanel } from "./AnalysisPanel"
 import { Button } from "@/components/ui/Button"
-import { ChevronRight, Play, RefreshCw, Terminal, AlertCircle } from "lucide-react"
+import { ChevronRight, Play, RefreshCw, Terminal, AlertCircle, Sparkles } from "lucide-react"
 
 export function PlaygroundClient() {
     // State
@@ -88,8 +88,8 @@ export function PlaygroundClient() {
                         <div className="h-8 w-px bg-white/10" />
                         <div>
                             <span className={`text-xs px-2 py-1 rounded-full border ${selectedScenario.difficulty === 'Beginner' ? 'bg-green-500/10 text-green-400 border-green-500/20' :
-                                    selectedScenario.difficulty === 'Intermediate' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
-                                        'bg-red-500/10 text-red-400 border-red-500/20'
+                                selectedScenario.difficulty === 'Intermediate' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
+                                    'bg-red-500/10 text-red-400 border-red-500/20'
                                 }`}>
                                 {selectedScenario.difficulty}
                             </span>
