@@ -142,7 +142,7 @@ export default function ProfilePage() {
                                         </h2>
                                         {role === 'admin' && (
                                             <img
-                                                src="/admin-crown.png"
+                                                src="/approved.png"
                                                 alt="Admin"
                                                 className="w-5 h-5 object-contain -mt-1"
                                                 title="Administrator"
