@@ -2,14 +2,15 @@
 
 import { auth } from "@clerk/nextjs/server"
 import { createClerkSupabaseClient } from "@/lib/supabaseClient"
+import { createAdminClient } from "@/lib/supabaseAdmin"
 import { Badge, UserBadge } from "@/components/playground/types"
 
 export async function getBadges() {
-    const { userId, getToken } = await auth()
+    const { userId } = await auth()
     if (!userId) return { badges: [], userBadges: [] }
 
-    const token = await getToken({ template: "supabase" })
-    const supabase = createClerkSupabaseClient(token)
+    // Use Admin Client to bypass RLS for reading badges (fix for JWT config issues)
+    const supabase = createAdminClient()
 
     // Fetch all badges
     // Fetch all badges
