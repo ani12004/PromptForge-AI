@@ -19,11 +19,41 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "PromptForge AI",
-  description: "Transform raw user intent into high-quality, optimized AI prompts.",
+  title: {
+    default: "PromptForge AI | Master the Art of Prompt Engineering",
+    template: "%s | PromptForge AI"
+  },
+  description: "Transform raw user intent into high-quality, optimized AI prompts. The professional studio for prompt engineering, testing, and management.",
+  keywords: ["prompt engineering", "AI prompts", "prompt optimizer", "LLM tools", "GPT-4 prompts", "Claude prompts", "Gemini prompts", "prompt testing", "A/B testing prompts"],
+  authors: [{ name: "PromptForge Team" }],
+  creator: "PromptForge AI",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://prompt-forge-studio.vercel.app",
+    siteName: "PromptForge AI",
+    title: "PromptForge AI | Master the Art of Prompt Engineering",
+    description: "Transform raw user intent into high-quality, optimized AI prompts. The professional studio for prompt engineering.",
+    images: [
+      {
+        url: "/og-image.png", // We should create this or use a placeholder
+        width: 1200,
+        height: 630,
+        alt: "PromptForge AI Studio Interface",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PromptForge AI | Master the Art of Prompt Engineering",
+    description: "Transform raw user intent into high-quality, optimized AI prompts.",
+    creator: "@promptforgeai",
+    images: ["/og-image.png"],
+  },
   verification: {
     google: "qsBUZ3zd_jjvAZVRc4fxlerl_32C6kvZCIcbUCaTDRk",
   },
+  metadataBase: new URL('https://prompt-forge-studio.vercel.app'),
 };
 
 import { ClerkProvider } from "@clerk/nextjs";

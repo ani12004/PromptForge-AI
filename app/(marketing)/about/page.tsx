@@ -1,5 +1,15 @@
 import { Card } from "@/components/ui/Card"
 import { Github, Linkedin, Heart } from "lucide-react"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "About Us - The Mission",
+    description: "Meet the team behind PromptForge AI. We are dedicated to bridging the gap between human intent and AI understanding.",
+    openGraph: {
+        title: "About PromptForge AI | The Mission",
+        description: "Meet the team behind PromptForge AI. Bridging the gap between human intent and AI understanding.",
+    }
+}
 
 export default function AboutPage() {
     return (

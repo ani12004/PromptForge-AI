@@ -3,6 +3,16 @@ import { Button } from "@/components/ui/Button"
 import { Card } from "@/components/ui/Card"
 import { ABTestingVisual } from "@/components/marketing/ABTestingArena"
 import { GranularControlsVisual } from "@/components/marketing/GranularControls"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Features - Intent Analysis & A/B Testing",
+    description: "Explore our suite of prompt engineering tools including Deep Intent Analysis, Granular Controls, and our A/B Testing Arena.",
+    openGraph: {
+        title: "PromptForge Features | Intent Analysis & A/B Testing",
+        description: "Explore our suite of prompt engineering tools including Deep Intent Analysis, Granular Controls, and our A/B Testing Arena.",
+    }
+}
 
 export default function FeaturesPage() {
     return (
