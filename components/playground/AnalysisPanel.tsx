@@ -1,12 +1,12 @@
 "use client"
 
 import React from "react"
-import { Evaluation } from "./types"
+import { AnalysisResult } from "./types"
 import { Sparkles, AlertTriangle, CheckCircle2, TrendingUp } from "lucide-react"
 import { motion } from "framer-motion"
 
 interface AnalysisPanelProps {
-    evaluation: Evaluation | null;
+    evaluation: AnalysisResult | null;
     isAnalyzing: boolean;
 }
 
