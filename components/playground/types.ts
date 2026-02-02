@@ -53,3 +53,18 @@ export interface UserProgress {
     completedChallenges: string[]; // IDs
     unlockedTags: string[];
 }
+
+export interface AnalysisMetric {
+    name: string;
+    score: number;
+    description: string;
+}
+
+export interface AnalysisResult {
+    overallScore: number;
+    metrics: AnalysisMetric[];
+    strengths: string[];
+    weaknesses: string[];
+    improvements: string;
+    tips: string[];
+}
