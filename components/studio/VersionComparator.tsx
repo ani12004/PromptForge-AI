@@ -2,6 +2,7 @@
 
 import React, { useState } from "react"
 import { X, Trophy, Split, FlaskConical, Copy } from "lucide-react"
+import { createPortal } from "react-dom"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 
@@ -21,6 +22,11 @@ export function VersionComparator({ versions, onClose }: VersionComparatorProps)
     const [selectedIds, setSelectedIds] = useState<[string | null, string | null]>([null, null])
     const [isBenchmarking, setIsBenchmarking] = useState(false)
     const [result, setResult] = useState<{ winnerId: string; insights: string[] } | null>(null)
+    const [mounted, setMounted] = useState(false)
+
+    React.useEffect(() => {
+        setMounted(true)
+    }, [])
 
     const handleSelect = (idx: 0 | 1, id: string) => {
         const newIds = [...selectedIds] as [string | null, string | null]
@@ -62,13 +68,15 @@ export function VersionComparator({ versions, onClose }: VersionComparatorProps)
         navigator.clipboard.writeText(text)
     }
 
-    return (
+    if (!mounted) return null
+
+    return createPortal(
         <AnimatePresence>
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[100] flex flex-col pt-16 lg:pt-0"
+                className="fixed inset-0 z-[9999] flex flex-col pt-16 lg:pt-0"
             >
                 {/* Backdrop */}
                 <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={onClose} />
@@ -216,6 +224,7 @@ export function VersionComparator({ versions, onClose }: VersionComparatorProps)
                     </div>
                 </div>
             </motion.div>
-        </AnimatePresence>
+        </AnimatePresence>,
+        document.body
     )
 }
