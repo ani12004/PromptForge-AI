@@ -38,11 +38,7 @@ export function Footer() {
                                     </Link>
                                 </li>
                             ))}
-                            <li>
-                                <Link href="/changelog" className="text-gray-400 hover:text-brand-purple transition-colors text-sm font-medium flex items-center gap-2">
-                                    Changelog <span className="text-[10px] bg-brand-purple/20 text-brand-purple px-1.5 py-0.5 rounded border border-brand-purple/30">New</span>
-                                </Link>
-                            </li>
+
                         </ul>
                     </div>
 

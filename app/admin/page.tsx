@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Users, Mail, BarChart3, Send, Loader2 } from "lucide-react"
+import { Users, Mail, BarChart3, Send, Loader2, Activity, Settings, ArrowUpRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 // We will simple fetch on load for simplicity in this V1
 import { getAdminStats, getUsers, getContactMessages, sendBroadcastNotification, updateMessageStatus, sendEmailReply } from "./actions"
@@ -72,11 +72,16 @@ export default function AdminDashboard() {
         loadmv()
     }, [])
 
+    // NEW: System Controls State (Mock)
+    const [maintenanceMode, setMaintenanceMode] = React.useState(false)
+    const [apiStatus, setApiStatus] = React.useState("operational")
+
     const tabs = [
         { id: "overview", label: "Overview", icon: BarChart3 },
         { id: "users", label: "Users", icon: Users },
         { id: "messages", label: "Messages", icon: Mail },
         { id: "broadcast", label: "Broadcast", icon: Send },
+        { id: "system", label: "System", icon: Settings }, // NEW TAB
     ]
 
     if (loading) {
@@ -88,17 +93,23 @@ export default function AdminDashboard() {
     }
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-8">
+            {/* Header */}
+            <div>
+                <h1 className="text-3xl font-bold text-white mb-2">Command Center</h1>
+                <p className="text-gray-400">Manage users, deployments, and system health.</p>
+            </div>
+
             {/* Tabs */}
-            <div className="flex items-center gap-2 p-1 bg-white/5 rounded-xl w-fit">
+            <div className="flex items-center gap-2 p-1 bg-white/5 rounded-xl w-fit border border-white/10">
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
                         className={cn(
-                            "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors",
+                            "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
                             activeTab === tab.id
-                                ? "bg-brand-purple text-white shadow-lg"
+                                ? "bg-brand-purple text-white shadow-lg shadow-brand-purple/20"
                                 : "text-gray-400 hover:text-white hover:bg-white/5"
                         )}
                     >
@@ -117,34 +128,41 @@ export default function AdminDashboard() {
                     transition={{ duration: 0.2 }}
                 >
                     {activeTab === "overview" && (
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                             <StatsCard label="Total Users" value={stats?.totalUsers} icon={Users} color="text-blue-400" bg="bg-blue-400/10" />
                             <StatsCard label="Total Messages" value={stats?.totalMessages} icon={Mail} color="text-green-400" bg="bg-green-400/10" />
                             <StatsCard label="Unread Messages" value={stats?.unreadMessages} icon={Mail} color="text-red-400" bg="bg-red-400/10" />
+                            <StatsCard label="System Status" value="Healthy" icon={Activity} color="text-emerald-400" bg="bg-emerald-400/10" />
                         </div>
                     )}
 
                     {activeTab === "users" && (
-                        <div className="bg-[#18181b] border border-white/10 rounded-xl overflow-hidden">
+                        <div className="bg-[#18181b] border border-white/10 rounded-xl overflow-hidden shadow-2xl">
                             <table className="w-full text-left text-sm text-gray-400">
-                                <thead className="bg-white/5 text-gray-200 font-medium">
+                                <thead className="bg-white/5 text-gray-200 font-medium border-b border-white/5">
                                     <tr>
                                         <th className="p-4">Name</th>
                                         <th className="p-4">Email</th>
                                         <th className="p-4">Joined</th>
+                                        <th className="p-4">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-white/5">
                                     {users.map((user: any) => (
                                         <tr key={user.id} className="hover:bg-white/[0.02]">
                                             <td className="p-4 text-white font-medium flex items-center gap-3">
-                                                {user.avatar_url && (
-                                                    <img src={user.avatar_url} alt="" className="h-6 w-6 rounded-full" />
+                                                {user.avatar_url ? (
+                                                    <img src={user.avatar_url} alt="" className="h-8 w-8 rounded-full border border-white/10" />
+                                                ) : (
+                                                    <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center text-xs">{user.full_name?.[0]}</div>
                                                 )}
                                                 {user.full_name || "N/A"}
                                             </td>
                                             <td className="p-4">{user.email}</td>
                                             <td className="p-4">{user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}</td>
+                                            <td className="p-4">
+                                                <button className="text-xs bg-white/5 hover:bg-white/10 px-2 py-1 rounded border border-white/10 text-gray-300">View Details</button>
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -154,7 +172,8 @@ export default function AdminDashboard() {
                     )}
 
                     {activeTab === "messages" && (
-                        <div className="bg-[#18181b] border border-white/10 rounded-xl overflow-hidden">
+                        <div className="bg-[#18181b] border border-white/10 rounded-xl overflow-hidden shadow-2xl">
+                            {/* ... (Same as before) ... */}
                             <table className="w-full text-left text-sm text-gray-400">
                                 <thead className="bg-white/5 text-gray-200 font-medium">
                                     <tr>
@@ -196,7 +215,8 @@ export default function AdminDashboard() {
 
                     {activeTab === "broadcast" && (
                         <div className="max-w-2xl mx-auto">
-                            <div className="bg-[#18181b] border border-white/10 rounded-xl p-6">
+                            <div className="bg-[#18181b] border border-white/10 rounded-xl p-6 shadow-2xl">
+                                {/* ... (Same as before) ... */}
                                 <h2 className="text-xl font-semibold mb-4 text-white">Publish Global Notification</h2>
                                 <p className="text-gray-400 mb-6 text-sm">
                                     This will appear in the Notifications sidebar for <strong>ALL</strong> users.
@@ -251,10 +271,95 @@ export default function AdminDashboard() {
                             </div>
                         </div>
                     )}
+
+                    {/** NEW SYSTEM TAB **/}
+                    {activeTab === "system" && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                            {/* System Status Mock */}
+                            <div className="bg-[#18181b] border border-white/10 rounded-xl p-6 shadow-2xl space-y-6">
+                                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                                    <Activity className="h-5 w-5 text-emerald-400" /> System Health
+                                </h3>
+
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between p-4 bg-white/[0.02] rounded-lg border border-white/5">
+                                        <div className="flex items-center gap-3">
+                                            <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                                            <span className="text-gray-300 font-medium">API Gateway</span>
+                                        </div>
+                                        <span className="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">OPERATIONAL</span>
+                                    </div>
+
+                                    <div className="flex items-center justify-between p-4 bg-white/[0.02] rounded-lg border border-white/5">
+                                        <div className="flex items-center gap-3">
+                                            <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                                            <span className="text-gray-300 font-medium">Database (Supabase)</span>
+                                        </div>
+                                        <span className="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">OPERATIONAL</span>
+                                    </div>
+
+                                    <div className="flex items-center justify-between p-4 bg-white/[0.02] rounded-lg border border-white/5">
+                                        <div className="flex items-center gap-3">
+                                            <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                                            <span className="text-gray-300 font-medium">Auth (Clerk)</span>
+                                        </div>
+                                        <span className="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">OPERATIONAL</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Controls & Quick Links */}
+                            <div className="space-y-6">
+                                <div className="bg-[#18181b] border border-white/10 rounded-xl p-6 shadow-2xl">
+                                    <h3 className="text-lg font-bold text-white flex items-center gap-2 mb-6">
+                                        <Settings className="h-5 w-5 text-brand-purple" /> Controls
+                                    </h3>
+
+                                    <div className="flex items-center justify-between mb-6">
+                                        <div className="space-y-1">
+                                            <div className="text-white font-medium">Maintenance Mode</div>
+                                            <div className="text-xs text-gray-500">Disable access for non-admins</div>
+                                        </div>
+                                        <button
+                                            onClick={() => setMaintenanceMode(!maintenanceMode)}
+                                            className={cn("w-12 h-6 rounded-full p-1 transition-colors", maintenanceMode ? "bg-brand-purple" : "bg-white/10")}
+                                        >
+                                            <div className={cn("w-4 h-4 rounded-full bg-white shadow-sm transition-transform", maintenanceMode ? "translate-x-6" : "translate-x-0")} />
+                                        </button>
+                                    </div>
+
+                                    <div className="flex items-center justify-between border-t border-white/5 pt-6">
+                                        <div className="space-y-1">
+                                            <div className="text-white font-medium">Global Cache</div>
+                                            <div className="text-xs text-gray-500">Clear all server-side caches</div>
+                                        </div>
+                                        <button className="px-3 py-1.5 bg-white/5 hover:bg-white/10 text-white text-xs font-medium rounded border border-white/10 transition-colors">
+                                            Clear Cache
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Changelog Link Card */}
+                                <a
+                                    href="/changelog"
+                                    target="_blank"
+                                    className="block bg-gradient-to-br from-brand-purple/20 to-brand-purple/5 border border-brand-purple/20 rounded-xl p-6 hover:border-brand-purple/40 transition-colors group"
+                                >
+                                    <div className="flex items-center justify-between mb-2">
+                                        <h3 className="text-lg font-bold text-white group-hover:text-brand-purple transition-colors">View Changelog</h3>
+                                        <ArrowUpRight className="h-5 w-5 text-gray-500 group-hover:text-brand-purple" />
+                                    </div>
+                                    <p className="text-sm text-gray-400">Review the public facing release notes for v1.3.0 and prior.</p>
+                                </a>
+                            </div>
+                        </div>
+                    )}
+
                 </motion.div>
             </AnimatePresence>
 
-            {/* Message Details Modal */}
+            {/* Message Details Modal (Reused) */}
             <AnimatePresence>
                 {selectedMessage && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
