@@ -2,38 +2,42 @@
 
 All notable changes to the **PromptForge AI** project will be documented in this file.
 
-## [1.0.0] - 2026-02-01
+## [1.2.0] - 2026-02-02
+### Added
+- **Gamification System**: Created a comprehensive badge and achievement system.
+    - **Badges Table**: SQL schema for storing badge definitions and user progress.
+    - **Custom Badge Assets**: Integrated 15+ unique PNG badge images for varying rarity tiers (Common to Legendary).
+    - **Profile Integration**: Added an "Achievements" section to the user profile to display earned badges.
+    - **Sorting**: Badges are now sorted by rarity (Common -> Legendary).
+- **Prompt Engineering Playground**: A new interactive learning area with 4 distinct game modes:
+    - **Fixer Mode**: Repair broken prompts.
+    - **Builder Mode**: Template-based prompt construction.
+    - **Battle Mode**: Predict AI outcomes.
+    - **Precision Mode**: Constraint adherence challenges.
+- **Onboarding**: Added a "How to Play" modal with mode-specific instructions.
+- **Debug Tools**: Added `/gamification-debug` page for diagnosing user ID and badge issues.
+- **Notifications**: Added system for global notifications (SQL script provided).
 
-### 🚀 Major Features
-- **AI Prompt Auditor**: Added a dedicated `AuditModal` and critique engine to analyze prompts for clarity and security risks.
-- **A/B Benchmark Laboratory**: Completely redesigned the `VersionComparator` UI for side-by-side prompt testing.
-    - Added split-view layout.
-    - Improved Z-index layering and modal visuals.
-    - Added heuristic winner declaration.
-- **Studio Redesign**: 
-    - Simplified `PromptEditor` header and toolbar.
-    - Introduced "Cognitive Depth" segmented controls.
-    - Added clean status indicators.
-- **Admin & Pro Roles**:
-    - Implemented `getUserRole` and `getUserSubscription` actions.
-    - Added **Admin Crown Badge** to the Profile Page.
-    - Added **Pro Plan** indicator to the User Menu.
+### Changed
+- **Home Page**: Replaced "Watch Demo" button with a direct link to the **Playground**.
+- **Middleware**: Protected the `/playground` route to ensure only authenticated users can access it.
+- **Admin**: Updated `getBadges` to use a Service Role client, ensuring reliable badge fetching bypassing complex RLS scenarios.
 
-### 🐛 Bug Fixes
-- Fixed `user_id` vs `id` schema mismatch in `profiles` table.
-- Fixed TypeScript errors in `StudioPage` regarding `onAudit` props.
-- Fixed subscription status displaying "Free Plan" for Pro users (case-sensitivity fix).
-- Fixed Z-index collision in Benchmark overlay.
+## [1.1.0] - 2026-02-01
+### Added
+- **Profile Editing**: Users can now update their profile information (Name, Avatar) which syncs between Clerk and Supabase.
+- **SEO Enhancements**: Added comprehensive metadata, OpenGraph tags, and sitemap.xml.
+- **Google Verification**: Added Google Site Verification meta tag.
 
-### 🔧 Infrastructure
-- Updated `package.json` version to `1.0.0`.
-- Added `v3_fix_profiles.sql` migration for RLS policies.
-- Optimized `generate.ts` for better error handling during streaming.
+### Fixed
+- **Playground Analysis**: Fixed type safety issues in the AnalysisPanel and restored the analyze API functionality.
+- **Sparkles Icon**: Resolved missing import in PlaygroundClient.
 
----
-
-## [0.9.0] - 2026-01-25
-- Initial Beta Release.
-- Basic Prompt Generation.
-- History Sidebar.
-- Clerk Authentication.
+## [1.0.0] - 2026-01-25
+### Initial Release
+- **Studio**: Advanced Prompt Editor with "Cognitive Depth" controls.
+- **A/B Testing Arena**: Compare prompt variations side-by-side.
+- **Granular Controls**: Sliders for Temperature, Top-P, and Top-K.
+- **Authentication**: integrated Clerk for user management.
+- **Database**: Supabase PostgreSQL integration for saving prompts and history.
+- **UI/UX**: Premium dark mode aesthetic with glassmorphism effects using Tailwind CSS and Framer Motion.

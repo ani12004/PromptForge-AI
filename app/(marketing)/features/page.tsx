@@ -1,4 +1,4 @@
-import { Zap, Sliders, Trophy, Sparkles, Wand2 } from "lucide-react"
+import { Zap, Sliders, Trophy, Sparkles, Wand2, Gamepad2 } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import { Card } from "@/components/ui/Card"
 import { ABTestingVisual } from "@/components/marketing/ABTestingArena"
@@ -90,6 +90,36 @@ export default function FeaturesPage() {
                     <div className="flex-1 w-full">
                         <div className="relative group">
                             <ABTestingVisual />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Feature 4 (Reversed) - Playground */}
+                <div className="flex flex-col md:flex-row-reverse items-center gap-16">
+                    <div className="flex-1">
+                        <div className="inline-block p-3 rounded-xl bg-emerald-500/10 text-emerald-400 mb-6 border border-emerald-500/20">
+                            <Gamepad2 className="h-8 w-8" />
+                        </div>
+                        <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">Gamified Playground</h2>
+                        <p className="text-gray-400 text-lg leading-relaxed mb-8">
+                            Level up your skills in our interactive playground. Fix broken prompts, battle AI predictions, and earn legendary badges as you master the art of prompt engineering.
+                        </p>
+                        <Button variant="outline" size="lg" className="rounded-full">Enter Playground</Button>
+                    </div>
+                    <div className="flex-1 w-full">
+                        <div className="relative group">
+                            <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-500" />
+                            <Card variant="static" className="min-h-[400px] flex items-center justify-center border-white/10 bg-[#0F0F13] p-0 overflow-hidden relative">
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-emerald-500/10 via-transparent to-transparent opacity-50" />
+                                <div className="p-8 text-center">
+                                    <div className="grid grid-cols-3 gap-4 mb-6 opacity-80">
+                                        <div className="h-24 w-20 bg-white/5 rounded-lg border border-white/10 mx-auto" ></div>
+                                        <div className="h-24 w-20 bg-brand-purple/20 rounded-lg border border-brand-purple/40 mx-auto shadow-[0_0_15px_rgba(168,85,247,0.3)]" ></div>
+                                        <div className="h-24 w-20 bg-white/5 rounded-lg border border-white/10 mx-auto" ></div>
+                                    </div>
+                                    <p className="text-emerald-400 font-mono text-sm">BADGE UNLOCKED: PROMPT ARCHITECT</p>
+                                </div>
+                            </Card>
                         </div>
                     </div>
                 </div>

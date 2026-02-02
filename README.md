@@ -14,6 +14,18 @@ A dedicated, IDE-like workspace for crafting and iterating on prompts.
 - **Real-time Status**: Status indicators for Goal, Context, and Constraints injection.
 - **Split-View Comparison**: A sidebar history to drag-and-drop previous versions.
 
+### 🎮 Prompt Engineering Playground
+A gamified learning environment to master prompt engineering skills through interactive challenges.
+- **Fixer Mode**: Debug and repair broken prompts to achieve specific outcomes.
+- **Builder Mode**: Learn to construct prompts from scratch using industry-standard templates.
+- **Battle Mode**: Compete against AI to predict which prompt yields better results.
+- **Precision Mode**: Hone your ability to write constraint-heavy prompts with perfect accuracy.
+
+### 🏆 Gamification & Progression
+- **Badge System**: Earn over 15 unique badges (Common to Legendary) for your achievements.
+- **XP & Levels**: Gain experience points for every challenge completed.
+- **Public Profile**: Showcase your earned badges and levels on your profile.
+
 ### 🧪 A/B Testing Laboratory (Benchmark)
 Compare two prompt variations side-by-side to analyze structural differences and predicted performance.
 - **Visual Diffing**: Clean split-view layout to spot differences instantly.
@@ -21,7 +33,7 @@ Compare two prompt variations side-by-side to analyze structural differences and
 - **Winner Declaration**: AI-driven insight on which variation is likely to perform better.
 
 ### 🛡️ AI Prompt Auditor
-Built-in critique engine that analyzes your prompt *before* you ship it.
+Built-in critique engine that analyses your prompt *before* you ship it.
 - **Security & Clarity Checks**: Detects vague instructions or potential injection vulnerabilities.
 - **Actionable Feedback**: Provides a sub-step checklist of improvements.
 
