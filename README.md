@@ -1,8 +1,8 @@
 ![PromptForge AI](public/logo_navi.png)
 
-# PromptForge AI
+# Prompt Forge Studio
 
-**PromptForge AI** is a specialized middleware platform designed to bridge the gap between human intent and large language model (LLM) execution. It serves as an advanced development environment (ADE) for prompt engineering, allowing developers and prompt engineers to structure, refine, and optimize raw inputs into production-grade instructions.
+**Prompt Forge Studio** is a specialized middleware platform designed to bridge the gap between human intent and large language model (LLM) execution. It serves as an advanced development environment (ADE) for prompt engineering, allowing developers and prompt engineers to structure, refine, and optimize raw inputs into production-grade instructions.
 
 The system leverages heuristic analysis and semantic understanding to detect ambiguity in natural language, automatically restructuring requests into high-fidelity prompts that improve model performance, consistency, and reduced latency.
 
