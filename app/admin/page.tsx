@@ -10,6 +10,8 @@ import { StatsCard } from "./components/StatsCard"
 import { AdminFeatureCard } from "./components/AdminFeatureCard"
 import { SystemMonitor } from "./components/SystemMonitor"
 
+import { UserEditModal } from "./components/UserEditModal"
+
 export default function AdminDashboard() {
     const [stats, setStats] = React.useState<any>(null)
     const [users, setUsers] = React.useState<any[]>([])
@@ -21,6 +23,7 @@ export default function AdminDashboard() {
     const [broadcastState, broadcastAction, isBroadcasting] = useActionState(sendBroadcastNotification, null)
 
     const [selectedMessage, setSelectedMessage] = React.useState<any>(null)
+    const [editingUser, setEditingUser] = React.useState<any>(null)
     const [replyMode, setReplyMode] = React.useState(false)
     const [replyContent, setReplyContent] = React.useState("")
     const [sendingReply, setSendingReply] = React.useState(false)
@@ -60,18 +63,19 @@ export default function AdminDashboard() {
         }
     }
 
+    const refreshData = async () => {
+        setLoading(true)
+        const s = await getAdminStats()
+        const u = await getUsers()
+        const m = await getContactMessages()
+        setStats(s)
+        setUsers(u || [])
+        setMessages(m || [])
+        setLoading(false)
+    }
+
     React.useEffect(() => {
-        const loadmv = async () => {
-            setLoading(true)
-            const s = await getAdminStats()
-            const u = await getUsers()
-            const m = await getContactMessages()
-            setStats(s)
-            setUsers(u || [])
-            setMessages(m || [])
-            setLoading(false)
-        }
-        loadmv()
+        refreshData()
     }, [])
 
     if (loading) {
@@ -271,13 +275,84 @@ export default function AdminDashboard() {
                                         <td className="p-6"><span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 rounded-full text-xs border border-emerald-500/20">Active</span></td>
                                         <td className="p-6">{new Date(user.created_at).toLocaleDateString()}</td>
                                         <td className="p-6 text-right">
-                                            <button className="text-gray-400 hover:text-white transition-colors">Edit</button>
+                                            <button
+                                                onClick={() => setEditingUser(user)}
+                                                className="text-gray-400 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-lg text-sm"
+                                            >
+                                                Edit
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </motion.div>
+                )}
+
+                {view === "messages" && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="bg-[#0A0A0C]/80 backdrop-blur-sm border border-white/10 rounded-3xl overflow-hidden"
+                    >
+                        <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+                            <div className="flex items-center gap-4">
+                                <button onClick={() => setView("dashboard")} className="p-2 hover:bg-white/10 rounded-full transition-colors"><ArrowRight className="h-5 w-5 text-gray-400 rotate-180" /></button>
+                                <h2 className="text-xl font-bold text-white">Inbox</h2>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <span className="text-sm text-gray-400">{messages.filter(m => m.status === 'unread').length} Unread</span>
+                            </div>
+                        </div>
+                        <div className="divide-y divide-white/5">
+                            {messages.length === 0 ? (
+                                <div className="p-12 text-center text-gray-500">No messages found.</div>
+                            ) : (
+                                messages.map((msg: any) => (
+                                    <div
+                                        key={msg.id}
+                                        onClick={() => setSelectedMessage(msg)}
+                                        className={`p-6 flex items-center gap-6 hover:bg-white/[0.02] transition-colors cursor-pointer group ${msg.status === 'unread' ? 'bg-blue-500/[0.02]' : ''}`}
+                                    >
+                                        <div className={`h-3 w-3 rounded-full shrink-0 ${msg.status === 'unread' ? 'bg-blue-500' : 'bg-transparent border border-white/20'}`} />
+
+                                        <div className="h-12 w-12 rounded-full bg-white/5 flex items-center justify-center text-gray-300 font-bold shrink-0">
+                                            {msg.name.charAt(0)}
+                                        </div>
+
+                                        <div className="flex-1 min-w-0 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                                            <div className="md:col-span-3">
+                                                <div className={`font-medium truncate ${msg.status === 'unread' ? 'text-white' : 'text-gray-400'}`}>{msg.name}</div>
+                                                <div className="text-xs text-brand-purple truncate">{msg.email}</div>
+                                            </div>
+                                            <div className="md:col-span-6">
+                                                <div className={`truncate ${msg.status === 'unread' ? 'text-gray-200' : 'text-gray-500'}`}>{msg.subject}</div>
+                                                <div className="text-sm text-gray-600 truncate">{msg.message}</div>
+                                            </div>
+                                            <div className="md:col-span-3 text-right text-sm text-gray-600">
+                                                {new Date(msg.created_at).toLocaleDateString()}
+                                            </div>
+                                        </div>
+
+                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <ArrowRight className="h-5 w-5 text-gray-500" />
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* User Edit Modal */}
+            <AnimatePresence>
+                {editingUser && (
+                    <UserEditModal
+                        user={editingUser}
+                        onClose={() => setEditingUser(null)}
+                        onUpdate={refreshData}
+                    />
                 )}
             </AnimatePresence>
 
@@ -338,6 +413,6 @@ export default function AdminDashboard() {
                     </div>
                 )}
             </AnimatePresence>
-        </div>
+        </div >
     )
 }

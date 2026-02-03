@@ -192,3 +192,51 @@ export async function sendEmailReply(to: string, subject: string, message: strin
         return { error: "Internal Server Error" };
     }
 }
+
+export async function updateUserSubscription(userId: string, tier: 'free' | 'pro') {
+    await checkAdmin()
+    const supabase = createAdminClient()
+
+    const { error } = await supabase
+        .from('profiles')
+        .update({ subscription_tier: tier })
+        .eq('id', userId)
+
+    if (error) {
+        console.error("Error updating subscription", error)
+        return { error: "Failed to update subscription" }
+    }
+
+    return { success: true }
+}
+
+export async function banUser(userId: string) {
+    await checkAdmin()
+    const supabase = createAdminClient()
+
+    // Ban for 100 years (approx)
+    const { error } = await supabase.auth.admin.updateUserById(userId, {
+        ban_duration: "876000h"
+    })
+
+    if (error) {
+        console.error("Error banning user", error)
+        return { error: "Failed to ban user" }
+    }
+
+    return { success: true }
+}
+
+export async function deleteUser(userId: string) {
+    await checkAdmin()
+    const supabase = createAdminClient()
+
+    const { error } = await supabase.auth.admin.deleteUser(userId)
+
+    if (error) {
+        console.error("Error deleting user", error)
+        return { error: "Failed to delete user" }
+    }
+
+    return { success: true }
+}
