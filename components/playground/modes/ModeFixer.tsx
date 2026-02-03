@@ -110,7 +110,15 @@ export function ModeFixer({ challenge, onComplete }: ModeFixerProps) {
                         </p>
 
                         {result.success && (
-                            <Button onClick={() => onComplete(challenge.xpReward)} className="bg-white text-black hover:bg-gray-200">
+                            <Button
+                                onClick={() => {
+                                    if (result.success) {
+                                        onComplete(challenge.xpReward)
+                                        setResult(null) // Reset or hide to prevent double click
+                                    }
+                                }}
+                                className="bg-white text-black hover:bg-gray-200"
+                            >
                                 Claim {challenge.xpReward} XP & Continue
                             </Button>
                         )}

@@ -77,6 +77,24 @@ export function PlaygroundClient() {
 
         // Check for badges
         await checkBadges("first_win")
+
+        // Auto-advance after short delay or immediately
+        // Find current index
+        const currentIndex = CHALLENGES.findIndex(c => c.id === activeChallengeId)
+        const nextChallenge = CHALLENGES[currentIndex + 1]
+
+        if (nextChallenge && nextChallenge.mode === mode) {
+            // Move to next challenge in same mode
+            setTimeout(() => {
+                setActiveChallengeId(nextChallenge.id)
+            }, 500) // Short delay for UX
+        } else {
+            // Mode complete
+            setTimeout(() => {
+                handleBack()
+                showToast("Mode Complete!", "success")
+            }, 1000)
+        }
     }
 
     const handleBack = () => {

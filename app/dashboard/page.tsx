@@ -20,12 +20,14 @@ export default async function DashboardPage({
     const token = await getToken({ template: "supabase" })
     const supabase = createClerkSupabaseClient(token)
 
-    // Sync profile on visit
-    const { error: profileError } = await supabase.from("profiles").upsert({
+    // Sync profile on visit and fetch latest data
+    const { data: profile } = await supabase.from("profiles").upsert({
         id: user.id,
         email: user.emailAddresses[0]?.emailAddress,
         full_name: user.fullName || user.username || "Unknown",
-    })
+    }).select().single()
+
+    const isPro = profile?.subscription_tier === 'pro'
 
     // Fetch stats
     const { count: promptCount } = await supabase
@@ -115,7 +117,12 @@ export default async function DashboardPage({
                                     <div className="h-12 w-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
                                         <Ghost className="h-6 w-6" />
                                     </div>
-                                    <span className="text-[10px] font-bold tracking-wider font-mono text-gray-500 bg-white/5 px-3 py-1 rounded-full border border-white/5">PRO USER</span>
+                                    <span className={`text-[10px] font-bold tracking-wider font-mono px-3 py-1 rounded-full border ${isPro
+                                        ? "text-gray-500 bg-white/5 border-white/5"
+                                        : "text-amber-500 bg-amber-500/10 border-amber-500/20"
+                                        }`}>
+                                        {isPro ? "PRO USER" : "FREE USER"}
+                                    </span>
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold text-white mb-1">My Profile</h3>
@@ -125,14 +132,19 @@ export default async function DashboardPage({
                         </Link>
 
                         <div className="glass-panel p-8 rounded-[2rem] border border-white/10 bg-white/[0.02] relative overflow-hidden flex-1 flex flex-col justify-center">
-                            <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/10 to-transparent pointer-events-none" />
+                            <div className={`absolute inset-0 pointer-events-none bg-gradient-to-tr ${isPro ? "from-amber-500/10 to-transparent" : "from-gray-500/5 to-transparent"}`} />
                             <div className="flex items-center gap-5 relative z-10">
-                                <div className="h-12 w-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.2)]">
-                                    <Crown className="h-6 w-6" />
+                                <div className={`h-12 w-12 rounded-2xl border flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.2)] ${isPro
+                                    ? "bg-amber-500/10 border-amber-500/20 text-amber-400"
+                                    : "bg-gray-500/10 border-gray-500/20 text-gray-400"
+                                    }`}>
+                                    {isPro ? <Crown className="h-6 w-6" /> : <Layers className="h-6 w-6" />}
                                 </div>
                                 <div>
-                                    <h3 className="text-lg font-bold text-white">Pro Plan Active</h3>
-                                    <p className="text-xs font-medium text-amber-400/90 mt-1">Next billing: Mar 1, 2026</p>
+                                    <h3 className="text-lg font-bold text-white">{isPro ? "Pro Plan Active" : "Free Plan"}</h3>
+                                    <p className={`text-xs font-medium mt-1 ${isPro ? "text-amber-400/90" : "text-gray-500"}`}>
+                                        {isPro ? "Next billing: Mar 1, 2026" : "Upgrade to unlock limits"}
+                                    </p>
                                 </div>
                             </div>
                         </div>
