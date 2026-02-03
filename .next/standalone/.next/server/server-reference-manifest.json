@@ -1,0 +1,1752 @@
+{
+  "node": {
+    "0003a3dcf615081a16c914805a79b1208e05658d88": {
+      "workers": {
+        "app/(auth)/signup/page": {
+          "moduleId": 14316,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/(legal)/privacy/page": {
+          "moduleId": 24438,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/(legal)/terms/page": {
+          "moduleId": 53104,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/(marketing)/about/page": {
+          "moduleId": 45984,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/(marketing)/changelog/page": {
+          "moduleId": 56880,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/(marketing)/contact/page": {
+          "moduleId": 77939,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/(marketing)/docs/page": {
+          "moduleId": 10549,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/(marketing)/features/page": {
+          "moduleId": 41759,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/(marketing)/page": {
+          "moduleId": 58806,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/(marketing)/pricing/page": {
+          "moduleId": 64921,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/_not-found/page": {
+          "moduleId": 54508,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/dashboard/page": {
+          "moduleId": 93293,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/gamification-debug/page": {
+          "moduleId": 83730,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/login/page": {
+          "moduleId": 7919,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/playground/page": {
+          "moduleId": 15709,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/profile/page": {
+          "moduleId": 86595,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/settings/page": {
+          "moduleId": 5813,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/sso-callback/page": {
+          "moduleId": 23153,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/studio/analytics/page": {
+          "moduleId": 58376,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/studio/history/page": {
+          "moduleId": 15569,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/studio/notifications/page": {
+          "moduleId": 14050,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        },
+        "app/studio/page": {
+          "moduleId": 26840,
+          "async": false,
+          "exportedName": "getUserSubscription",
+          "filename": "app/actions/subscription.ts"
+        }
+      },
+      "layer": {
+        "app/(auth)/signup/page": "action-browser",
+        "app/(legal)/privacy/page": "action-browser",
+        "app/(legal)/terms/page": "action-browser",
+        "app/(marketing)/about/page": "action-browser",
+        "app/(marketing)/changelog/page": "action-browser",
+        "app/(marketing)/contact/page": "action-browser",
+        "app/(marketing)/docs/page": "action-browser",
+        "app/(marketing)/features/page": "action-browser",
+        "app/(marketing)/page": "action-browser",
+        "app/(marketing)/pricing/page": "action-browser",
+        "app/_not-found/page": "action-browser",
+        "app/admin/page": "action-browser",
+        "app/dashboard/page": "action-browser",
+        "app/gamification-debug/page": "action-browser",
+        "app/login/page": "action-browser",
+        "app/playground/page": "action-browser",
+        "app/profile/page": "action-browser",
+        "app/settings/page": "action-browser",
+        "app/sso-callback/page": "action-browser",
+        "app/studio/analytics/page": "action-browser",
+        "app/studio/history/page": "action-browser",
+        "app/studio/notifications/page": "action-browser",
+        "app/studio/page": "action-browser"
+      },
+      "filename": "app/actions/subscription.ts",
+      "exportedName": "getUserSubscription"
+    },
+    "0051101ac87c471b7462d604cadbab8a2e54996392": {
+      "workers": {
+        "app/(auth)/signup/page": {
+          "moduleId": 14316,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/(legal)/privacy/page": {
+          "moduleId": 24438,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/(legal)/terms/page": {
+          "moduleId": 53104,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/(marketing)/about/page": {
+          "moduleId": 45984,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/(marketing)/changelog/page": {
+          "moduleId": 56880,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/(marketing)/contact/page": {
+          "moduleId": 77939,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/(marketing)/docs/page": {
+          "moduleId": 10549,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/(marketing)/features/page": {
+          "moduleId": 41759,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/(marketing)/page": {
+          "moduleId": 58806,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/(marketing)/pricing/page": {
+          "moduleId": 64921,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/_not-found/page": {
+          "moduleId": 54508,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/dashboard/page": {
+          "moduleId": 93293,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/gamification-debug/page": {
+          "moduleId": 83730,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/login/page": {
+          "moduleId": 7919,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/playground/page": {
+          "moduleId": 15709,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/profile/page": {
+          "moduleId": 86595,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/settings/page": {
+          "moduleId": 5813,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/sso-callback/page": {
+          "moduleId": 23153,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/studio/analytics/page": {
+          "moduleId": 58376,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/studio/history/page": {
+          "moduleId": 15569,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/studio/notifications/page": {
+          "moduleId": 14050,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        },
+        "app/studio/page": {
+          "moduleId": 26840,
+          "async": false,
+          "exportedName": "getUserRole",
+          "filename": "app/actions/auth.ts"
+        }
+      },
+      "layer": {
+        "app/(auth)/signup/page": "action-browser",
+        "app/(legal)/privacy/page": "action-browser",
+        "app/(legal)/terms/page": "action-browser",
+        "app/(marketing)/about/page": "action-browser",
+        "app/(marketing)/changelog/page": "action-browser",
+        "app/(marketing)/contact/page": "action-browser",
+        "app/(marketing)/docs/page": "action-browser",
+        "app/(marketing)/features/page": "action-browser",
+        "app/(marketing)/page": "action-browser",
+        "app/(marketing)/pricing/page": "action-browser",
+        "app/_not-found/page": "action-browser",
+        "app/admin/page": "action-browser",
+        "app/dashboard/page": "action-browser",
+        "app/gamification-debug/page": "action-browser",
+        "app/login/page": "action-browser",
+        "app/playground/page": "action-browser",
+        "app/profile/page": "action-browser",
+        "app/settings/page": "action-browser",
+        "app/sso-callback/page": "action-browser",
+        "app/studio/analytics/page": "action-browser",
+        "app/studio/history/page": "action-browser",
+        "app/studio/notifications/page": "action-browser",
+        "app/studio/page": "action-browser"
+      },
+      "filename": "app/actions/auth.ts",
+      "exportedName": "getUserRole"
+    },
+    "00d33c04adba09f9320585b6cd2442fddc67121317": {
+      "workers": {
+        "app/(auth)/signup/page": {
+          "moduleId": 14316,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(legal)/privacy/page": {
+          "moduleId": 24438,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(legal)/terms/page": {
+          "moduleId": 53104,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/about/page": {
+          "moduleId": 45984,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/changelog/page": {
+          "moduleId": 56880,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/contact/page": {
+          "moduleId": 77939,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/docs/page": {
+          "moduleId": 10549,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/features/page": {
+          "moduleId": 41759,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/page": {
+          "moduleId": 58806,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/pricing/page": {
+          "moduleId": 64921,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/_not-found/page": {
+          "moduleId": 54508,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/dashboard/page": {
+          "moduleId": 93293,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/gamification-debug/page": {
+          "moduleId": 83730,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/login/page": {
+          "moduleId": 7919,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/playground/page": {
+          "moduleId": 15709,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/profile/page": {
+          "moduleId": 86595,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/settings/page": {
+          "moduleId": 5813,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/sso-callback/page": {
+          "moduleId": 23153,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/analytics/page": {
+          "moduleId": 58376,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/history/page": {
+          "moduleId": 15569,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/notifications/page": {
+          "moduleId": 14050,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/page": {
+          "moduleId": 26840,
+          "async": false,
+          "exportedName": "detectKeylessEnvDriftAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        }
+      },
+      "layer": {
+        "app/(auth)/signup/page": "rsc",
+        "app/(legal)/privacy/page": "rsc",
+        "app/(legal)/terms/page": "rsc",
+        "app/(marketing)/about/page": "rsc",
+        "app/(marketing)/changelog/page": "rsc",
+        "app/(marketing)/contact/page": "rsc",
+        "app/(marketing)/docs/page": "rsc",
+        "app/(marketing)/features/page": "rsc",
+        "app/(marketing)/page": "rsc",
+        "app/(marketing)/pricing/page": "rsc",
+        "app/_not-found/page": "rsc",
+        "app/admin/page": "rsc",
+        "app/dashboard/page": "rsc",
+        "app/gamification-debug/page": "rsc",
+        "app/login/page": "rsc",
+        "app/playground/page": "rsc",
+        "app/profile/page": "rsc",
+        "app/settings/page": "rsc",
+        "app/sso-callback/page": "rsc",
+        "app/studio/analytics/page": "rsc",
+        "app/studio/history/page": "rsc",
+        "app/studio/notifications/page": "rsc",
+        "app/studio/page": "rsc"
+      },
+      "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js",
+      "exportedName": "detectKeylessEnvDriftAction"
+    },
+    "00fb695b95eb42dc75b9b2e7e86571a2d3342b32bb": {
+      "workers": {
+        "app/(auth)/signup/page": {
+          "moduleId": 14316,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/(legal)/privacy/page": {
+          "moduleId": 24438,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/(legal)/terms/page": {
+          "moduleId": 53104,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/(marketing)/about/page": {
+          "moduleId": 45984,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/(marketing)/changelog/page": {
+          "moduleId": 56880,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/(marketing)/contact/page": {
+          "moduleId": 77939,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/(marketing)/docs/page": {
+          "moduleId": 10549,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/(marketing)/features/page": {
+          "moduleId": 41759,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/(marketing)/page": {
+          "moduleId": 58806,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/(marketing)/pricing/page": {
+          "moduleId": 64921,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/_not-found/page": {
+          "moduleId": 54508,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/dashboard/page": {
+          "moduleId": 93293,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/gamification-debug/page": {
+          "moduleId": 83730,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/login/page": {
+          "moduleId": 7919,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/playground/page": {
+          "moduleId": 15709,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/profile/page": {
+          "moduleId": 86595,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/settings/page": {
+          "moduleId": 5813,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/sso-callback/page": {
+          "moduleId": 23153,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/studio/analytics/page": {
+          "moduleId": 58376,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/studio/history/page": {
+          "moduleId": 15569,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/studio/notifications/page": {
+          "moduleId": 14050,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        },
+        "app/studio/page": {
+          "moduleId": 26840,
+          "async": false,
+          "exportedName": "invalidateCacheAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
+        }
+      },
+      "layer": {
+        "app/(auth)/signup/page": "action-browser",
+        "app/(legal)/privacy/page": "action-browser",
+        "app/(legal)/terms/page": "action-browser",
+        "app/(marketing)/about/page": "action-browser",
+        "app/(marketing)/changelog/page": "action-browser",
+        "app/(marketing)/contact/page": "action-browser",
+        "app/(marketing)/docs/page": "action-browser",
+        "app/(marketing)/features/page": "action-browser",
+        "app/(marketing)/page": "action-browser",
+        "app/(marketing)/pricing/page": "action-browser",
+        "app/_not-found/page": "action-browser",
+        "app/admin/page": "action-browser",
+        "app/dashboard/page": "action-browser",
+        "app/gamification-debug/page": "action-browser",
+        "app/login/page": "action-browser",
+        "app/playground/page": "action-browser",
+        "app/profile/page": "action-browser",
+        "app/settings/page": "action-browser",
+        "app/sso-callback/page": "action-browser",
+        "app/studio/analytics/page": "action-browser",
+        "app/studio/history/page": "action-browser",
+        "app/studio/notifications/page": "action-browser",
+        "app/studio/page": "action-browser"
+      },
+      "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js",
+      "exportedName": "invalidateCacheAction"
+    },
+    "000c5950602641cd8b0661a788cb4fb705def1b4b1": {
+      "workers": {
+        "app/(auth)/signup/page": {
+          "moduleId": 14316,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(legal)/privacy/page": {
+          "moduleId": 24438,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(legal)/terms/page": {
+          "moduleId": 53104,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/about/page": {
+          "moduleId": 45984,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/changelog/page": {
+          "moduleId": 56880,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/contact/page": {
+          "moduleId": 77939,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/docs/page": {
+          "moduleId": 10549,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/features/page": {
+          "moduleId": 41759,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/page": {
+          "moduleId": 58806,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/pricing/page": {
+          "moduleId": 64921,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/_not-found/page": {
+          "moduleId": 54508,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/dashboard/page": {
+          "moduleId": 93293,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/gamification-debug/page": {
+          "moduleId": 83730,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/login/page": {
+          "moduleId": 7919,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/playground/page": {
+          "moduleId": 15709,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/profile/page": {
+          "moduleId": 86595,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/settings/page": {
+          "moduleId": 5813,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/sso-callback/page": {
+          "moduleId": 23153,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/analytics/page": {
+          "moduleId": 58376,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/history/page": {
+          "moduleId": 15569,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/notifications/page": {
+          "moduleId": 14050,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/page": {
+          "moduleId": 26840,
+          "async": false,
+          "exportedName": "createOrReadKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        }
+      },
+      "layer": {
+        "app/(auth)/signup/page": "rsc",
+        "app/(legal)/privacy/page": "rsc",
+        "app/(legal)/terms/page": "rsc",
+        "app/(marketing)/about/page": "rsc",
+        "app/(marketing)/changelog/page": "rsc",
+        "app/(marketing)/contact/page": "rsc",
+        "app/(marketing)/docs/page": "rsc",
+        "app/(marketing)/features/page": "rsc",
+        "app/(marketing)/page": "rsc",
+        "app/(marketing)/pricing/page": "rsc",
+        "app/_not-found/page": "rsc",
+        "app/admin/page": "rsc",
+        "app/dashboard/page": "rsc",
+        "app/gamification-debug/page": "rsc",
+        "app/login/page": "rsc",
+        "app/playground/page": "rsc",
+        "app/profile/page": "rsc",
+        "app/settings/page": "rsc",
+        "app/sso-callback/page": "rsc",
+        "app/studio/analytics/page": "rsc",
+        "app/studio/history/page": "rsc",
+        "app/studio/notifications/page": "rsc",
+        "app/studio/page": "rsc"
+      },
+      "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js",
+      "exportedName": "createOrReadKeylessAction"
+    },
+    "008a5782a58bd8eba0077f5b1e478761fed9d410df": {
+      "workers": {
+        "app/(auth)/signup/page": {
+          "moduleId": 14316,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(legal)/privacy/page": {
+          "moduleId": 24438,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(legal)/terms/page": {
+          "moduleId": 53104,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(marketing)/about/page": {
+          "moduleId": 45984,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(marketing)/changelog/page": {
+          "moduleId": 56880,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(marketing)/contact/page": {
+          "moduleId": 77939,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(marketing)/docs/page": {
+          "moduleId": 10549,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(marketing)/features/page": {
+          "moduleId": 41759,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(marketing)/page": {
+          "moduleId": 58806,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(marketing)/pricing/page": {
+          "moduleId": 64921,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/_not-found/page": {
+          "moduleId": 54508,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/dashboard/page": {
+          "moduleId": 93293,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/gamification-debug/page": {
+          "moduleId": 83730,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/login/page": {
+          "moduleId": 7919,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/playground/page": {
+          "moduleId": 15709,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/profile/page": {
+          "moduleId": 86595,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/settings/page": {
+          "moduleId": 5813,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/sso-callback/page": {
+          "moduleId": 23153,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/studio/analytics/page": {
+          "moduleId": 58376,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/studio/history/page": {
+          "moduleId": 15569,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/studio/notifications/page": {
+          "moduleId": 14050,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/studio/page": {
+          "moduleId": 26840,
+          "async": false,
+          "exportedName": "collectKeylessMetadata",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        }
+      },
+      "layer": {
+        "app/(auth)/signup/page": "rsc",
+        "app/(legal)/privacy/page": "rsc",
+        "app/(legal)/terms/page": "rsc",
+        "app/(marketing)/about/page": "rsc",
+        "app/(marketing)/changelog/page": "rsc",
+        "app/(marketing)/contact/page": "rsc",
+        "app/(marketing)/docs/page": "rsc",
+        "app/(marketing)/features/page": "rsc",
+        "app/(marketing)/page": "rsc",
+        "app/(marketing)/pricing/page": "rsc",
+        "app/_not-found/page": "rsc",
+        "app/admin/page": "rsc",
+        "app/dashboard/page": "rsc",
+        "app/gamification-debug/page": "rsc",
+        "app/login/page": "rsc",
+        "app/playground/page": "rsc",
+        "app/profile/page": "rsc",
+        "app/settings/page": "rsc",
+        "app/sso-callback/page": "rsc",
+        "app/studio/analytics/page": "rsc",
+        "app/studio/history/page": "rsc",
+        "app/studio/notifications/page": "rsc",
+        "app/studio/page": "rsc"
+      },
+      "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js",
+      "exportedName": "collectKeylessMetadata"
+    },
+    "40e8dbb7737be346be89256c32890a354586b96faf": {
+      "workers": {
+        "app/(auth)/signup/page": {
+          "moduleId": 14316,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(legal)/privacy/page": {
+          "moduleId": 24438,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(legal)/terms/page": {
+          "moduleId": 53104,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(marketing)/about/page": {
+          "moduleId": 45984,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(marketing)/changelog/page": {
+          "moduleId": 56880,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(marketing)/contact/page": {
+          "moduleId": 77939,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(marketing)/docs/page": {
+          "moduleId": 10549,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(marketing)/features/page": {
+          "moduleId": 41759,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(marketing)/page": {
+          "moduleId": 58806,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/(marketing)/pricing/page": {
+          "moduleId": 64921,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/_not-found/page": {
+          "moduleId": 54508,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/dashboard/page": {
+          "moduleId": 93293,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/gamification-debug/page": {
+          "moduleId": 83730,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/login/page": {
+          "moduleId": 7919,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/playground/page": {
+          "moduleId": 15709,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/profile/page": {
+          "moduleId": 86595,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/settings/page": {
+          "moduleId": 5813,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/sso-callback/page": {
+          "moduleId": 23153,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/studio/analytics/page": {
+          "moduleId": 58376,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/studio/history/page": {
+          "moduleId": 15569,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/studio/notifications/page": {
+          "moduleId": 14050,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        },
+        "app/studio/page": {
+          "moduleId": 26840,
+          "async": false,
+          "exportedName": "formatMetadataHeaders",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
+        }
+      },
+      "layer": {
+        "app/(auth)/signup/page": "rsc",
+        "app/(legal)/privacy/page": "rsc",
+        "app/(legal)/terms/page": "rsc",
+        "app/(marketing)/about/page": "rsc",
+        "app/(marketing)/changelog/page": "rsc",
+        "app/(marketing)/contact/page": "rsc",
+        "app/(marketing)/docs/page": "rsc",
+        "app/(marketing)/features/page": "rsc",
+        "app/(marketing)/page": "rsc",
+        "app/(marketing)/pricing/page": "rsc",
+        "app/_not-found/page": "rsc",
+        "app/admin/page": "rsc",
+        "app/dashboard/page": "rsc",
+        "app/gamification-debug/page": "rsc",
+        "app/login/page": "rsc",
+        "app/playground/page": "rsc",
+        "app/profile/page": "rsc",
+        "app/settings/page": "rsc",
+        "app/sso-callback/page": "rsc",
+        "app/studio/analytics/page": "rsc",
+        "app/studio/history/page": "rsc",
+        "app/studio/notifications/page": "rsc",
+        "app/studio/page": "rsc"
+      },
+      "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js",
+      "exportedName": "formatMetadataHeaders"
+    },
+    "0064afb0bd84c5266927f4777c8f0ddd5c7e626c6a": {
+      "workers": {
+        "app/(auth)/signup/page": {
+          "moduleId": 14316,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(legal)/privacy/page": {
+          "moduleId": 24438,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(legal)/terms/page": {
+          "moduleId": 53104,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/about/page": {
+          "moduleId": 45984,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/changelog/page": {
+          "moduleId": 56880,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/contact/page": {
+          "moduleId": 77939,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/docs/page": {
+          "moduleId": 10549,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/features/page": {
+          "moduleId": 41759,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/page": {
+          "moduleId": 58806,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/pricing/page": {
+          "moduleId": 64921,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/_not-found/page": {
+          "moduleId": 54508,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/dashboard/page": {
+          "moduleId": 93293,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/gamification-debug/page": {
+          "moduleId": 83730,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/login/page": {
+          "moduleId": 7919,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/playground/page": {
+          "moduleId": 15709,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/profile/page": {
+          "moduleId": 86595,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/settings/page": {
+          "moduleId": 5813,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/sso-callback/page": {
+          "moduleId": 23153,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/analytics/page": {
+          "moduleId": 58376,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/history/page": {
+          "moduleId": 15569,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/notifications/page": {
+          "moduleId": 14050,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/page": {
+          "moduleId": 26840,
+          "async": false,
+          "exportedName": "deleteKeylessAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        }
+      },
+      "layer": {
+        "app/(auth)/signup/page": "action-browser",
+        "app/(legal)/privacy/page": "action-browser",
+        "app/(legal)/terms/page": "action-browser",
+        "app/(marketing)/about/page": "action-browser",
+        "app/(marketing)/changelog/page": "action-browser",
+        "app/(marketing)/contact/page": "action-browser",
+        "app/(marketing)/docs/page": "action-browser",
+        "app/(marketing)/features/page": "action-browser",
+        "app/(marketing)/page": "action-browser",
+        "app/(marketing)/pricing/page": "action-browser",
+        "app/_not-found/page": "action-browser",
+        "app/admin/page": "action-browser",
+        "app/dashboard/page": "action-browser",
+        "app/gamification-debug/page": "action-browser",
+        "app/login/page": "action-browser",
+        "app/playground/page": "action-browser",
+        "app/profile/page": "action-browser",
+        "app/settings/page": "action-browser",
+        "app/sso-callback/page": "action-browser",
+        "app/studio/analytics/page": "action-browser",
+        "app/studio/history/page": "action-browser",
+        "app/studio/notifications/page": "action-browser",
+        "app/studio/page": "action-browser"
+      },
+      "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js",
+      "exportedName": "deleteKeylessAction"
+    },
+    "40efc55e4105d4adbc9874f14cc1c800be70aff8bc": {
+      "workers": {
+        "app/(auth)/signup/page": {
+          "moduleId": 14316,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(legal)/privacy/page": {
+          "moduleId": 24438,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(legal)/terms/page": {
+          "moduleId": 53104,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/about/page": {
+          "moduleId": 45984,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/changelog/page": {
+          "moduleId": 56880,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/contact/page": {
+          "moduleId": 77939,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/docs/page": {
+          "moduleId": 10549,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/features/page": {
+          "moduleId": 41759,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/page": {
+          "moduleId": 58806,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/(marketing)/pricing/page": {
+          "moduleId": 64921,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/_not-found/page": {
+          "moduleId": 54508,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/dashboard/page": {
+          "moduleId": 93293,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/gamification-debug/page": {
+          "moduleId": 83730,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/login/page": {
+          "moduleId": 7919,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/playground/page": {
+          "moduleId": 15709,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/profile/page": {
+          "moduleId": 86595,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/settings/page": {
+          "moduleId": 5813,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/sso-callback/page": {
+          "moduleId": 23153,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/analytics/page": {
+          "moduleId": 58376,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/history/page": {
+          "moduleId": 15569,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/notifications/page": {
+          "moduleId": 14050,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        },
+        "app/studio/page": {
+          "moduleId": 26840,
+          "async": false,
+          "exportedName": "syncKeylessConfigAction",
+          "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
+        }
+      },
+      "layer": {
+        "app/(auth)/signup/page": "action-browser",
+        "app/(legal)/privacy/page": "action-browser",
+        "app/(legal)/terms/page": "action-browser",
+        "app/(marketing)/about/page": "action-browser",
+        "app/(marketing)/changelog/page": "action-browser",
+        "app/(marketing)/contact/page": "action-browser",
+        "app/(marketing)/docs/page": "action-browser",
+        "app/(marketing)/features/page": "action-browser",
+        "app/(marketing)/page": "action-browser",
+        "app/(marketing)/pricing/page": "action-browser",
+        "app/_not-found/page": "action-browser",
+        "app/admin/page": "action-browser",
+        "app/dashboard/page": "action-browser",
+        "app/gamification-debug/page": "action-browser",
+        "app/login/page": "action-browser",
+        "app/playground/page": "action-browser",
+        "app/profile/page": "action-browser",
+        "app/settings/page": "action-browser",
+        "app/sso-callback/page": "action-browser",
+        "app/studio/analytics/page": "action-browser",
+        "app/studio/history/page": "action-browser",
+        "app/studio/notifications/page": "action-browser",
+        "app/studio/page": "action-browser"
+      },
+      "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js",
+      "exportedName": "syncKeylessConfigAction"
+    },
+    "602662fa88a91c95d22fd8faa99900460dfc7eef9c": {
+      "workers": {
+        "app/(marketing)/contact/page": {
+          "moduleId": 77939,
+          "async": false,
+          "exportedName": "submitContactForm",
+          "filename": "app/actions/contact.ts"
+        }
+      },
+      "layer": {
+        "app/(marketing)/contact/page": "action-browser"
+      },
+      "filename": "app/actions/contact.ts",
+      "exportedName": "submitContactForm"
+    },
+    "00b097554662331b18367ba80cd05ccb530331738b": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "getAdminStats",
+          "filename": "app/admin/actions.ts"
+        }
+      },
+      "layer": {
+        "app/admin/page": "action-browser"
+      },
+      "filename": "app/admin/actions.ts",
+      "exportedName": "getAdminStats"
+    },
+    "008c60efefc397f629252e2ed7eb0e8e19e03a7c1a": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "getUsers",
+          "filename": "app/admin/actions.ts"
+        }
+      },
+      "layer": {
+        "app/admin/page": "action-browser"
+      },
+      "filename": "app/admin/actions.ts",
+      "exportedName": "getUsers"
+    },
+    "00ccf8bd70c4ef8697da5158f290d1f1fa493c258d": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "getContactMessages",
+          "filename": "app/admin/actions.ts"
+        }
+      },
+      "layer": {
+        "app/admin/page": "action-browser"
+      },
+      "filename": "app/admin/actions.ts",
+      "exportedName": "getContactMessages"
+    },
+    "60b927a94dbbb997de4c477625b6eddf66d4916cff": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "sendBroadcastNotification",
+          "filename": "app/admin/actions.ts"
+        }
+      },
+      "layer": {
+        "app/admin/page": "action-browser"
+      },
+      "filename": "app/admin/actions.ts",
+      "exportedName": "sendBroadcastNotification"
+    },
+    "602d86472a27033ecc9fd12e36af4ff1db69022ce5": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "updateMessageStatus",
+          "filename": "app/admin/actions.ts"
+        }
+      },
+      "layer": {
+        "app/admin/page": "action-browser"
+      },
+      "filename": "app/admin/actions.ts",
+      "exportedName": "updateMessageStatus"
+    },
+    "783f3bdbbc3344bd200d335c9a9c1e57a1120fc975": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": 63733,
+          "async": false,
+          "exportedName": "sendEmailReply",
+          "filename": "app/admin/actions.ts"
+        }
+      },
+      "layer": {
+        "app/admin/page": "action-browser"
+      },
+      "filename": "app/admin/actions.ts",
+      "exportedName": "sendEmailReply"
+    },
+    "4022b9431d7661ca47c7b1768f72ff42c262e00c89": {
+      "workers": {
+        "app/playground/page": {
+          "moduleId": 15709,
+          "async": false,
+          "exportedName": "awardBadge",
+          "filename": "app/actions/gamification.ts"
+        }
+      },
+      "layer": {
+        "app/playground/page": "action-browser"
+      },
+      "filename": "app/actions/gamification.ts",
+      "exportedName": "awardBadge"
+    },
+    "005e929cf58dbc5d3d9460f531256b1ac300deeff6": {
+      "workers": {
+        "app/profile/page": {
+          "moduleId": 86595,
+          "async": false,
+          "exportedName": "getBadges",
+          "filename": "app/actions/gamification.ts"
+        }
+      },
+      "layer": {
+        "app/profile/page": "action-browser"
+      },
+      "filename": "app/actions/gamification.ts",
+      "exportedName": "getBadges"
+    },
+    "70f8d5e6edf64765b50f288ba4f3fe2e1178371643": {
+      "workers": {
+        "app/studio/page": {
+          "moduleId": 26840,
+          "async": false,
+          "exportedName": "refinePrompt",
+          "filename": "app/actions/generate.ts"
+        }
+      },
+      "layer": {
+        "app/studio/page": "action-browser"
+      },
+      "filename": "app/actions/generate.ts",
+      "exportedName": "refinePrompt"
+    },
+    "70f670a89769e81bb91fba466b62a151fb9cde1b32": {
+      "workers": {
+        "app/studio/page": {
+          "moduleId": 26840,
+          "async": false,
+          "exportedName": "submitFeedback",
+          "filename": "app/actions/analytics.ts"
+        }
+      },
+      "layer": {
+        "app/studio/page": "action-browser"
+      },
+      "filename": "app/actions/analytics.ts",
+      "exportedName": "submitFeedback"
+    },
+    "40fb767cfc3e346384f9d30f3caef9b102e577f55b": {
+      "workers": {
+        "app/studio/page": {
+          "moduleId": 26840,
+          "async": false,
+          "exportedName": "auditPrompt",
+          "filename": "app/actions/audit.ts"
+        }
+      },
+      "layer": {
+        "app/studio/page": "action-browser"
+      },
+      "filename": "app/actions/audit.ts",
+      "exportedName": "auditPrompt"
+    },
+    "0042bada6b06cb6c8b5e78419c0c02aa07b7fa911b": {
+      "workers": {
+        "app/studio/analytics/page": {
+          "moduleId": 58376,
+          "async": false,
+          "exportedName": "getDashboardMetrics",
+          "filename": "app/actions/analytics.ts"
+        }
+      },
+      "layer": {
+        "app/studio/analytics/page": "action-browser"
+      },
+      "filename": "app/actions/analytics.ts",
+      "exportedName": "getDashboardMetrics"
+    },
+    "00db51bade8851d62852573de4b3ebd3c2ca05b4df": {
+      "workers": {
+        "app/studio/analytics/page": {
+          "moduleId": 58376,
+          "async": false,
+          "exportedName": "getTopPrompts",
+          "filename": "app/actions/analytics.ts"
+        }
+      },
+      "layer": {
+        "app/studio/analytics/page": "action-browser"
+      },
+      "filename": "app/actions/analytics.ts",
+      "exportedName": "getTopPrompts"
+    },
+    "00c4a02621483e8dff214888ef15ea960693f65d2f": {
+      "workers": {
+        "app/studio/notifications/page": {
+          "moduleId": 14050,
+          "async": false,
+          "exportedName": "getNotifications",
+          "filename": "app/actions/notifications.ts"
+        }
+      },
+      "layer": {
+        "app/studio/notifications/page": "rsc"
+      },
+      "filename": "app/actions/notifications.ts",
+      "exportedName": "getNotifications"
+    }
+  },
+  "edge": {},
+  "encryptionKey": "G4nljRTfYFgvvQEO0IcrjdI8UeZ/YDUfyzhXVsLHiZs="
+}

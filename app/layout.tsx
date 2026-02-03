@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   keywords: ["prompt engineering", "AI prompts", "prompt optimizer", "LLM tools", "GPT-4 prompts", "Claude prompts", "Gemini prompts", "prompt testing", "A/B testing prompts"],
   authors: [{ name: "PromptForge Team" }],
-  creator: "PromptForge AI",
+  creator: "PromptForge Studio",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PromptForge AI | Master the Art of Prompt Engineering",
+    title: "PromptForge Studio | Master the Art of Prompt Engineering",
     description: "Transform raw user intent into high-quality, optimized AI prompts.",
     creator: "@promptforgeai",
     images: ["/og-image.png"],
