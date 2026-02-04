@@ -6,72 +6,53 @@ import { Loader2 } from "lucide-react"
 import { createClerkSupabaseClient } from "@/lib/supabaseClient"
 
 export default function DebugPage() {
-    const { user, isLoaded, isSignedIn } = useUser()
-    const [dbProfile, setDbProfile] = useState<any>(null)
-    const [dbBadges, setDbBadges] = useState<any[]>([])
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<string | null>(null)
+    const { user, isLoaded } = useUser()
+    const [data, setData] = useState<any>(null)
 
     useEffect(() => {
-        if (!isLoaded || !user) return
-
-        const checkDb = async () => {
-            setLoading(true)
-            try {
-                // We need to use a client-side supabase instance with the Clerk token
-                // But for a quick debug, we can try to hit an action or just use standard fetch if we have a public API
-                // Or better, let's just use the server action pattern but explicitly invoked here
-
-                // Since we can't easily import the server action with separate client/server context in this simple file,
-                // let's just ask the user to verify the ID match visually first.
-
-                // Actually, we can try to verify the profile existence via a simple fetch if we had an endpoint.
-                // Let's rely on visual ID inspection.
-
-            } catch (e: any) {
-                setError(e.message)
-            } finally {
-                setLoading(false)
-            }
+        if (user) {
+            import("@/app/actions/gamification").then(mod => {
+                mod.getBadges().then(res => setData(res))
+            })
         }
+    }, [user])
 
-        checkDb()
-    }, [isLoaded, user])
+    if (!isLoaded || !data) return <div className="p-10 text-white">Loading Debug Data...</div>
 
-    if (!isLoaded) return <div>Loading Clerk...</div>
+    const { badges, userBadges } = data
 
-    if (!isSignedIn) return <div>Not signed in</div>
+    // Find Fixer Apprentice specifically
+    const fixerBadge = badges.find((b: any) => b.name === 'Fixer Apprentice')
+    const userHasFixer = userBadges.find((ub: any) => ub.badge_id === fixerBadge?.id)
 
     return (
-        <div className="min-h-screen bg-black text-white p-12 font-mono">
-            <h1 className="text-2xl text-red-500 font-bold mb-8">Gamification Debugger</h1>
+        <div className="min-h-screen bg-black text-white p-12 font-mono text-xs">
+            <h1 className="text-xl text-red-500 font-bold mb-8">Gamification Deep Dive</h1>
 
-            <div className="space-y-8">
-                <div className="border border-white/20 p-6 rounded-lg">
-                    <h2 className="text-xl font-bold mb-4 text-brand-purple">1. Clerk Session Info</h2>
-                    <div className="space-y-2">
-                        <p><span className="text-gray-500">User ID:</span> <span className="text-green-400">{user.id}</span></p>
-                        <p><span className="text-gray-500">Email:</span> {user.primaryEmailAddress?.emailAddress}</p>
+            <div className="grid grid-cols-2 gap-8">
+                <div className="border p-4 border-white/20">
+                    <h2 className="text-lg font-bold text-blue-400 mb-2">My User Info</h2>
+                    <p>User ID: <span className="text-green-400">{user?.id}</span></p>
+                    <p>Total User Badges: {userBadges.length}</p>
+
+                    <div className="mt-4 p-2 bg-gray-900 border border-white/10">
+                        <strong>Fixer Apprentice Status:</strong><br />
+                        Badge ID: {fixerBadge?.id || 'NOT FOUND'}<br />
+                        Unlock Condition: {fixerBadge?.unlock_condition || 'NULL'}<br />
+                        Earned: {userHasFixer ? 'YES ✅' : 'NO ❌'}
                     </div>
-                    <div className="mt-4 p-4 bg-gray-900 rounded text-sm text-yellow-400">
-                        ⚠️ Please check your Supabase "user_badges" table. <br />
-                        Does the <code>user_id</code> column match EXACTLY with <span className="text-green-400">{user.id}</span>?
-                    </div>
+
+                    <h3 className="mt-4 font-bold">Raw User Badges</h3>
+                    <pre className="mt-2 max-h-96 overflow-auto bg-black border p-2">
+                        {JSON.stringify(userBadges, null, 2)}
+                    </pre>
                 </div>
 
-                <div className="border border-white/20 p-6 rounded-lg">
-                    <h2 className="text-xl font-bold mb-4 text-blue-400">2. SQL Query Generator</h2>
-                    <p className="mb-4 text-sm text-gray-400">Run this SQL EXACTLY to fix the ID mismatch manually if the email lookup failed:</p>
-
-                    <div className="bg-[#111] p-4 rounded border border-white/10 overflow-x-auto">
-                        <pre className="text-sm text-gray-300">
-                            {`INSERT INTO user_badges (user_id, badge_id)
-SELECT '${user.id}', id 
-FROM badges 
-WHERE name = 'Legend of PromptForge'
-ON CONFLICT (user_id, badge_id) DO UPDATE SET earned_at = NOW();`}
-                        </pre>
-                    </div>
+                <div className="border p-4 border-white/20">
+                    <h2 className="text-lg font-bold text-purple-400 mb-2">All Badges ({badges.length})</h2>
+                    <pre className="mt-2 max-h-[800px] overflow-auto bg-black border p-2">
+                        {JSON.stringify(badges, null, 2)}
+                    </pre>
                 </div>
             </div>
         </div>
