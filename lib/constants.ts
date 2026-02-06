@@ -9,10 +9,12 @@ export const NAV_LINKS = [
 ];
 
 export const NAVBAR_LINKS = [
+    { name: "Home", href: "/" },
     { name: "Studio", href: "/studio" },
     { name: "Features", href: "/features" },
-    { name: "How it Works", href: "/how-it-works" },
     { name: "Pricing", href: "/pricing" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
 ];
 
 export const SITE_CONFIG = {
