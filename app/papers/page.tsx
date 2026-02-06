@@ -23,7 +23,7 @@ export default function ResearchPaperPage() {
                         <div className="text-center">
                             <p className="font-bold">PromptForge Team</p>
                             <p className="italic text-gray-600">PromptForge Studio</p>
-                            <p className="text-sm">anil@promptforge.ai</p>
+                            <p className="text-sm">sutharanil738@gmail.com</p>
                         </div>
                     </div>
                 </header>
@@ -60,7 +60,7 @@ export default function ResearchPaperPage() {
                             <div className="my-6 border border-gray-200 bg-gray-50 p-2">
                                 <div className="relative w-full aspect-video">
                                     <Image
-                                        src="/papers/Gemini_Generated_Image_btiomobtiomobtio.png"
+                                        src="/papers/Gemini_Generated_Image_nrk427nrk427nrk4.png"
                                         alt="System Architecture Diagram"
                                         fill
                                         className="object-contain"
@@ -97,7 +97,7 @@ export default function ResearchPaperPage() {
                             <div className="my-6 border border-gray-200 bg-gray-50 p-2">
                                 <div className="relative w-full aspect-[4/3]">
                                     <Image
-                                        src="/papers/Gemini_Generated_Image_nrk427nrk427nrk4.png"
+                                        src="/papers/Gemini_Generated_Image_pplomwpplomwpplo.png"
                                         alt="Prompt Engineering Workflow"
                                         fill
                                         className="object-contain"
@@ -120,7 +120,7 @@ export default function ResearchPaperPage() {
                             <div className="my-6 border border-gray-200 bg-gray-50 p-2">
                                 <div className="relative w-full aspect-video">
                                     <Image
-                                        src="/papers/Gemini_Generated_Image_pplomwpplomwpplo.png"
+                                        src="/papers/Gemini_Generated_Image_btiomobtiomobtio.png"
                                         alt="Performance Metrics"
                                         fill
                                         className="object-contain"
