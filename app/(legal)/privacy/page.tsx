@@ -6,7 +6,7 @@ export default function PrivacyPage() {
             <h1 className="text-4xl font-bold mb-6 text-white tracking-tight">Privacy Policy</h1>
             <p className="text-gray-400 mb-12 leading-relaxed text-lg">
                 Last updated: January 26, 2026. <br /><br />
-                At PromptForge AI, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy outlines how we collect, use, disclosure, and safeguard your data when you visit our website and use our AI middleware services.
+                At PromptForge Studio, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy outlines how we collect, use, disclosure, and safeguard your data when you visit our website and use our AI middleware services.
             </p>
 
             <Accordion items={[
@@ -16,7 +16,7 @@ export default function PrivacyPage() {
                 },
                 {
                     title: "2. How We Use Your Information",
-                    content: "We use the collected information for specific purposes:\n\n• Service Provision: To operate, maintain, and provide the features of PromptForge AI.\n• Personalization: To tailor the experience and improve our AI prompt engineering algorithms based on usage patterns.\n• Communication: To send you service-related notices, updates, and security alerts.\n• Analytics: To monitor and analyze trends, usage, and activities in connection with our Service."
+                    content: "We use the collected information for specific purposes:\n\n• Service Provision: To operate, maintain, and provide the features of PromptForge Studio.\n• Personalization: To tailor the experience and improve our AI prompt engineering algorithms based on usage patterns.\n• Communication: To send you service-related notices, updates, and security alerts.\n• Analytics: To monitor and analyze trends, usage, and activities in connection with our Service."
                 },
                 {
                     title: "3. Data Sharing and Disclosure",

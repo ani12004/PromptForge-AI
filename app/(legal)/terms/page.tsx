@@ -6,7 +6,7 @@ export default function TermsPage() {
             <h1 className="text-4xl font-bold mb-6 text-white tracking-tight">Terms of Use</h1>
             <p className="text-gray-400 mb-12 leading-relaxed text-lg">
                 Last updated: January 26, 2026. <br /><br />
-                Please read these Terms of Use ("Terms", "Agreement") carefully before using the PromptForge AI website and services operated by PromptForge AI ("us", "we", or "our"). Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms.
+                Please read these Terms of Use ("Terms", "Agreement") carefully before using the PromptForge Studio website and services operated by PromptForge Studio ("us", "we", or "our"). Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms.
             </p>
 
             <Accordion items={[
@@ -16,7 +16,7 @@ export default function TermsPage() {
                 },
                 {
                     title: "2. Description of Service",
-                    content: "PromptForge AI provides an advanced middleware platform for prompt engineering and optimization. We utilize artificial intelligence technologies to refine and structure user inputs. You acknowledge that AI-generated content may vary in accuracy and should be verified before production use."
+                    content: "PromptForge Studio provides an advanced middleware platform for prompt engineering and optimization. We utilize artificial intelligence technologies to refine and structure user inputs. You acknowledge that AI-generated content may vary in accuracy and should be verified before production use."
                 },
                 {
                     title: "3. User Accounts",
@@ -24,7 +24,7 @@ export default function TermsPage() {
                 },
                 {
                     title: "4. Intellectual Property",
-                    content: "The Service and its original content (excluding Content provided by users), features, and functionality are and will remain the exclusive property of PromptForge AI and its licensors. The Service is protected by copyright, trademark, and other laws. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of PromptForge AI."
+                    content: "The Service and its original content (excluding Content provided by users), features, and functionality are and will remain the exclusive property of PromptForge Studio and its licensors. The Service is protected by copyright, trademark, and other laws. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of PromptForge Studio."
                 },
                 {
                     title: "5. Restrictions on Use",
@@ -32,11 +32,11 @@ export default function TermsPage() {
                 },
                 {
                     title: "6. Subscription and Billing",
-                    content: "Certain parts of the Service are billed on a subscription basis ('Subscription(s)'). You will be billed in advance on a recurring and periodic basis ('Billing Cycle'). At the end of each Billing Cycle, your Subscription will automatically renew under the exact same conditions unless you cancel it or PromptForge AI cancels it."
+                    content: "Certain parts of the Service are billed on a subscription basis ('Subscription(s)'). You will be billed in advance on a recurring and periodic basis ('Billing Cycle'). At the end of each Billing Cycle, your Subscription will automatically renew under the exact same conditions unless you cancel it or PromptForge Studio cancels it."
                 },
                 {
                     title: "7. Limitation of Liability",
-                    content: "In no event shall PromptForge AI, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the Service; (ii) any conduct or content of any third party on the Service."
+                    content: "In no event shall PromptForge Studio, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the Service; (ii) any conduct or content of any third party on the Service."
                 },
                 {
                     title: "8. Disclaimer",
@@ -48,7 +48,7 @@ export default function TermsPage() {
                 },
                 {
                     title: "10. Governing Law",
-                    content: "These Terms shall be governed and construed in accordance with the laws of the jurisdiction in which PromptForge AI is established, without regard to its conflict of law provisions."
+                    content: "These Terms shall be governed and construed in accordance with the laws of the jurisdiction in which PromptForge Studio is established, without regard to its conflict of law provisions."
                 }
             ]} />
         </div>

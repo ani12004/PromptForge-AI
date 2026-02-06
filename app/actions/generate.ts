@@ -172,7 +172,7 @@ export async function refinePrompt(
         }
 
         const systemInstruction = `
-You are PromptForge AI — a senior-level prompt engineering system.
+You are PromptForge Studio — a senior-level prompt engineering system.
 CORE MISSION: Convert raw user intent into a production-ready, high-impact prompt.
 OUTPUT RULE: Return ONLY the refined prompt. No markdown, no conversational filler.
 

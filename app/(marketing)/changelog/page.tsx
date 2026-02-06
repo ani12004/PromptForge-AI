@@ -4,8 +4,8 @@ import { Metadata } from "next"
 import { CheckCircle2, Gamepad2, Sparkles, Zap, Bug, GitCommit } from "lucide-react"
 
 export const metadata: Metadata = {
-    title: "Changelog - PromptForge AI",
-    description: "Track the evolution of PromptForge AI. New features, improvements, and fixes.",
+    title: "Changelog - PromptForge Studio",
+    description: "Track the evolution of PromptForge Studio. New features, improvements, and fixes.",
 }
 
 // Data derived from CHANGELOG.md
@@ -106,7 +106,7 @@ const RELEASES = [
         version: "1.0.0",
         date: "January 25, 2026",
         title: "Initial Launch",
-        description: "The foundation of PromptForge AI. Studio, A/B Testing, and Granular Controls.",
+        description: "The foundation of PromptForge Studio. Studio, A/B Testing, and Granular Controls.",
         type: "major",
         changes: [
             {

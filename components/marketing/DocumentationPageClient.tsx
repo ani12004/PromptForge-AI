@@ -71,7 +71,7 @@ export function DocumentationPageClient() {
                         </div>
                         <div className="glass-panel p-8 rounded-3xl border border-white/5 bg-white/[0.02]">
                             <p className="text-gray-400 leading-relaxed mb-8 text-lg">
-                                PromptForge AI acts as a sophisticated middleware between your application and LLM providers.
+                                PromptForge Studio acts as a sophisticated middleware between your application and LLM providers.
                                 We help you structure, version, and optimize prompts so you can focus on building features, not wrestling with strings.
                             </p>
                             <div className="space-y-6">

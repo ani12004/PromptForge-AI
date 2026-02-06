@@ -138,7 +138,7 @@ export async function sendEmailReply(to: string, subject: string, message: strin
 
     try {
         const { data, error } = await resend.emails.send({
-            from: 'PromptForge AI <onboarding@resend.dev>', // Using testing domain as user has no custom domain
+            from: 'PromptForge Studio <onboarding@resend.dev>', // Using testing domain as user has no custom domain
             to: [to],
             // Ensure subject starts with Re: if not present
             subject: subject.startsWith('Re:') ? subject : `Re: ${subject}`,
@@ -160,7 +160,7 @@ export async function sendEmailReply(to: string, subject: string, message: strin
                 <div class="container">
                     <div class="header">
                          <!-- Assuming public folder is served at root domain. If not, user needs updates -->
-                        <img src="${process.env.NEXT_PUBLIC_APP_URL || 'https://promptforge.ai'}/logo_navi.png" alt="PromptForge AI" class="logo" />
+                        <img src="${process.env.NEXT_PUBLIC_APP_URL || 'https://promptforge.ai'}/logo_navi.png" alt="PromptForge Studio" class="logo" />
                     </div>
                     
                     <div class="content">
@@ -173,7 +173,7 @@ export async function sendEmailReply(to: string, subject: string, message: strin
                     </div>
 
                     <div class="footer">
-                        &copy; ${new Date().getFullYear()} PromptForge AI. All rights reserved.
+                        &copy; ${new Date().getFullYear()} PromptForge Studio. All rights reserved.
                     </div>
                 </div>
             </body>

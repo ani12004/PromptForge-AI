@@ -1,4 +1,4 @@
-![PromptForge AI](public/logo_navi.png)
+![PromptForge Studio](public/logo_navi.png)
 
 # Prompt Forge Studio
 
@@ -55,7 +55,7 @@ Built-in critique engine that analyses your prompt *before* you ship it.
 
 ## License
 
-**Copyright (c) 2026 PromptForge AI. All Rights Reserved.**
+**Copyright (c) 2026 PromptForge Studio. All Rights Reserved.**
 
 This project is proprietary and confidential. Unauthorized copying, distribution, or use of this source code is strictly prohibited. 
 See the [LICENSE](LICENSE) file for more details.

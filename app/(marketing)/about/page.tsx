@@ -4,10 +4,10 @@ import { Metadata } from "next"
 
 export const metadata: Metadata = {
     title: "About Us - The Mission",
-    description: "Meet the team behind PromptForge AI. We are dedicated to bridging the gap between human intent and AI understanding.",
+    description: "Meet the team behind PromptForge Studio. We are dedicated to bridging the gap between human intent and AI understanding.",
     openGraph: {
-        title: "About PromptForge AI | The Mission",
-        description: "Meet the team behind PromptForge AI. Bridging the gap between human intent and AI understanding.",
+        title: "About PromptForge Studio | The Mission",
+        description: "Meet the team behind PromptForge Studio. Bridging the gap between human intent and AI understanding.",
     }
 }
 

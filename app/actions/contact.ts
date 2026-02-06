@@ -99,7 +99,7 @@ export async function submitContactForm(prevState: ContactFormState, formData: F
                 <body>
                     <div class="container">
                         <div class="header">
-                            <img src="cid:logo_navi" alt="PromptForge AI" class="logo" />
+                            <img src="cid:logo_navi" alt="PromptForge Studio" class="logo" />
                         </div>
                         
                         <div class="field">
@@ -120,7 +120,7 @@ export async function submitContactForm(prevState: ContactFormState, formData: F
                         </div>
 
                         <div class="footer">
-                            <p>Sent via PromptForge AI Contact Form</p>
+                            <p>Sent via PromptForge Studio Contact Form</p>
                         </div>
                     </div>
                 </body>

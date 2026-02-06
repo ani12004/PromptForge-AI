@@ -54,7 +54,7 @@ export function Footer() {
 
                 <div className="border-t border-white/[0.05] pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
                     <p className="text-sm text-gray-600 flex items-center gap-1">
-                        Made with <Heart className="h-3 w-3 text-red-500 fill-red-500" /> by PromptForge AI © {new Date().getFullYear()}
+                        Made with <Heart className="h-3 w-3 text-red-500 fill-red-500" /> by PromptForge Studio © {new Date().getFullYear()}
                     </p>
                     <div className="flex gap-6">
                         <a href="#" className="text-gray-500 hover:text-white transition-colors"><Twitter className="h-5 w-5" /></a>
