@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, ChevronRight } from "lucide-react"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
-import { NAV_LINKS, NAVBAR_LINKS } from "@/lib/constants"
+import { NAV_LINKS } from "@/lib/constants"
 import { Button } from "@/components/ui/Button"
 import { UserMenu } from "@/components/layout/UserMenu"
 import { SignedIn, SignedOut } from "@clerk/nextjs"
@@ -62,7 +62,7 @@ export function Navbar() {
 
                         {/* Desktop Nav */}
                         <nav className="hidden md:flex items-center gap-1 bg-white/[0.03] rounded-full p-1 border border-white/[0.05] backdrop-blur-md">
-                            {NAVBAR_LINKS.map((link) => {
+                            {NAV_LINKS.map((link) => {
                                 const isActive = pathname === link.href;
                                 return (
                                     <Link

@@ -23,7 +23,7 @@ export default function ResearchPaperPage() {
                         <div className="text-center">
                             <p className="font-bold">PromptForge Team</p>
                             <p className="italic text-gray-600">PromptForge Studio</p>
-                            <p className="text-sm">sutharanil738@gmail.com</p>
+                            <p className="text-sm">sutharani738@gmail.com</p>
                         </div>
                     </div>
                 </header>
