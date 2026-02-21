@@ -26,18 +26,20 @@ export default function HistoryPage() {
                     .select('*')
                     .eq('user_id', userId)
 
-                // Fetch V2 Prompts
+                // Fetch V2 Prompts (joining with v2_prompts to filter by user_id)
                 const { data: v2Data, error: v2Error } = await supabase
                     .from('v2_prompt_versions')
-                    .select('id, version_tag, template, created_at, v2_prompts(name, description)')
+                    .select('id, version_tag, template, created_at, v2_prompts!inner(name, description, user_id)')
+                    .eq('v2_prompts.user_id', userId)
                     .order('created_at', { ascending: false })
 
-                const v1Mapped = (v1Data || []).map(p => ({
+                const v1Mapped = (v1Data || []).map((p: any) => ({
                     ...p,
                     type: 'v1' as const,
                     display_name: 'Playground Prompt',
                     content: p.original_prompt,
-                    result: p.refined_prompt
+                    result: p.refined_prompt,
+                    sdk_id: p.current_version_id || p.id // Priority to version ID
                 }))
 
                 const v2Mapped = (v2Data || []).map(pv => ({
@@ -48,7 +50,8 @@ export default function HistoryPage() {
                     display_name: (pv.v2_prompts as any)?.name || 'Saved Prompt',
                     content: pv.template,
                     result: 'Ready for SDK use',
-                    type: 'v2' as const
+                    type: 'v2' as const,
+                    sdk_id: pv.id
                 }))
 
                 const combined = [...v1Mapped, ...v2Mapped].sort((a, b) =>
@@ -140,9 +143,9 @@ export default function HistoryPage() {
                                     </Link>
                                     <button
                                         onClick={() => {
-                                            const id = p.id
+                                            const id = p.sdk_id
                                             navigator.clipboard.writeText(id)
-                                            setCopiedId(id)
+                                            setCopiedId(p.id)
                                             setTimeout(() => setCopiedId(null), 2000)
                                         }}
                                         className="flex items-center gap-1.5 px-2 py-1 bg-brand-purple/10 border border-brand-purple/20 rounded text-[10px] font-bold text-brand-purple hover:bg-brand-purple/20 transition-all"
