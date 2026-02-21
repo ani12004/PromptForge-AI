@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import Link from "next/link"
 import { Package, Server, Zap, ExternalLink } from "lucide-react"
 import { CodeBlock } from "./DocumentationLayout"
 
@@ -103,6 +104,22 @@ const pf = new PromptForgeClient({
   }
 }`}
                 />
+            </section>
+            {/* Next Steps */}
+            <section className="pt-12 border-t border-white/5">
+                <div className="glass-panel p-8 rounded-3xl border border-white/10 bg-gradient-to-br from-brand-purple/10 to-transparent">
+                    <h3 className="text-2xl font-bold text-white mb-4">Ready to build?</h3>
+                    <p className="text-gray-400 mb-6">
+                        Check out our pre-built examples to see how to implement common patterns like A/B testing, streaming, and advanced prompt versioning.
+                    </p>
+                    <Link
+                        href="/docs/examples"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purple/90 transition-all shadow-lg shadow-brand-purple/20"
+                    >
+                        <Zap className="h-4 w-4" />
+                        Explore SDK Examples
+                    </Link>
+                </div>
             </section>
         </div>
     )

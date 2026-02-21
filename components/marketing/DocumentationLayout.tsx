@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { Book, ChevronRight, Package, Globe, ExternalLink, ArrowLeft, BookOpen } from "lucide-react"
+import { Book, ChevronRight, Package, Globe, ExternalLink, ArrowLeft, BookOpen, Zap } from "lucide-react"
 import Link from "next/link"
 
 interface DocumentationLayoutProps {
@@ -69,6 +69,13 @@ export function DocumentationLayout({ children, activeTab, navigationItems }: Do
                                         API Reference
                                     </Link>
                                 )}
+                                <Link
+                                    href="/docs/examples"
+                                    className="flex items-center justify-center gap-2 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all text-xs font-bold"
+                                >
+                                    <Zap className="h-3 w-3 text-amber-500" />
+                                    SDK Examples
+                                </Link>
                                 <Link
                                     href="/docs"
                                     className="flex items-center justify-center gap-2 py-2 mt-2 text-gray-600 hover:text-gray-400 transition-all text-xs"
