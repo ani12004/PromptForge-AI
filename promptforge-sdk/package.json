@@ -1,8 +1,8 @@
 {
     "name": "promptforge-server-sdk",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "The official SDK for Prompt Forge Studio API.",
-    "author": "Anil Suthar <anil@promptforge.com>",
+    "author": "Anil Suthar <sutharani738@gmail.com>",
     "license": "MIT",
     "homepage": "https://prompt-forge-studio.vercel.app/docs",
     "repository": {
