@@ -185,7 +185,7 @@ export async function refinePrompt(
             }
         } else {
             // Gemini Logic
-            const MODELS_TO_TRY = model ? [model] : ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash-lite"];
+            const MODELS_TO_TRY = model ? [model] : ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.0-flash-lite"];
 
             // --- GENERATION LOOP ---
             // System Prompt Construction

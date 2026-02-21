@@ -186,7 +186,7 @@ export default function StudioPage() {
             // 4. Handle Client-Side Crashes / Timeouts
             console.error("Studio Generation Logic Error:", error)
 
-            let userMessage = "Unexpected Error: The system encountered a state discrepancy."
+            let userMessage = "Unexpected Error: " + (error.message || "The system encountered a state discrepancy.")
 
             if (error.message === "TIMEOUT_EXCEEDED") {
                 userMessage = "Operation Timeout: The AI service is momentarily unavailable."
@@ -195,7 +195,7 @@ export default function StudioPage() {
             }
 
             // Always preserve input
-            showToast(userMessage + " Your input is preserved.", "error") // Keeping old prompt input
+            showToast(userMessage + " Your input is preserved.", "error")
 
         } finally {
             setIsGenerating(false)
