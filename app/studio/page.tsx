@@ -34,6 +34,8 @@ export default function StudioPage() {
 
     // Granular Options State
     const [granularOptions, setGranularOptions] = useState<GranularOptions>({
+        provider: "gemini",
+        model: "gemini-1.5-flash",
         temperature: 0.7,
         topP: 0.95,
         topK: 40

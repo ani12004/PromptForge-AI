@@ -3,9 +3,11 @@
 import React from "react"
 import { Slider } from "@/components/ui/Slider"
 import { motion } from "framer-motion"
-import { Info } from "lucide-react"
+import { Info, ChevronDown, Cpu, Globe } from "lucide-react"
 
 export interface GranularOptions {
+    provider?: "gemini" | "openai"
+    model?: string
     temperature: number
     topP: number
     topK: number
@@ -17,8 +19,23 @@ interface AdvancedControlsProps {
 }
 
 export function AdvancedControls({ options, onChange }: AdvancedControlsProps) {
-    const handleChange = (key: keyof GranularOptions, value: number) => {
+    const handleChange = (key: keyof GranularOptions, value: any) => {
         onChange({ ...options, [key]: value })
+    }
+
+    const currentProvider = options.provider || "gemini"
+    const currentModel = options.model || (currentProvider === "gemini" ? "gemini-1.5-flash" : "gpt-4o-mini")
+
+    const PROVIDERS: Record<string, { id: string; name: string }[]> = {
+        gemini: [
+            { id: "gemini-2.5-flash", name: "Gemini 2.5 Flash" },
+            { id: "gemini-1.5-flash", name: "Gemini 1.5 Flash" },
+            { id: "gemini-1.5-pro", name: "Gemini 1.5 Pro" },
+        ],
+        openai: [
+            { id: "gpt-4o", name: "GPT-4o" },
+            { id: "gpt-4o-mini", name: "GPT-4o Mini" },
+        ]
     }
 
     return (
@@ -29,11 +46,61 @@ export function AdvancedControls({ options, onChange }: AdvancedControlsProps) {
             className="bg-[#0F0F0F] border-t border-white/5 p-6 rounded-b-xl space-y-6"
         >
             <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-sm font-bold text-white uppercase tracking-wider">Granular Configuration</h3>
+                <h3 className="text-sm font-bold text-white uppercase tracking-wider">Intelligence Configuration</h3>
                 <div className="group/tooltip relative">
                     <Info className="h-3 w-3 text-gray-500 cursor-help" />
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-black border border-white/10 rounded-lg text-xs text-gray-400 opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-50">
-                        Adjusting these values controls the creativity (Temperature), diversity (Top-P), and probability filtering (Top-K) of the AI model.
+                        Adjusting these values controls which AI provider and model are used for generation, as well as creative parameters.
+                    </div>
+                </div>
+            </div>
+
+            {/* Provider & Model Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6 border-b border-white/5">
+                {/* Provider Selector */}
+                <div className="space-y-3">
+                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest flex items-center gap-2">
+                        <Globe className="w-3 h-3" /> AI Provider
+                    </label>
+                    <div className="flex p-1 bg-black/40 rounded-xl border border-white/10 gap-1">
+                        {["gemini", "openai"].map((p) => {
+                            const active = currentProvider === p
+                            return (
+                                <button
+                                    key={p}
+                                    onClick={() => {
+                                        const newModels = PROVIDERS[p as keyof typeof PROVIDERS]
+                                        onChange({
+                                            ...options,
+                                            provider: p as "gemini" | "openai",
+                                            model: newModels[0].id
+                                        })
+                                    }}
+                                    className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${active ? "bg-brand-purple text-white shadow-lg shadow-brand-purple/20" : "text-gray-500 hover:text-gray-300 hover:bg-white/5"}`}
+                                >
+                                    {p === "gemini" ? "Google Gemini" : "OpenAI GPT"}
+                                </button>
+                            )
+                        })}
+                    </div>
+                </div>
+
+                {/* Model Selector */}
+                <div className="space-y-3">
+                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest flex items-center gap-2">
+                        <Cpu className="w-3 h-3" /> Model Version
+                    </label>
+                    <div className="relative group/select">
+                        <select
+                            value={currentModel}
+                            onChange={(e) => handleChange("model", e.target.value)}
+                            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-xs font-bold text-white appearance-none focus:outline-none focus:border-brand-purple/50 transition-all cursor-pointer"
+                        >
+                            {PROVIDERS[currentProvider as keyof typeof PROVIDERS].map((m) => (
+                                <option key={m.id} value={m.id} className="bg-[#0A0A0A]">{m.name}</option>
+                            ))}
+                        </select>
+                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-500 pointer-events-none transition-transform group-hover/select:translate-y-[-40%]" />
                     </div>
                 </div>
             </div>

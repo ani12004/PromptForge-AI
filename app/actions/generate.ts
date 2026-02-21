@@ -3,6 +3,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { auth } from "@clerk/nextjs/server";
 import { createClerkSupabaseClient } from "@/lib/supabaseClient";
+import { refinePromptOpenAI } from "./openai-generate";
 
 export interface GenerateResponse {
     success: boolean;
@@ -25,6 +26,7 @@ export async function refinePrompt(
     prompt: string,
     detailLevel: string,
     options: {
+        provider?: "gemini" | "openai";
         model?: string;
         temperature?: number;
         topP?: number;
@@ -32,7 +34,8 @@ export async function refinePrompt(
     } = {}
 ): Promise<GenerateResponse> {
     const {
-        model = "gemini-2.5-flash",
+        provider = "gemini",
+        model,
         temperature = 0.7,
         topP = 0.95,
         topK = 40
@@ -154,24 +157,39 @@ export async function refinePrompt(
             API_KEYS = [process.env.GEMINI_API_KEY!].filter(Boolean);
         }
 
-        // --- GENERATION LOOP ---
+        // --- GENERATION ROUTING ---
         let lastError: any = null;
         let generatedText = "";
         let usedModel = "";
 
-        const MODELS_TO_TRY = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash-lite"];
+        if (provider === "openai") {
+            const openAIResult = await refinePromptOpenAI(prompt, detailLevel, {
+                model: model || "gpt-4o-mini",
+                temperature
+            });
 
-        // System Prompt Construction (Same as before)
-        let modifier = "";
-        switch (detailLevel) {
-            case "Short": modifier = "Low — minimal structure, concise constraints."; break;
-            case "Medium": modifier = "Medium — clear sections, essential constraints."; break;
-            case "Detailed": modifier = "High — fully structured, examples included."; break;
-            case "Granular": modifier = "High — exhaustive, step-by-step instructions, edge cases."; break;
-            default: modifier = "Medium — balanced structure.";
-        }
+            if (openAIResult.success && openAIResult.content) {
+                generatedText = openAIResult.content;
+                usedModel = model || "gpt-4o-mini";
+            } else {
+                lastError = new Error(openAIResult.error || "OpenAI generation failed");
+            }
+        } else {
+            // Gemini Logic
+            const MODELS_TO_TRY = model ? [model] : ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash-lite"];
 
-        const systemInstruction = `
+            // --- GENERATION LOOP ---
+            // System Prompt Construction
+            let modifier = "";
+            switch (detailLevel) {
+                case "Short": modifier = "Low — minimal structure, concise constraints."; break;
+                case "Medium": modifier = "Medium — clear sections, essential constraints."; break;
+                case "Detailed": modifier = "High — fully structured, examples included."; break;
+                case "Granular": modifier = "High — exhaustive, step-by-step instructions, edge cases."; break;
+                default: modifier = "Medium — balanced structure.";
+            }
+
+            const systemInstruction = `
 You are PromptForge Studio — a senior-level prompt engineering system.
 CORE MISSION: Convert raw user intent into a production-ready, high-impact prompt.
 OUTPUT RULE: Return ONLY the refined prompt. No markdown, no conversational filler.
@@ -187,38 +205,38 @@ DETAIL LEVEL: ${modifier}
 QUALITY BAR: Professional, Authoritative, Precise.
 `;
 
-        outerLoop:
-        for (const apiKey of API_KEYS) {
-            const genAI = new GoogleGenerativeAI(apiKey);
+            outerLoop:
+            for (const apiKey of API_KEYS) {
+                const genAI = new GoogleGenerativeAI(apiKey);
 
-            for (const modelName of MODELS_TO_TRY) {
-                try {
-                    const geminiModel = genAI.getGenerativeModel({
-                        model: modelName,
-                        generationConfig: { temperature, topP, topK }
-                    });
+                for (const modelName of MODELS_TO_TRY) {
+                    try {
+                        const geminiModel = genAI.getGenerativeModel({
+                            model: modelName,
+                            generationConfig: { temperature, topP, topK }
+                        });
 
-                    const result = await geminiModel.generateContent([
-                        systemInstruction,
-                        `RAW USER INPUT: \n${prompt} `
-                    ]);
+                        const result = await geminiModel.generateContent([
+                            systemInstruction,
+                            `RAW USER INPUT: \n${prompt} `
+                        ]);
 
-                    const text = result.response.text();
-                    if (text) {
-                        generatedText = text;
-                        usedModel = modelName;
-                        break outerLoop; // Success!
+                        const text = result.response.text();
+                        if (text) {
+                            generatedText = text;
+                            usedModel = modelName;
+                            break outerLoop; // Success!
+                        }
+
+                    } catch (err: any) {
+                        lastError = err;
+                        const msg = (err.message || "").toLowerCase();
+                        // If Key error, break to next key
+                        if (msg.includes("429") || msg.includes("quota") || msg.includes("key")) {
+                            console.warn(`Key exhausted, switching...`);
+                            break; // Try next key
+                        }
                     }
-
-                } catch (err: any) {
-                    lastError = err;
-                    const msg = (err.message || "").toLowerCase();
-                    // If Key error, break to next key
-                    if (msg.includes("429") || msg.includes("quota") || msg.includes("key")) {
-                        console.warn(`Key exhausted, switching...`);
-                        break; // Try next key
-                    }
-                    // If Model error (503), try next model with SAME key
                 }
             }
         }

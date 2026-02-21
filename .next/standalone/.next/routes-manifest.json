@@ -59,6 +59,24 @@
       "namedRegex": "^/api/playground/analyze(?:/)?$"
     },
     {
+      "page": "/api/v1/execute",
+      "regex": "^/api/v1/execute(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/v1/execute(?:/)?$"
+    },
+    {
+      "page": "/api/v1/keys",
+      "regex": "^/api/v1/keys(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/v1/keys(?:/)?$"
+    },
+    {
+      "page": "/api/v1/keys/revoke",
+      "regex": "^/api/v1/keys/revoke(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/v1/keys/revoke(?:/)?$"
+    },
+    {
       "page": "/api/webhooks/clerk",
       "regex": "^/api/webhooks/clerk(?:/)?$",
       "routeKeys": {},
@@ -89,6 +107,24 @@
       "namedRegex": "^/docs(?:/)?$"
     },
     {
+      "page": "/docs/api",
+      "regex": "^/docs/api(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/docs/api(?:/)?$"
+    },
+    {
+      "page": "/docs/introduction",
+      "regex": "^/docs/introduction(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/docs/introduction(?:/)?$"
+    },
+    {
+      "page": "/docs/sdk",
+      "regex": "^/docs/sdk(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/docs/sdk(?:/)?$"
+    },
+    {
       "page": "/features",
       "regex": "^/features(?:/)?$",
       "routeKeys": {},
@@ -101,6 +137,12 @@
       "namedRegex": "^/gamification\\-debug(?:/)?$"
     },
     {
+      "page": "/how-it-works",
+      "regex": "^/how\\-it\\-works(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/how\\-it\\-works(?:/)?$"
+    },
+    {
       "page": "/icon.png",
       "regex": "^/icon\\.png(?:/)?$",
       "routeKeys": {},
@@ -111,6 +153,12 @@
       "regex": "^/login(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/papers",
+      "regex": "^/papers(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/papers(?:/)?$"
     },
     {
       "page": "/playground",
@@ -183,6 +231,12 @@
       "regex": "^/studio/history(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/studio/history(?:/)?$"
+    },
+    {
+      "page": "/studio/keys",
+      "regex": "^/studio/keys(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/studio/keys(?:/)?$"
     },
     {
       "page": "/studio/notifications",

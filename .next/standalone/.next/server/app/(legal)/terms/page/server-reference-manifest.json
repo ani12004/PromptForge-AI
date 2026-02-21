@@ -1,6 +1,6 @@
 {
   "node": {
-    "0003a3dcf615081a16c914805a79b1208e05658d88": {
+    "00b21639a03642d5844bfb915c6d5ce1988f5b95e0": {
       "workers": {
         "app/(legal)/terms/page": {
           "moduleId": 53104,
@@ -15,7 +15,7 @@
       "exportedName": "getUserSubscription",
       "filename": "app/actions/subscription.ts"
     },
-    "0051101ac87c471b7462d604cadbab8a2e54996392": {
+    "006aeb6e7970a12213649aa3fb647b23db3302889d": {
       "workers": {
         "app/(legal)/terms/page": {
           "moduleId": 53104,
@@ -30,7 +30,7 @@
       "exportedName": "getUserRole",
       "filename": "app/actions/auth.ts"
     },
-    "00d33c04adba09f9320585b6cd2442fddc67121317": {
+    "00691a2ad7c998649322bd59bc82086007c43aead9": {
       "workers": {
         "app/(legal)/terms/page": {
           "moduleId": 53104,
@@ -45,7 +45,7 @@
       "exportedName": "detectKeylessEnvDriftAction",
       "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
     },
-    "00fb695b95eb42dc75b9b2e7e86571a2d3342b32bb": {
+    "006aebffc138bbe85fa0f45a766f7037c176527adf": {
       "workers": {
         "app/(legal)/terms/page": {
           "moduleId": 53104,
@@ -60,7 +60,7 @@
       "exportedName": "invalidateCacheAction",
       "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js"
     },
-    "000c5950602641cd8b0661a788cb4fb705def1b4b1": {
+    "003a114b94a7aa1e8925eb0e19923e68b842d27fb6": {
       "workers": {
         "app/(legal)/terms/page": {
           "moduleId": 53104,
@@ -75,7 +75,7 @@
       "exportedName": "createOrReadKeylessAction",
       "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
     },
-    "008a5782a58bd8eba0077f5b1e478761fed9d410df": {
+    "00111b9df99bf9ed2003fd7840d107810c6a1501a2": {
       "workers": {
         "app/(legal)/terms/page": {
           "moduleId": 53104,
@@ -90,7 +90,7 @@
       "exportedName": "collectKeylessMetadata",
       "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
     },
-    "40e8dbb7737be346be89256c32890a354586b96faf": {
+    "402c2467f6e6cf2abc92a7099d73b789c8487fe378": {
       "workers": {
         "app/(legal)/terms/page": {
           "moduleId": 53104,
@@ -105,7 +105,7 @@
       "exportedName": "formatMetadataHeaders",
       "filename": "node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js"
     },
-    "0064afb0bd84c5266927f4777c8f0ddd5c7e626c6a": {
+    "00cc9b2336771f86628fc29ccfdcef3a59791e3db1": {
       "workers": {
         "app/(legal)/terms/page": {
           "moduleId": 53104,
@@ -120,7 +120,7 @@
       "exportedName": "deleteKeylessAction",
       "filename": "node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js"
     },
-    "40efc55e4105d4adbc9874f14cc1c800be70aff8bc": {
+    "4046d83504de2ad105c27f09d40df52bfab7c822ad": {
       "workers": {
         "app/(legal)/terms/page": {
           "moduleId": 53104,

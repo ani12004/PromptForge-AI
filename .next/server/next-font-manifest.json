@@ -42,6 +42,20 @@
       "static/media/e2334d715941921e-s.p.d82a9aff.woff2",
       "static/media/47fe1b7cd6e6ed85-s.p.855a563b.woff2"
     ],
+    "[project]/app/(marketing)/docs/api/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/a218039a3287bcfd-s.p.4a23d71b.woff2",
+      "static/media/8e6fa89aa22d24ec-s.p.3aec397d.woff2",
+      "static/media/e2334d715941921e-s.p.d82a9aff.woff2",
+      "static/media/47fe1b7cd6e6ed85-s.p.855a563b.woff2"
+    ],
+    "[project]/app/(marketing)/docs/introduction/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/a218039a3287bcfd-s.p.4a23d71b.woff2",
+      "static/media/8e6fa89aa22d24ec-s.p.3aec397d.woff2",
+      "static/media/e2334d715941921e-s.p.d82a9aff.woff2",
+      "static/media/47fe1b7cd6e6ed85-s.p.855a563b.woff2"
+    ],
     "[project]/app/(marketing)/docs/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
       "static/media/a218039a3287bcfd-s.p.4a23d71b.woff2",
@@ -49,7 +63,21 @@
       "static/media/e2334d715941921e-s.p.d82a9aff.woff2",
       "static/media/47fe1b7cd6e6ed85-s.p.855a563b.woff2"
     ],
+    "[project]/app/(marketing)/docs/sdk/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/a218039a3287bcfd-s.p.4a23d71b.woff2",
+      "static/media/8e6fa89aa22d24ec-s.p.3aec397d.woff2",
+      "static/media/e2334d715941921e-s.p.d82a9aff.woff2",
+      "static/media/47fe1b7cd6e6ed85-s.p.855a563b.woff2"
+    ],
     "[project]/app/(marketing)/features/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/a218039a3287bcfd-s.p.4a23d71b.woff2",
+      "static/media/8e6fa89aa22d24ec-s.p.3aec397d.woff2",
+      "static/media/e2334d715941921e-s.p.d82a9aff.woff2",
+      "static/media/47fe1b7cd6e6ed85-s.p.855a563b.woff2"
+    ],
+    "[project]/app/(marketing)/how-it-works/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
       "static/media/a218039a3287bcfd-s.p.4a23d71b.woff2",
       "static/media/8e6fa89aa22d24ec-s.p.3aec397d.woff2",
@@ -105,6 +133,13 @@
       "static/media/e2334d715941921e-s.p.d82a9aff.woff2",
       "static/media/47fe1b7cd6e6ed85-s.p.855a563b.woff2"
     ],
+    "[project]/app/papers/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/a218039a3287bcfd-s.p.4a23d71b.woff2",
+      "static/media/8e6fa89aa22d24ec-s.p.3aec397d.woff2",
+      "static/media/e2334d715941921e-s.p.d82a9aff.woff2",
+      "static/media/47fe1b7cd6e6ed85-s.p.855a563b.woff2"
+    ],
     "[project]/app/playground/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
       "static/media/a218039a3287bcfd-s.p.4a23d71b.woff2",
@@ -141,6 +176,13 @@
       "static/media/47fe1b7cd6e6ed85-s.p.855a563b.woff2"
     ],
     "[project]/app/studio/history/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/a218039a3287bcfd-s.p.4a23d71b.woff2",
+      "static/media/8e6fa89aa22d24ec-s.p.3aec397d.woff2",
+      "static/media/e2334d715941921e-s.p.d82a9aff.woff2",
+      "static/media/47fe1b7cd6e6ed85-s.p.855a563b.woff2"
+    ],
+    "[project]/app/studio/keys/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
       "static/media/a218039a3287bcfd-s.p.4a23d71b.woff2",
       "static/media/8e6fa89aa22d24ec-s.p.3aec397d.woff2",
