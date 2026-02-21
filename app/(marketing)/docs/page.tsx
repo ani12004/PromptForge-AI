@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import Link from "next/link"
-import { Package, Globe, ArrowRight, Book, Zap, Shield, Cpu, Layers } from "lucide-react"
+import { Package, Globe, ArrowRight, Book, Zap, Shield, Cpu, Layers, BookOpen } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 
 export const metadata: Metadata = {
@@ -26,7 +26,26 @@ export default function DocumentationPage() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                    {/* Introduction Card */}
+                    <Link href="/docs/introduction" className="group">
+                        <div className="glass-panel p-10 h-full rounded-[32px] border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-emerald-500/30 transition-all duration-500 relative overflow-hidden text-left">
+                            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <BookOpen className="h-32 w-32 text-emerald-500" />
+                            </div>
+                            <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 w-fit mb-8">
+                                <BookOpen className="h-8 w-8 text-emerald-500" />
+                            </div>
+                            <h2 className="text-3xl font-bold text-white mb-4 group-hover:text-emerald-400 transition-colors">Core Concepts</h2>
+                            <p className="text-gray-400 text-lg mb-8 leading-relaxed">
+                                Learn about prerequisites, dynamic variable injection, semantic caching, and intelligent model routing.
+                            </p>
+                            <div className="flex items-center gap-2 text-emerald-400 font-bold group-hover:gap-4 transition-all">
+                                Get Started <ArrowRight className="h-4 w-4" />
+                            </div>
+                        </div>
+                    </Link>
+
                     {/* SDK Card */}
                     <Link href="/docs/sdk" className="group">
                         <div className="glass-panel p-10 h-full rounded-[32px] border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-brand-purple/30 transition-all duration-500 relative overflow-hidden text-left">
@@ -38,7 +57,7 @@ export default function DocumentationPage() {
                             </div>
                             <h2 className="text-3xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors">Node.js SDK</h2>
                             <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-                                High-performance server-side library with built-in caching and intelligent routing. Perfect for Next.js and Edge functions.
+                                High-performance server-side library with built-in caching and intelligent routing. Perfect for Next.js and Edge.
                             </p>
                             <div className="flex items-center gap-2 text-blue-400 font-bold group-hover:gap-4 transition-all">
                                 Explore SDK Docs <ArrowRight className="h-4 w-4" />
@@ -57,7 +76,7 @@ export default function DocumentationPage() {
                             </div>
                             <h2 className="text-3xl font-bold text-white mb-4 group-hover:text-violet-400 transition-colors">REST API</h2>
                             <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-                                Language-agnostic interface for executing prompts. Ideal for Python, Go, or client-side integrations with proper security.
+                                Language-agnostic interface for executing prompts. Ideal for Python, Go, or custom integrations.
                             </p>
                             <div className="flex items-center gap-2 text-violet-400 font-bold group-hover:gap-4 transition-all">
                                 View API Reference <ArrowRight className="h-4 w-4" />

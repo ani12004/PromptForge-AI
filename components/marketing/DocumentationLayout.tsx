@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { Book, ChevronRight, Package, Globe, ExternalLink, ArrowLeft } from "lucide-react"
+import { Book, ChevronRight, Package, Globe, ExternalLink, ArrowLeft, BookOpen } from "lucide-react"
 import Link from "next/link"
 
 interface DocumentationLayoutProps {
@@ -42,16 +42,36 @@ export function DocumentationLayout({ children, activeTab, navigationItems }: Do
                         <div className="mt-8 pt-6 border-t border-white/5 text-center">
                             <p className="text-[10px] text-gray-600 uppercase tracking-widest mb-4">Jump To</p>
                             <div className="flex flex-col gap-2">
-                                <Link
-                                    href={activeTab === 'sdk' ? '/docs/api' : '/docs/sdk'}
-                                    className="flex items-center justify-center gap-2 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all text-xs font-bold"
-                                >
-                                    {activeTab === 'sdk' ? <Globe className="h-3 w-3" /> : <Package className="h-3 w-3" />}
-                                    Switch to {activeTab === 'sdk' ? 'API' : 'SDK'} Docs
-                                </Link>
+                                {activeTab !== 'home' && (
+                                    <Link
+                                        href="/docs/introduction"
+                                        className="flex items-center justify-center gap-2 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all text-xs font-bold"
+                                    >
+                                        <BookOpen className="h-3 w-3 text-emerald-500" />
+                                        Core Concepts
+                                    </Link>
+                                )}
+                                {activeTab !== 'sdk' && (
+                                    <Link
+                                        href="/docs/sdk"
+                                        className="flex items-center justify-center gap-2 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all text-xs font-bold"
+                                    >
+                                        <Package className="h-3 w-3 text-blue-500" />
+                                        SDK Docs
+                                    </Link>
+                                )}
+                                {activeTab !== 'api' && (
+                                    <Link
+                                        href="/docs/api"
+                                        className="flex items-center justify-center gap-2 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all text-xs font-bold"
+                                    >
+                                        <Globe className="h-3 w-3 text-violet-500" />
+                                        API Reference
+                                    </Link>
+                                )}
                                 <Link
                                     href="/docs"
-                                    className="flex items-center justify-center gap-2 py-2 text-gray-600 hover:text-gray-400 transition-all text-xs"
+                                    className="flex items-center justify-center gap-2 py-2 mt-2 text-gray-600 hover:text-gray-400 transition-all text-xs"
                                 >
                                     <ArrowLeft className="h-3 w-3" /> Back to Hub
                                 </Link>
