@@ -68,53 +68,52 @@ export async function POST(req: Request) {
 }`
     },
     {
-        title: "React Frontend Interaction",
-        description: "How to call your backend API and handle the PromptForge response.",
+        title: "Usage Observability",
+        description: "Leverage the meta object to track token usage, model info, and latency.",
         icon: <Cpu className="w-5 h-5 text-cyan-400" />,
-        code: `// components/Optimizer.tsx
-import { useState } from "react";
+        code: `const result = await client.execute({
+  versionId: "d9e169ff-fe2a-4b9b-9986-833273105e7e",
+  variables: { topic: "AI Trends" }
+});
 
-export function Optimizer() {
-  const [result, setResult] = useState("");
-  const [loading, setLoading] = useState(false);
+if (result.success) {
+  // Access detailed usage metrics
+  const { usage, model, latency } = result.meta;
+  
+  console.log(\`Model: \${model}\`);
+  console.log(\`Tokens: \${usage.total_tokens}\`);
+  console.log(\`Latency: \${latency}ms\`);
 
-  const handleOptimization = async (input: string) => {
-    setLoading(true);
-    const res = await fetch("/api/generate", {
-      method: "POST",
-      body: JSON.stringify({ userInput: input })
-    });
-    const data = await res.json();
-    setResult(data.evaluation);
-    setLoading(false);
-  };
-
-  return (
-    <div>
-       <button onClick={() => handleOptimization("Hello AI!")} disabled={loading}>
-         {loading ? "Thinking..." : "Optimize Prompt"}
-       </button>
-       <pre>{result}</pre>
-    </div>
-  );
+  // Perfect for internal billing or analytics
+  saveMetricsToLogs(usage, latency);
 }`
     },
     {
-        title: "Dynamic Vision Template",
-        description: "Advanced use-case for combining multiple variables and multi-shot instructions.",
+        title: "Production Error Handling",
+        description: "Robust patterns for handling network issues, API timeouts, and failed generations.",
         icon: <Braces className="w-5 h-5 text-purple-400" />,
-        code: `const result = await client.execute({
-  versionId: "vision-refiner-v1",
-  variables: {
-    context: "User is a React developer",
-    requirements: "Fast, accessible, and documented",
-    examples: "- Component X\\n- Component Y"
-  }
-});
+        code: `async function resilientFetch(input) {
+  try {
+    const result = await client.execute({
+      versionId: "prod-v1",
+      variables: { input }
+    });
 
-// Meta information included in response
-console.log("Tokens used:", result.meta.usage.total_tokens);
-console.log("Model:", result.meta.model);`
+    if (!result.success) {
+      // Handle known SDK errors (e.g., Validation, Unauth)
+      throw new Error(\`SDK Error: \${result.error}\`);
+    }
+
+    return result.data;
+
+  } catch (err) {
+    if (err.message.includes("TIMEOUT")) {
+      return fallbackResponse(); // Recover gracefully
+    }
+    console.error("Critical Failure:", err.message);
+    throw err;
+  }
+}`
     }
 ];
 
