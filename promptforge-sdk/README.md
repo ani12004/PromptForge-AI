@@ -57,6 +57,35 @@ async function main() {
 main();
 ```
 
+---
+
+## ⚖️ SDK vs API: When to Use?
+
+| Feature | Node.js SDK | REST API |
+| :--- | :--- | :--- |
+| **Language** | JavaScript/TypeScript | Any (Python, Go, etc.) |
+| **TypeScript** | Native Support | Manual Types |
+| **Caching** | Built-in | Manual |
+| **Ease of Use** | High (Method calls) | Moderate (HTTP requests) |
+| **Best For** | Next.js, Node, Vercel | Python, PHP, Microservices |
+
+---
+
+## 🛠️ Best Practices (Do's & Don'ts)
+
+### ✅ The Do's
+- **Use Environment Variables**: Always store your API keys in `.env` files (e.g. `PROMPTFORGE_API_KEY`).
+- **Check Success Flag**: Always verify `result.success` before attempting to access `result.data`.
+- **Use TypeScript**: Take advantage of our internal types for better IDE autocompletion.
+- **Implement Singletons**: In serverless environments, initialize the `PromptForgeClient` once and reuse it to optimize memory.
+
+### ❌ The Don'ts
+- **Never Call from Client-Side**: Do not call the SDK or API from the browser. Your API keys will be exposed to users in the Network tab.
+- **Don't Hardcode Prompts**: Keep your prompt logic in **PromptForge Studio** and reference them by **Version ID**. This allows you to update prompts without redeploying code.
+- **Don't Ignore Metadata**: Fields like `meta.latency_ms` and `meta.tokens_input` are vital for monitoring performance and costs.
+
+---
+
 ## 🛡️ Support
 - [Issue Tracker](https://github.com/ani12004/Prompt-Forge-Studio/issues)
 - [Discord Community](https://prompt-forge-studio.vercel.app/community)
