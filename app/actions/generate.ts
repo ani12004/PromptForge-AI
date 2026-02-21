@@ -3,7 +3,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { auth } from "@clerk/nextjs/server";
 import { createClerkSupabaseClient } from "@/lib/supabaseClient";
-import { refinePromptOpenAI } from "./openai-generate";
 
 export interface GenerateResponse {
     success: boolean;
@@ -26,7 +25,6 @@ export async function refinePrompt(
     prompt: string,
     detailLevel: string,
     options: {
-        provider?: "gemini" | "openai";
         model?: string;
         temperature?: number;
         topP?: number;
@@ -34,7 +32,6 @@ export async function refinePrompt(
     } = {}
 ): Promise<GenerateResponse> {
     const {
-        provider = "gemini",
         model,
         temperature = 0.7,
         topP = 0.95,
@@ -171,34 +168,21 @@ export async function refinePrompt(
         let generatedText = "";
         let usedModel = "";
 
-        if (provider === "openai") {
-            const openAIResult = await refinePromptOpenAI(prompt, detailLevel, {
-                model: model || "gpt-4o-mini",
-                temperature
-            });
+        // Gemini Logic
+        const MODELS_TO_TRY = model ? [model] : ["gemini-3-flash", "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
 
-            if (openAIResult.success && openAIResult.content) {
-                generatedText = openAIResult.content;
-                usedModel = model || "gpt-4o-mini";
-            } else {
-                lastError = new Error(openAIResult.error || "OpenAI generation failed");
-            }
-        } else {
-            // Gemini Logic
-            const MODELS_TO_TRY = model ? [model] : ["gemini-3-flash", "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
+        // --- GENERATION LOOP ---
+        // System Prompt Construction
+        let modifier = "";
+        switch (detailLevel) {
+            case "Short": modifier = "Low — minimal structure, concise constraints."; break;
+            case "Medium": modifier = "Medium — clear sections, essential constraints."; break;
+            case "Detailed": modifier = "High — fully structured, examples included."; break;
+            case "Granular": modifier = "High — exhaustive, step-by-step instructions, edge cases."; break;
+            default: modifier = "Medium — balanced structure.";
+        }
 
-            // --- GENERATION LOOP ---
-            // System Prompt Construction
-            let modifier = "";
-            switch (detailLevel) {
-                case "Short": modifier = "Low — minimal structure, concise constraints."; break;
-                case "Medium": modifier = "Medium — clear sections, essential constraints."; break;
-                case "Detailed": modifier = "High — fully structured, examples included."; break;
-                case "Granular": modifier = "High — exhaustive, step-by-step instructions, edge cases."; break;
-                default: modifier = "Medium — balanced structure.";
-            }
-
-            const systemInstruction = `
+        const systemInstruction = `
 You are PromptForge Studio — a senior-level prompt engineering system.
 CORE MISSION: Convert raw user intent into a production-ready, high-impact prompt.
 OUTPUT RULE: Return ONLY the refined prompt. No markdown, no conversational filler.
@@ -214,37 +198,36 @@ DETAIL LEVEL: ${modifier}
 QUALITY BAR: Professional, Authoritative, Precise.
 `;
 
-            outerLoop:
-            for (const apiKey of API_KEYS) {
-                const genAI = new GoogleGenerativeAI(apiKey);
+        outerLoop:
+        for (const apiKey of API_KEYS) {
+            const genAI = new GoogleGenerativeAI(apiKey);
 
-                for (const modelName of MODELS_TO_TRY) {
-                    try {
-                        const geminiModel = genAI.getGenerativeModel({
-                            model: modelName,
-                            generationConfig: { temperature, topP, topK }
-                        });
+            for (const modelName of MODELS_TO_TRY) {
+                try {
+                    const geminiModel = genAI.getGenerativeModel({
+                        model: modelName,
+                        generationConfig: { temperature, topP, topK }
+                    });
 
-                        const result = await geminiModel.generateContent([
-                            systemInstruction,
-                            `RAW USER INPUT: \n${prompt} `
-                        ]);
+                    const result = await geminiModel.generateContent([
+                        systemInstruction,
+                        `RAW USER INPUT: \n${prompt} `
+                    ]);
 
-                        const text = result.response.text();
-                        if (text) {
-                            generatedText = text;
-                            usedModel = modelName;
-                            break outerLoop; // Success!
-                        }
+                    const text = result.response.text();
+                    if (text) {
+                        generatedText = text;
+                        usedModel = modelName;
+                        break outerLoop; // Success!
+                    }
 
-                    } catch (err: any) {
-                        lastError = err;
-                        const msg = (err.message || "").toLowerCase();
-                        // If Key error, break to next key
-                        if (msg.includes("429") || msg.includes("quota") || msg.includes("key")) {
-                            console.warn(`Key exhausted, switching...`);
-                            break; // Try next key
-                        }
+                } catch (err: any) {
+                    lastError = err;
+                    const msg = (err.message || "").toLowerCase();
+                    // If Key error, break to next key
+                    if (msg.includes("429") || msg.includes("quota") || msg.includes("key")) {
+                        console.warn(`Key exhausted, switching...`);
+                        break; // Try next key
                     }
                 }
             }
@@ -256,12 +239,6 @@ QUALITY BAR: Professional, Authoritative, Precise.
             const isQuotaError = errString.includes("429") || errString.includes("quota");
 
             if (isQuotaError) {
-                if (provider === "openai") {
-                    return {
-                        success: false,
-                        error: "OpenAI Quota Reached: Please check your OpenAI billing balance or plan limits."
-                    };
-                }
                 return {
                     success: false,
                     error: "High traffic server load. Please try again in 10 seconds."

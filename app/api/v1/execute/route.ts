@@ -60,11 +60,21 @@ export async function POST(req: Request) {
         // 2. Fetch Prompt Definition (Bypassing RLS with Admin key for programmatic access)
         const supabase = getSupabaseAdmin();
 
+        console.log(`[Execute] Incoming Request - VersionID: ${active_version_id}, WorkspaceID: ${keyContext.user_id}`);
+
         // Try V2 table first (production-saved prompts)
+        // We join with v2_prompts to verify ownership by user_id
         let { data: version, error: dbError } = await supabase
             .from('v2_prompt_versions')
-            .select('system_prompt, template')
+            .select(`
+                system_prompt, 
+                template, 
+                published,
+                v2_prompts!inner(user_id)
+            `)
             .eq('id', active_version_id)
+            .eq('v2_prompts.user_id', keyContext.user_id)
+            .eq('published', true)
             .single();
 
         let systemPrompt = version?.system_prompt;
@@ -72,21 +82,44 @@ export async function POST(req: Request) {
 
         // Fallback to V1 table (playground history)
         if (!version || dbError) {
+            console.log(`[Execute] V2 Query Result - Error: ${dbError?.message || 'Not found'}`);
+
             const { data: v1Version, error: v1Error } = await supabase
-                .from('prompt_versions')
-                .select('content')
+                .from('prompts')
+                .select('original_prompt, refined_prompt, user_id')
                 .eq('id', active_version_id)
+                .eq('user_id', keyContext.user_id)
                 .single();
+
+            if (v1Error) {
+                console.log(`[Execute] V1 Fallback Result - Error: ${v1Error.message}`);
+            }
 
             if (v1Version) {
                 systemPrompt = "You are a highly capable AI assistant."; // Default for V1 history
-                template = v1Version.content;
+                template = v1Version.refined_prompt || v1Version.original_prompt;
                 dbError = null; // Clear error if fallback succeeded
             }
         }
 
         if (dbError || (!systemPrompt && !template)) {
-            return NextResponse.json({ error: "Prompt version not found." }, { status: 404 });
+            // Enhanced Debug Info
+            const { data: recentVersions } = await supabase
+                .from('v2_prompt_versions')
+                .select('id, version_tag, v2_prompts!inner(user_id)')
+                .eq('v2_prompts.user_id', keyContext.user_id)
+                .limit(5);
+
+            return NextResponse.json({
+                success: false,
+                error: "Prompt version not found",
+                debug: {
+                    receivedVersionId: active_version_id,
+                    workspaceId: keyContext.user_id,
+                    availableVersions: recentVersions?.map(v => ({ id: v.id, tag: v.version_tag })) || [],
+                    dbErrorMessage: dbError?.message
+                }
+            }, { status: 404 });
         }
 
         // 3. Generate Exact-Match Cache Key

@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 import { Info, ChevronDown, Cpu, Globe } from "lucide-react"
 
 export interface GranularOptions {
-    provider?: "gemini" | "openai"
+    provider?: "gemini"
     model?: string
     temperature: number
     topP: number
@@ -24,7 +24,7 @@ export function AdvancedControls({ options, onChange }: AdvancedControlsProps) {
     }
 
     const currentProvider = options.provider || "gemini"
-    const currentModel = options.model || (currentProvider === "gemini" ? "gemini-1.5-flash" : "gpt-4o-mini")
+    const currentModel = options.model || "gemini-1.5-flash"
 
     const PROVIDERS: Record<string, { id: string; name: string }[]> = {
         gemini: [
@@ -35,10 +35,6 @@ export function AdvancedControls({ options, onChange }: AdvancedControlsProps) {
             { id: "gemini-2.0-flash", name: "Gemini 2.0 Flash" },
             { id: "gemini-1.5-flash", name: "Gemini 1.5 Flash" },
             { id: "gemini-1.5-pro", name: "Gemini 1.5 Pro" },
-        ],
-        openai: [
-            { id: "gpt-4o", name: "GPT-4o" },
-            { id: "gpt-4o-mini", name: "GPT-4o Mini" },
         ]
     }
 
@@ -67,33 +63,24 @@ export function AdvancedControls({ options, onChange }: AdvancedControlsProps) {
                         <Globe className="w-3 h-3" /> AI Provider
                     </label>
                     <div className="flex p-1 bg-black/40 rounded-xl border border-white/10 gap-1">
-                        {["gemini", "openai"].map((p) => {
+                        {["gemini"].map((p) => {
                             const active = currentProvider === p
-                            const isComingSoon = p === "openai"
 
                             return (
                                 <button
                                     key={p}
-                                    disabled={isComingSoon}
                                     onClick={() => {
-                                        if (isComingSoon) return
                                         const newModels = PROVIDERS[p as keyof typeof PROVIDERS]
                                         onChange({
                                             ...options,
-                                            provider: p as "gemini" | "openai",
+                                            provider: p as "gemini",
                                             model: newModels[0].id
                                         })
                                     }}
                                     className={`relative flex-1 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 
-                                        ${active ? "bg-brand-purple text-white shadow-lg shadow-brand-purple/20" : "text-gray-500 hover:text-gray-300 hover:bg-white/5"}
-                                        ${isComingSoon ? "opacity-60 cursor-not-allowed grayscale" : ""}`}
+                                        ${active ? "bg-brand-purple text-white shadow-lg shadow-brand-purple/20" : "text-gray-500 hover:text-gray-300 hover:bg-white/5"}`}
                                 >
-                                    {p === "gemini" ? "Google Gemini" : "OpenAI GPT"}
-                                    {isComingSoon && (
-                                        <span className="absolute -top-1 -right-1 px-1.5 py-0.5 bg-brand-purple text-[8px] rounded-full text-white font-black tracking-tighter shadow-xl">
-                                            SOON
-                                        </span>
-                                    )}
+                                    Google Gemini
                                 </button>
                             )
                         })}
