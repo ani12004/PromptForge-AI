@@ -11,7 +11,7 @@ export class PromptForgeClient {
     constructor(options: PromptForgeOptions) {
         if (!options.apiKey) throw new Error("API Key is required");
         this.apiKey = options.apiKey;
-        this.baseUrl = (options.baseUrl || 'https://api.promptforge.com').replace(/\/$/, "");
+        this.baseUrl = (options.baseUrl || 'https://prompt-forge-studio.vercel.app').replace(/\/$/, "");
         this.timeoutMs = options.timeoutMs || 30000;
         this.maxRetries = options.maxRetries ?? 2;
     }
