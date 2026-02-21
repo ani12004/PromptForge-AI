@@ -2,7 +2,7 @@ export const NAV_LINKS = [
     { name: "Home", href: "/" },
     { name: "Studio", href: "/studio" },
     { name: "Examples", href: "/docs/examples" },
-    { name: "Docs", href: "https://github.com/ani12004/promptforge-server-sdk#readme" },
+    { name: "Docs", href: "/docs" },
     { name: "Pricing", href: "/pricing" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
