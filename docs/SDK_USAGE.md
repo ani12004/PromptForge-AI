@@ -121,34 +121,38 @@ If enabled, PromptForge will check if a semantically similar request has been ma
 
 ---
 
-## 6. SDK vs API: When to Use?
+---
+
+## 6. SDK vs API: Deep-Dive Comparison
 
 | Feature | Node.js SDK | REST API |
 | :--- | :--- | :--- |
-| **Language** | JavaScript/TypeScript | Any (Python, Go, etc.) |
-| **TypeScript** | Native Support | Manual Types |
-| **Caching** | Built-in | Manual |
-| **Ease of Use** | High (Method calls) | Moderate (HTTP requests) |
-| **Best For** | Next.js, Node, Vercel | Python, PHP, Microservices |
+| **Primary Language** | JavaScript/TypeScript | Any (Python, Go, etc.) |
+| **Type Safety** | Native (Full IntelliSense) | Manual (Custom Schemas) |
+| **Caching** | Built-in Token Caching | Manual Header Handling |
+| **Next.js Integration**| High (Optimized for Server Actions) | Moderate (Standard fetch) |
+| **Dependencies** | Minimum (`axios`, `events`) | Zero (Standard HTTP) |
+| **Best For** | Early-stage JS/TS Apps | Polyglot Microservices |
 
 ---
 
-## 7. Best Practices (Do's & Don'ts)
+## 7. Mastering Best Practices
 
-### ✅ The Do's
-- **Use Environment Variables**: Always store your API keys in `.env` files (e.g. `PROMPTFORGE_API_KEY`).
-- **Check Success Flag**: Always verify `result.success` before attempting to access `result.data`.
-- **Use TypeScript**: If using the SDK, take advantage of our internal types for better IDE autocompletion.
-- **Implement Singletons**: In serverless environments, initialize the `PromptForgeClient` once and reuse it to optimize memory.
+### ✅ The Do's (Professional Integration)
+- **Environment Isolation**: Separate keys for `pf_test_` and `pf_live_` using environment variables.
+- **The Singleton Rule**: Initialize the `PromptForgeClient` in a shared file (e.g., `lib/pf.ts`) to avoid re-initializing multiple times in serverless functions.
+- **Fail Gracefully**: Always wrap `pf.execute` in try/catch. Our engine returns rich error codes (401, 404, 500) that you should handle.
+- **Leverage Types**: Use the internal `ExecuteResult` and `PromptVariables` types to ensure your variables match the Studio's expectations.
 
-### ❌ The Don'ts
-- **Never Call from Client-Side**: Do not call the SDK or API from the browser. Your API keys will be exposed to users in the Network tab.
-- **Don't Hardcode Prompts**: Keep your prompt logic in **PromptForge Studio** and reference them by **Version ID**. This allows you to update prompts without redeploying code.
-- **Don't Ignore Metadata**: Fields like `meta.latency_ms` and `meta.tokens_input` are vital for monitoring performance and costs.
+### ❌ The Don'ts (Common Pitfalls)
+- **Frontend Leakage**: Never import `promptforge-server-sdk` in a client-side component. This will expose your secret keys.
+- **Hardcoded Prompts**: If you catch yourself writing template strings in code, stop. Move that logic to **PromptForge Studio** and use a `version_id` instead.
+- **Ignoring Meta**: The `meta` object contains `latency_ms` and `tokens_total`. Use these for your own performance dashboards.
+- **Unlimited Timeouts**: LLMs can be slow. Set a `timeoutMs` (default 30s) to prevent your own backend from hanging.
 
 ---
 
-## 8. Troubleshooting
+## 8. Troubleshooting & Support
 
 - **401 Unauthorized**: Ensure your `X-API-Key` is correct and active.
 - **404 Version Not Found**: Ensure the `version_id` exists in your workspace.

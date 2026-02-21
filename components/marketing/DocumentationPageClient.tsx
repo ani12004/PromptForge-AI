@@ -52,6 +52,7 @@ export function DocumentationPageClient() {
                                     <li><a href="#sdk-install" className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all">Installation</a></li>
                                     <li><a href="#sdk-usage" className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all">Initialization</a></li>
                                     <li><a href="#sdk-execute" className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all">Executing Prompts</a></li>
+                                    <li><a href="#sdk-examples" className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all">Full Examples</a></li>
                                     <li><a href="#sdk-best-practices" className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all">Best Practices</a></li>
                                     <li><a href="#sdk-types" className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all">Type Definitions</a></li>
                                 </>
@@ -61,6 +62,7 @@ export function DocumentationPageClient() {
                                     <li><a href="#api-endpoint" className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all">Endpoint Details</a></li>
                                     <li><a href="#api-request" className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all">Request Schema</a></li>
                                     <li><a href="#api-response" className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all">Response Format</a></li>
+                                    <li><a href="#api-examples" className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all">Full Examples</a></li>
                                     <li><a href="#api-best-practices" className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all">Best Practices</a></li>
                                 </>
                             )}
@@ -147,6 +149,45 @@ const pf = new PromptForgeClient({
                                 />
                             </section>
 
+                            {/* SDK Full Examples */}
+                            <section id="sdk-examples" className="scroll-mt-32 space-y-8">
+                                <h2 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
+                                    <Terminal className="h-8 w-8 text-brand-purple" />
+                                    Full Integration Example
+                                </h2>
+                                <p className="text-gray-400">
+                                    A real-world example of using the SDK within a Next.js Server Action or API Route.
+                                </p>
+                                <CodeBlock
+                                    code={`// app/actions/ai.ts
+'use server'
+
+import { PromptForgeClient } from 'promptforge-server-sdk';
+
+const pf = new PromptForgeClient({
+  apiKey: process.env.PROMPTFORGE_API_KEY!
+});
+
+export async function generateContent(userTopic: string) {
+  try {
+    const response = await pf.execute({
+      versionId: 'c1-content-v2',
+      variables: { topic: userTopic }
+    });
+
+    if (!response.success) {
+      throw new Error('AI generation failed');
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error('PromptForge Error:', error);
+    return null;
+  }
+}`}
+                                />
+                            </section>
+
                             {/* SDK Best Practices */}
                             <section id="sdk-best-practices" className="scroll-mt-32 space-y-8">
                                 <h2 className="text-3xl font-bold text-white tracking-tight">Best Practices</h2>
@@ -156,9 +197,10 @@ const pf = new PromptForgeClient({
                                             <CheckCircle className="w-4 h-4" /> Do's
                                         </h4>
                                         <ul className="space-y-3 text-sm text-gray-400">
-                                            <li className="flex gap-2"><span>•</span> <span>Use environment variables for API keys.</span></li>
-                                            <li className="flex gap-2"><span>•</span> <span>Implement the Singleton pattern for the client in Serverless.</span></li>
-                                            <li className="flex gap-2"><span>•</span> <span>Wrap calls in try/catch to handle network failures gracefully.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Use environment variables (e.g., `PROMPTFORGE_API_KEY`) for keys.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Implement the **Singleton pattern** for the client in Serverless to avoid socket exhaustion.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Wrap calls in try/catch and check `result.success` before processing data.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Leverage **TypeScript types** (e.g., `ExecuteResult`) for compile-time safety.</span></li>
                                         </ul>
                                     </div>
                                     <div className="p-6 rounded-2xl bg-rose-500/5 border border-rose-500/10 space-y-4">
@@ -166,9 +208,10 @@ const pf = new PromptForgeClient({
                                             <XCircle className="w-4 h-4" /> Don'ts
                                         </h4>
                                         <ul className="space-y-3 text-sm text-gray-400">
-                                            <li className="flex gap-2"><span>•</span> <span>Never call the SDK from the browser/client-side.</span></li>
-                                            <li className="flex gap-2"><span>•</span> <span>Don't hardcode prompt content; use Version IDs.</span></li>
-                                            <li className="flex gap-2"><span>•</span> <span>Don't ignore the <code className="text-white">success</code> boolean in the response.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>**Never** call the SDK from the browser; your secret key will be exposed.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Don't hardcode prompt strings; manage logic in Studio for instant updates.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Don't ignore `meta` fields; tracking `latencyMs` is key to performance auditing.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Don't use short timeouts for complex reasoning tasks (default to 30s+).</span></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -238,6 +281,43 @@ const pf = new PromptForgeClient({
                                 />
                             </section>
 
+                            {/* API Full Examples */}
+                            <section id="api-examples" className="scroll-mt-32 space-y-8">
+                                <h2 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
+                                    <Globe className="h-8 w-8 text-blue-500" />
+                                    Full API Example (Python)
+                                </h2>
+                                <p className="text-gray-400">
+                                    Integration example for Python-based microservices using the `requests` library.
+                                </p>
+                                <CodeBlock
+                                    language="python"
+                                    code={`import requests
+import os
+
+def call_promptforge(version_id, variables):
+    url = "https://prompt-forge-studio.vercel.app/api/v1/execute"
+    headers = {
+        "x-api-key": os.getenv("PROMPTFORGE_API_KEY"),
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "version_id": version_id,
+        "variables": variables
+    }
+
+    response = requests.post(url, json=payload, headers=headers)
+    result = response.json()
+
+    if result.get("success"):
+        return result["data"]
+    return None
+
+# Usage
+output = call_promptforge("c123...", {"topic": "AI Docs"})`}
+                                />
+                            </section>
+
                             {/* API Best Practices */}
                             <section id="api-best-practices" className="scroll-mt-32 space-y-8">
                                 <h2 className="text-3xl font-bold text-white tracking-tight">Best Practices</h2>
@@ -247,9 +327,10 @@ const pf = new PromptForgeClient({
                                             <CheckCircle className="w-4 h-4" /> Do's
                                         </h4>
                                         <ul className="space-y-3 text-sm text-gray-400">
-                                            <li className="flex gap-2"><span>•</span> <span>Use the <code className="text-white">x-api-key</code> header for auth.</span></li>
-                                            <li className="flex gap-2"><span>•</span> <span>Set a reasonable timeout (e.g. 30s) for LLM wait times.</span></li>
-                                            <li className="flex gap-2"><span>•</span> <span>Use the <code className="text-white">meta</code> fields for tracking usage costs.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Use the `x-api-key` header with a **pf_live_** or **pf_test_** prefix.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Set a `Content-Type: application/json` header for POST requests.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Monitor the `meta` fields (`tokens_input/output`) to manage LLM burn rates.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Implement a retry mechanism with exponential backoff for 5xx errors.</span></li>
                                         </ul>
                                     </div>
                                     <div className="p-6 rounded-2xl bg-rose-500/5 border border-rose-500/10 space-y-4">
@@ -257,9 +338,10 @@ const pf = new PromptForgeClient({
                                             <XCircle className="w-4 h-4" /> Don'ts
                                         </h4>
                                         <ul className="space-y-3 text-sm text-gray-400">
-                                            <li className="flex gap-2"><span>•</span> <span>Expose your API key in public Git repositories.</span></li>
-                                            <li className="flex gap-2"><span>•</span> <span>Ignore token usage stats (could lead to budget overruns).</span></li>
-                                            <li className="flex gap-2"><span>•</span> <span>Manually inject variables; let the engine handle delimeters.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Don't share API keys in frontend `fetch` calls or public repos.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Avoid sending massive data in `variables` unless the model supports high context.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Don't ignore rate limit headers (`x-ratelimit-remaining`) if present.</span></li>
+                                            <li className="flex gap-2"><span>•</span> <span>Don't manually concatenate prompt variables; the engine handles injection safely.</span></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -285,15 +367,15 @@ const pf = new PromptForgeClient({
                         <ul className="space-y-4">
                             <li className="flex items-start gap-3">
                                 <CheckCircle className="w-5 h-5 text-emerald-500 mt-1 shrink-0" />
-                                <span className="text-gray-400">Perfect for **Next.js**, **Vercel**, or **Node** backends.</span>
+                                <span className="text-gray-400">**Next.js & Vercel**: Optimized for edge runtime and serverless stability.</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <CheckCircle className="w-5 h-5 text-emerald-500 mt-1 shrink-0" />
-                                <span className="text-gray-400">Includes **TypeScript Types** for complete safety.</span>
+                                <span className="text-gray-400">**Safety**: Native TypeScript definitions for full IDE IntelliSense.</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <CheckCircle className="w-5 h-5 text-emerald-500 mt-1 shrink-0" />
-                                <span className="text-gray-400">Built-in mapping for snake_case/CamelCase issues.</span>
+                                <span className="text-gray-400">**Automatic Mapping**: Transparently handles convention differences (e.g. snake_case).</span>
                             </li>
                         </ul>
                     </div>
@@ -306,15 +388,15 @@ const pf = new PromptForgeClient({
                         <ul className="space-y-4">
                             <li className="flex items-start gap-3">
                                 <CheckCircle className="w-5 h-5 text-emerald-500 mt-1 shrink-0" />
-                                <span className="text-gray-400">Use with **Python, Python, Rust, Go**, or PHP.</span>
+                                <span className="text-gray-400">**Cross-Language**: Use with Python, Rust, Go, or Ruby microservices.</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <CheckCircle className="w-5 h-5 text-emerald-500 mt-1 shrink-0" />
-                                <span className="text-gray-400">Ideal for **Standard Microservices** and webhooks.</span>
+                                <span className="text-gray-400">**Zero Dependencies**: No extra package bloat; just 100% standard HTTPS.</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <CheckCircle className="w-5 h-5 text-emerald-500 mt-1 shrink-0" />
-                                <span className="text-gray-400">Zero dependencies; just standard HTTP calls.</span>
+                                <span className="text-gray-400">**Control**: Precise control over request headers and streaming (coming soon).</span>
                             </li>
                         </ul>
                     </div>
