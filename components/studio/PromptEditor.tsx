@@ -87,7 +87,7 @@ export function PromptEditor({
                         className={`text-[10px] font-mono flex items-center gap-1.5 transition-colors px-2 py-1 rounded hover:bg-white/5 ${showAdvanced ? "text-brand-purple" : "text-gray-500 hover:text-white"}`}
                     >
                         <Settings2 className="w-3 h-3" />
-                        {showAdvanced ? "CLOSE CONFIG" : `${granularOptions.provider === 'openai' ? 'GPT' : 'GEMINI'} · ${granularOptions.model?.replace('gemini-', '').replace('gpt-', '').toUpperCase() || 'AUTO'}`}
+                        {showAdvanced ? "CLOSE CONFIG" : `GEMINI · ${granularOptions.model?.replace('gemini-', '').toUpperCase() || 'AUTO'}`}
                     </button>
                 </div>
 
