@@ -169,7 +169,17 @@ export async function refinePrompt(
         let usedModel = "";
 
         // Gemini Logic
-        const MODELS_TO_TRY = model ? [model] : ["gemini-3-flash", "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
+        const MODELS_TO_TRY = model ? [model] : [
+            "gemini-3.1-pro",
+            "gemini-3-pro",
+            "gemini-3-flash",
+            "gemini-2.5-pro",
+            "gemini-2.5-flash",
+            "gemini-2-pro-exp",
+            "gemini-2-flash",
+            "gemini-1.5-pro",
+            "gemini-1.5-flash"
+        ];
 
         // --- GENERATION LOOP ---
         // System Prompt Construction
@@ -224,10 +234,12 @@ QUALITY BAR: Professional, Authoritative, Precise.
                 } catch (err: any) {
                     lastError = err;
                     const msg = (err.message || "").toLowerCase();
-                    // If Key error, break to next key
-                    if (msg.includes("429") || msg.includes("quota") || msg.includes("key")) {
-                        console.warn(`Key exhausted, switching...`);
-                        break; // Try next key
+                    console.error(`Gemini Error [${modelName}]:`, err.message);
+
+                    // If Key error or model not found, try next
+                    if (msg.includes("429") || msg.includes("quota") || msg.includes("key") || msg.includes("not found")) {
+                        console.warn(`Model/Key issue with ${modelName}, switching...`);
+                        continue; // Try next model in current key context
                     }
                 }
             }

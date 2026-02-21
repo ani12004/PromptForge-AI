@@ -28,13 +28,15 @@ export function AdvancedControls({ options, onChange }: AdvancedControlsProps) {
 
     const PROVIDERS: Record<string, { id: string; name: string }[]> = {
         gemini: [
-            { id: "gemini-3-flash", name: "Gemini 3 Flash" },
+            { id: "gemini-3.1-pro", name: "Gemini 3.1 Pro" },
             { id: "gemini-3-pro", name: "Gemini 3 Pro" },
-            { id: "gemini-2.5-flash", name: "Gemini 2.5 Flash" },
+            { id: "gemini-3-flash", name: "Gemini 3 Flash" },
             { id: "gemini-2.5-pro", name: "Gemini 2.5 Pro" },
-            { id: "gemini-2.0-flash", name: "Gemini 2.0 Flash" },
-            { id: "gemini-1.5-flash", name: "Gemini 1.5 Flash" },
+            { id: "gemini-2.5-flash", name: "Gemini 2.5 Flash" },
+            { id: "gemini-2-pro-exp", name: "Gemini 2 Pro Exp" },
+            { id: "gemini-2-flash", name: "Gemini 2 Flash" },
             { id: "gemini-1.5-pro", name: "Gemini 1.5 Pro" },
+            { id: "gemini-1.5-flash", name: "Gemini 1.5 Flash" },
         ]
     }
 
