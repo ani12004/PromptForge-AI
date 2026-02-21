@@ -59,13 +59,33 @@ export async function POST(req: Request) {
 
         // 2. Fetch Prompt Definition (Bypassing RLS with Admin key for programmatic access)
         const supabase = getSupabaseAdmin();
-        const { data: version, error: dbError } = await supabase
+
+        // Try V2 table first (production-saved prompts)
+        let { data: version, error: dbError } = await supabase
             .from('v2_prompt_versions')
             .select('system_prompt, template')
             .eq('id', active_version_id)
             .single();
 
-        if (dbError || !version) {
+        let systemPrompt = version?.system_prompt;
+        let template = version?.template;
+
+        // Fallback to V1 table (playground history)
+        if (!version || dbError) {
+            const { data: v1Version, error: v1Error } = await supabase
+                .from('prompt_versions')
+                .select('content')
+                .eq('id', active_version_id)
+                .single();
+
+            if (v1Version) {
+                systemPrompt = "You are a highly capable AI assistant."; // Default for V1 history
+                template = v1Version.content;
+                dbError = null; // Clear error if fallback succeeded
+            }
+        }
+
+        if (dbError || (!systemPrompt && !template)) {
             return NextResponse.json({ error: "Prompt version not found." }, { status: 404 });
         }
 
@@ -83,8 +103,8 @@ export async function POST(req: Request) {
         // 4. Execute (With Route & Cache wrapping)
         const { data: result, cached } = await withCache(cacheKey, async () => {
             return await routeAndExecutePrompt(
-                version.system_prompt,
-                version.template,
+                systemPrompt,
+                template,
                 variables
             );
         });

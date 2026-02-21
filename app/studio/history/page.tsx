@@ -1,6 +1,6 @@
 "use client"
 
-import { History, Search, Calendar, Ghost, Copy } from "lucide-react"
+import { History, Search, Calendar, Ghost, Copy, Zap, Check } from "lucide-react"
 import { useAuth } from "@clerk/nextjs"
 import { useEffect, useState } from "react"
 import { createClerkSupabaseClient } from "@/lib/supabaseClient"
@@ -10,6 +10,7 @@ export default function HistoryPage() {
     const [prompts, setPrompts] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState("")
+    const [copiedId, setCopiedId] = useState<string | null>(null)
 
     useEffect(() => {
         const fetchHistory = async () => {
@@ -87,13 +88,36 @@ export default function HistoryPage() {
                                 <div className="flex gap-2 text-xs font-mono text-gray-500 uppercase">
                                     <span className="bg-white/5 px-2 py-0.5 rounded">{prompt.model_used || "AI Model"}</span>
                                     <span className="bg-white/5 px-2 py-0.5 rounded">{prompt.detail_level}</span>
+                                    {prompt.current_version_id && (
+                                        <span className="bg-brand-purple/5 border border-brand-purple/10 text-brand-purple/80 px-2 py-0.5 rounded flex items-center gap-1">
+                                            <Zap className="w-2.5 h-2.5" />
+                                            {prompt.current_version_id.split('-')[0]}...
+                                        </span>
+                                    )}
                                     <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {new Date(prompt.created_at).toLocaleDateString()}</span>
                                 </div>
                                 <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <button
+                                        onClick={() => {
+                                            const id = prompt.current_version_id || prompt.id
+                                            navigator.clipboard.writeText(id)
+                                            setCopiedId(id)
+                                            setTimeout(() => setCopiedId(null), 2000)
+                                        }}
+                                        className="flex items-center gap-1.5 px-2 py-1 bg-brand-purple/10 border border-brand-purple/20 rounded text-[10px] font-bold text-brand-purple hover:bg-brand-purple/20 transition-all"
+                                        title="Copy SDK ID"
+                                    >
+                                        {copiedId === (prompt.current_version_id || prompt.id) ? (
+                                            <Check className="w-3 h-3" />
+                                        ) : (
+                                            <Zap className="w-3 h-3" />
+                                        )}
+                                        {copiedId === (prompt.current_version_id || prompt.id) ? "COPIED" : "COPY SDK ID"}
+                                    </button>
+                                    <button
                                         onClick={() => navigator.clipboard.writeText(prompt.refined_prompt)}
                                         className="p-1.5 hover:bg-white/10 rounded text-gray-400 hover:text-white"
-                                        title="Copy Result"
+                                        title="Copy Refined Result"
                                     >
                                         <Copy className="w-4 h-4" />
                                     </button>
