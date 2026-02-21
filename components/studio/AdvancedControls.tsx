@@ -65,10 +65,14 @@ export function AdvancedControls({ options, onChange }: AdvancedControlsProps) {
                     <div className="flex p-1 bg-black/40 rounded-xl border border-white/10 gap-1">
                         {["gemini", "openai"].map((p) => {
                             const active = currentProvider === p
+                            const isComingSoon = p === "openai"
+
                             return (
                                 <button
                                     key={p}
+                                    disabled={isComingSoon}
                                     onClick={() => {
+                                        if (isComingSoon) return
                                         const newModels = PROVIDERS[p as keyof typeof PROVIDERS]
                                         onChange({
                                             ...options,
@@ -76,9 +80,16 @@ export function AdvancedControls({ options, onChange }: AdvancedControlsProps) {
                                             model: newModels[0].id
                                         })
                                     }}
-                                    className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${active ? "bg-brand-purple text-white shadow-lg shadow-brand-purple/20" : "text-gray-500 hover:text-gray-300 hover:bg-white/5"}`}
+                                    className={`relative flex-1 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 
+                                        ${active ? "bg-brand-purple text-white shadow-lg shadow-brand-purple/20" : "text-gray-500 hover:text-gray-300 hover:bg-white/5"}
+                                        ${isComingSoon ? "opacity-60 cursor-not-allowed grayscale" : ""}`}
                                 >
                                     {p === "gemini" ? "Google Gemini" : "OpenAI GPT"}
+                                    {isComingSoon && (
+                                        <span className="absolute -top-1 -right-1 px-1.5 py-0.5 bg-brand-purple text-[8px] rounded-full text-white font-black tracking-tighter shadow-xl">
+                                            SOON
+                                        </span>
+                                    )}
                                 </button>
                             )
                         })}
