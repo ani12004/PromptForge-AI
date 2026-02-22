@@ -39,7 +39,8 @@ export function AdvancedControls({ options, onChange }: AdvancedControlsProps) {
             { id: "gemini-1.5-flash", name: "Gemini 1.5 Flash" },
         ],
         nvidia: [
-            { id: "nvidia/nemotron-3-nano-30b-a3b", name: "Nemotron-3 Nano 30B" }
+            { id: "nvidia/nemotron-3-nano-30b-a3b", name: "Nemotron-3 Nano 30B" },
+            { id: "nvidia/llama-3.1-nemotron-70b-reward", name: "Llama-3.1 Nemotron 70B Reward" }
         ]
     }
 
