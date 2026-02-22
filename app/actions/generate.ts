@@ -213,19 +213,30 @@ QUALITY BAR: Professional, Authoritative, Precise.
                         temperature: options.temperature ?? 0.7,
                         top_p: options.topP ?? 0.9,
                         max_tokens: 1024,
+                        stream: false
                     })
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({}));
-                    throw new Error(errorData.error?.message || `NVIDIA API error: ${response.status}`);
+                    const errorText = await response.text();
+                    console.error("NVIDIA API Error Response:", errorText);
+                    let errorData;
+                    try { errorData = JSON.parse(errorText); } catch (e) { }
+                    throw new Error(errorData?.error?.message || `NVIDIA API error: ${response.status} ${response.statusText}`);
                 }
 
                 const data = await response.json();
                 generatedText = data.choices[0]?.message?.content || "";
+
+                if (!generatedText && (options.model || "").includes("reward")) {
+                    // Reward models return scores, not content. 
+                    // For the sake of the Studio, we'll return its usage/metadata if content is empty.
+                    generatedText = `[REWARD MODEL OUTPUT]\n\nThe selected model (${options.model}) is a reward/scoring model. It does not generate text but evaluates the input. \n\nAPI Response: ${JSON.stringify(data.usage || data.choices[0] || data)}`;
+                }
+
                 usedModel = options.model || "nvidia/nemotron-3-nano-30b-a3b";
             } catch (err: any) {
-                console.error("NVIDIA Generation Error:", err);
+                console.error("NVIDIA Execution Failure:", err);
                 lastError = err;
             }
         } else {
