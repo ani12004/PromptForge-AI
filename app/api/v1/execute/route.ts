@@ -82,46 +82,45 @@ export async function POST(req: Request) {
 
         // Fallback to Playground tables (V1 history)
         if (!version || dbError) {
-            console.log(`[Execute] Checking Playground Fallback for VersionID: ${active_version_id}`);
+            console.log(`[Execute] Checking Playground Fallback for ID: ${active_version_id} | User: ${keyContext.user_id}`);
 
-            // Try the specific version table first
+            // 1. Try prompt_versions table (Specific historical version)
             const { data: v1Version, error: v1Error } = await supabase
                 .from('prompt_versions')
-                .select('content, prompts!inner(user_id)')
+                .select('content, created_by')
                 .eq('id', active_version_id)
-                .eq('prompts.user_id', keyContext.user_id)
                 .single();
 
-            if (v1Version) {
+            if (v1Version && v1Version.created_by === keyContext.user_id) {
+                console.log(`[Execute] Found in prompt_versions`);
                 systemPrompt = "You are a highly capable AI assistant.";
                 template = v1Version.content;
                 dbError = null;
             } else {
-                // Try the parent prompts table (for backwards compatibility where prompt ID was used)
+                // 2. Try prompts table (Parent container/Playground root)
                 const { data: v1Prompt, error: pError } = await supabase
                     .from('prompts')
-                    .select('refined_prompt, user_id')
+                    .select('refined_prompt, original_prompt, user_id')
                     .eq('id', active_version_id)
-                    .eq('user_id', keyContext.user_id)
                     .single();
 
-                if (v1Prompt) {
+                if (v1Prompt && v1Prompt.user_id === keyContext.user_id) {
+                    console.log(`[Execute] Found in prompts (V1 Root)`);
                     systemPrompt = "You are a highly capable AI assistant.";
-                    template = v1Prompt.refined_prompt;
+                    template = v1Prompt.refined_prompt || v1Prompt.original_prompt;
                     dbError = null;
                 } else {
-                    console.log(`[Execute] All Fallbacks Failed - V1Error: ${v1Error?.message}, PError: ${pError?.message}`);
+                    console.log(`[Execute] Fallback failed. V1Error: ${v1Error?.message}, PError: ${pError?.message}`);
+                    if (v1Version) console.log(`[Execute] Ownership mismatch (Version): expected ${keyContext.user_id}, got ${v1Version.created_by}`);
+                    if (v1Prompt) console.log(`[Execute] Ownership mismatch (Prompt): expected ${keyContext.user_id}, got ${v1Prompt.user_id}`);
                 }
             }
         }
 
         if (dbError || (!systemPrompt && !template)) {
-            // Enhanced Debug Info
-            const { data: recentVersions } = await supabase
-                .from('v2_prompt_versions')
-                .select('id, version_tag, v2_prompts!inner(user_id)')
-                .eq('v2_prompts.user_id', keyContext.user_id)
-                .limit(5);
+            // Enhanced Debug Info for the client
+            const { count: v2Count } = await supabase.from('v2_api_keys').select('*', { count: 'exact', head: true }).eq('user_id', keyContext.user_id);
+            const { count: pCount } = await supabase.from('prompts').select('*', { count: 'exact', head: true }).eq('user_id', keyContext.user_id);
 
             return NextResponse.json({
                 success: false,
@@ -129,8 +128,8 @@ export async function POST(req: Request) {
                 debug: {
                     receivedVersionId: active_version_id,
                     workspaceId: keyContext.user_id,
-                    availableVersions: recentVersions?.map(v => ({ id: v.id, tag: v.version_tag })) || [],
-                    dbErrorMessage: dbError?.message
+                    dbError: dbError?.message,
+                    userPromptCount: pCount || 0,
                 }
             }, { status: 404 });
         }
