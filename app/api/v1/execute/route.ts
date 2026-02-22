@@ -80,25 +80,38 @@ export async function POST(req: Request) {
         let systemPrompt = version?.system_prompt;
         let template = version?.template;
 
-        // Fallback to V1 table (playground history)
+        // Fallback to Playground tables (V1 history)
         if (!version || dbError) {
-            console.log(`[Execute] V2 Query Result - Error: ${dbError?.message || 'Not found'}`);
+            console.log(`[Execute] Checking Playground Fallback for VersionID: ${active_version_id}`);
 
+            // Try the specific version table first
             const { data: v1Version, error: v1Error } = await supabase
-                .from('prompts')
-                .select('original_prompt, refined_prompt, user_id')
+                .from('prompt_versions')
+                .select('content, prompts!inner(user_id)')
                 .eq('id', active_version_id)
-                .eq('user_id', keyContext.user_id)
+                .eq('prompts.user_id', keyContext.user_id)
                 .single();
 
-            if (v1Error) {
-                console.log(`[Execute] V1 Fallback Result - Error: ${v1Error.message}`);
-            }
-
             if (v1Version) {
-                systemPrompt = "You are a highly capable AI assistant."; // Default for V1 history
-                template = v1Version.refined_prompt || v1Version.original_prompt;
-                dbError = null; // Clear error if fallback succeeded
+                systemPrompt = "You are a highly capable AI assistant.";
+                template = v1Version.content;
+                dbError = null;
+            } else {
+                // Try the parent prompts table (for backwards compatibility where prompt ID was used)
+                const { data: v1Prompt, error: pError } = await supabase
+                    .from('prompts')
+                    .select('refined_prompt, user_id')
+                    .eq('id', active_version_id)
+                    .eq('user_id', keyContext.user_id)
+                    .single();
+
+                if (v1Prompt) {
+                    systemPrompt = "You are a highly capable AI assistant.";
+                    template = v1Prompt.refined_prompt;
+                    dbError = null;
+                } else {
+                    console.log(`[Execute] All Fallbacks Failed - V1Error: ${v1Error?.message}, PError: ${pError?.message}`);
+                }
             }
         }
 

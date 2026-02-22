@@ -100,6 +100,21 @@ export async function getPrompt(id: string, type: 'v1' | 'v2' = 'v1') {
                 }
             };
         } else {
+            // Try specific version first
+            const { data: v1Version, error: v1Error } = await supabase
+                .from('prompt_versions')
+                .select('content')
+                .eq('id', id)
+                .single();
+
+            if (v1Version) {
+                return {
+                    success: true,
+                    content: v1Version.content,
+                };
+            }
+
+            // Fallback to parent prompt table
             const { data, error } = await supabase
                 .from('prompts')
                 .select('original_prompt, refined_prompt')
