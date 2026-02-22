@@ -118,9 +118,13 @@ export async function POST(req: Request) {
         }
 
         if (dbError || (!systemPrompt && !template)) {
-            // Enhanced Debug Info for the client
-            const { count: v2Count } = await supabase.from('v2_api_keys').select('*', { count: 'exact', head: true }).eq('user_id', keyContext.user_id);
-            const { count: pCount } = await supabase.from('prompts').select('*', { count: 'exact', head: true }).eq('user_id', keyContext.user_id);
+            // DEEP DIAGNOSTIC: Check if it exists AT ALL regardless of ownership
+            const { data: v2Exists } = await supabase.from('v2_prompt_versions').select('id, v2_prompts!inner(user_id)').eq('id', active_version_id).maybeSingle();
+            const { data: v1VersionExists } = await supabase.from('prompt_versions').select('id, created_by').eq('id', active_version_id).maybeSingle();
+            const { data: v1PromptExists } = await supabase.from('prompts').select('id, user_id').eq('id', active_version_id).maybeSingle();
+
+            console.log(`[Execute] Diagnostic - ID: ${active_version_id}, Workspace: ${keyContext.user_id}`);
+            console.log(`[Execute] Diagnostic - v2Exists: ${!!v2Exists}, v1VersionExists: ${!!v1VersionExists}, v1PromptExists: ${!!v1PromptExists}`);
 
             return NextResponse.json({
                 success: false,
@@ -128,8 +132,12 @@ export async function POST(req: Request) {
                 debug: {
                     receivedVersionId: active_version_id,
                     workspaceId: keyContext.user_id,
-                    dbError: dbError?.message,
-                    userPromptCount: pCount || 0,
+                    existsInV2: !!v2Exists,
+                    existsInV1Version: !!v1VersionExists,
+                    existsInV1Prompt: !!v1PromptExists,
+                    v2Owner: (v2Exists as any)?.v2_prompts?.user_id || null,
+                    v1VersionOwner: v1VersionExists?.created_by || null,
+                    v1PromptOwner: v1PromptExists?.user_id || null,
                 }
             }, { status: 404 });
         }
