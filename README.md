@@ -53,6 +53,36 @@ Built-in critique engine that analyses your prompt *before* you ship it.
 - **AI / Logic**: Google Gemini 1.5 Pro & Flash models
 - **Infrastructure**: Vercel-ready architecture
 
+## 🔌 Programmatic Integration
+
+PromptForge Studio is built to be used in your own apps. You can execute prompts via our official SDK or directly via REST API.
+
+### official Node.js SDK
+```bash
+npm install promptforge-server-sdk
+```
+
+```ts
+import { PromptForgeClient } from 'promptforge-server-sdk';
+
+const pf = new PromptForgeClient({
+  apiKey: process.env.PROMPTFORGE_API_KEY,
+  baseURL: "https://your-vercel-domain.vercel.app"
+});
+
+// Works for both Gemini and NVIDIA prompts!
+const result = await pf.execute({
+  versionId: "your-version-id",
+  variables: { name: "Anil" }
+});
+```
+
+### Supported AI Providers
+- **Google Gemini**: Default provider (Flash 2.5, Pro 2.0).
+- **NVIDIA AI**: High-performance infrastructure for Llama and Nemotron models.
+
+---
+
 ## License
 
 **Copyright (c) 2026 PromptForge Studio. All Rights Reserved.**

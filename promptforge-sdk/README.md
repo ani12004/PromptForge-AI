@@ -30,32 +30,43 @@ Go to the **Settings** sidebar in [PromptForge Studio](https://prompt-forge-stud
 
 ### 3. Usage
 
-Initialize the `PromptForgeClient` with your API key and execute a prompt by it's **Version ID** (found in your Prompt History).
+Initialize the `PromptForgeClient`. If you are using a self-hosted instance (like Vercel), you **must** provide the `baseURL`.
 
 ```ts
 import { PromptForgeClient } from 'promptforge-server-sdk';
 
 const client = new PromptForgeClient({
   apiKey: process.env.PROMPTFORGE_API_KEY,
+  baseURL: "https://your-vercel-domain.vercel.app" // 👈 Required for custom deployments
 });
-
-async function main() {
-  const response = await client.execute({
-    versionId: 'your-version-uuid-here',
-    variables: { 
-      topic: 'Space Exploration',
-      tone: 'optimistic'
-    }
-  });
-
-  if (response.success) {
-    console.log("LLM Result:", response.data);
-    console.log("Latency:", response.meta.latencyMs);
-  }
-}
-
-main();
 ```
+
+#### Example: Gemini Execution (Default)
+Most models route to Gemini Flash or Pro based on length and complexity.
+
+```ts
+const response = await client.execute({
+  versionId: 'gemini-prompt-uuid',
+  variables: { topic: 'Space' }
+});
+```
+
+#### Example: NVIDIA Execution
+To use NVIDIA models, ensure your prompt is configured (or the model is specified) with the `nvidia/` prefix.
+
+```ts
+const response = await client.execute({
+  versionId: 'nvidia-prompt-uuid',
+  variables: { 
+    project_name: 'PromptForge',
+    ceo_name: 'Jensen'
+  }
+});
+```
+
+if (response.success) {
+  console.log("Result:", response.data);
+}
 
 ---
 

@@ -2,39 +2,55 @@ import { PromptForgeClient } from './promptforge-sdk/dist/index.mjs';
 import fs from 'fs';
 import path from 'path';
 
-// Read .env.local manually for test integration
-const envPath = path.resolve('.env.local');
-let apiKey = 'pf_test_key';
-try {
-    const envContent = fs.readFileSync(envPath, 'utf-8');
-    const match = envContent.match(/GEMINI_API_KEY=(.*)/); // In a real test, we'd use a PromptForge key
-    // For now, let's just mock or use placeholders if we don't have a real PF key
-} catch (e) { }
+import dotenv from "dotenv";
+import { PromptForgeClient } from "promptforge-server-sdk";
 
-const pf = new PromptForgeClient({
-    apiKey: process.env.PROMPTFORGE_API_KEY || 'pf_live_test_123',
-    baseUrl: 'http://localhost:3000' // Test against local dev server
+dotenv.config();
+
+/**
+ * PROMPT FORGE STUDIO - GETTING STARTED
+ * 
+ * 1. Initialize with your API Key and your Vercel URL.
+ * 2. Use a Version ID from your Studio History.
+ * 3. Provide variables matching your {{template_labels}}.
+ * 
+ * To swap between Gemini and NVIDIA prompts, simply change the "Model" setting
+ * within your PromptForge Studio project for the specific version you are using.
+ * The SDK will automatically use the configured model.
+ */
+
+const client = new PromptForgeClient({
+    apiKey: process.env.PROMPTFORGE_API_KEY,
+    baseURL: "https://prompt-forge-studio.vercel.app" // 👈 ALWAYS update this to your live domain
 });
 
-async function runTest() {
-    console.log("🚀 Testing PromptForge SDK...");
+async function run() {
+    console.log("🚀 Running PromptForge Execution...");
+
+    // Replace this with a Version ID from your PromptForge Studio project.
+    // You can find Version IDs in the "History" tab of your project.
+    const examplePromptId = "12a5af52-99a0-41dd-a5e9-8a318f23ddb5"; // Example: Simple Email template
 
     try {
-        const response = await pf.execute({
-            versionId: '00000000-0000-0000-0000-000000000000', // Mock UUID
+        const result = await client.execute({
+            versionId: examplePromptId,
             variables: {
-                user_query: "Hello world"
+                customer_name: "Anil Suthar",
+                issue_type: "Database Sync Delay",
+                compensation_amount: "1,000 Free Credits"
             }
         });
 
-        console.log("✅ SDK Response Received:", response.success);
-        console.log("📊 Meta Info:", JSON.stringify(response.meta, null, 2));
-    } catch (error) {
-        console.error("❌ SDK Error:", error.name);
-        console.error("HTTP Status:", error.statusCode);
-        console.error("Error Code:", error.code);
-        console.error("Message:", error.message);
+        if (result.success) {
+            console.log("✅ EXECUTION SUCCESS");
+            console.log("Output Content:\n", result.data);
+            console.log("\nMeta Specs:", result.meta);
+        } else {
+            console.log("❌ EXECUTION FAILED:", result.error);
+        }
+    } catch (err) {
+        console.error("🔥 SYSTEM ERROR:", err.message);
     }
 }
 
-runTest();
+run();

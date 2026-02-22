@@ -25,34 +25,49 @@ npm install promptforge-server-sdk
 
 ### Basic Usage
 
-Initialize the client with your API key and execute a prompt by its `version_id`.
+Initialize the client with your API key. If you are using a self-hosted or custom deployment (like your Vercel instance), you **must** specify the `baseURL`.
 
 ```typescript
 import { PromptForgeClient } from 'promptforge-server-sdk';
 
 const pf = new PromptForgeClient({
-  apiKey: 'pf_live_...', // Your API Key from Settings
+  apiKey: process.env.PROMPTFORGE_API_KEY,
+  baseURL: "https://your-vercel-domain.vercel.app" // 👈 Required for private deployments
+});
+```
+
+#### Example 1: Gemini Execution (Default)
+Most prompts automatically route to Gemini Flash or Pro.
+
+```typescript
+const response = await pf.execute({
+  versionId: 'gemini-version-id',
+  variables: {
+    topic: "AI Development",
+    tone: "professional"
+  }
 });
 
-async function main() {
-  const response = await pf.execute({
-    versionId: 'your-saved-version-id', // Found in Studio history
-    variables: {
-      user_query: "How do I bake a cake?",
-      tone: "friendly"
-    }
-  });
-
-  if (response.success) {
-    console.log("LLM Response:", response.data);
-    console.log("Model Used:", response.meta.model);
-    console.log("Latency (ms):", response.meta.latencyMs);
-  } else {
-    console.error("Error:", response.message);
-  }
+if (response.success) {
+  console.log("Gemini Output:", response.data);
 }
+```
 
-main();
+#### Example 2: NVIDIA Execution
+To use NVIDIA models, specify a `versionId` for a prompt that uses an NVIDIA model (e.g., `nvidia/llama-3.1-nemotron-70b-instruct`).
+
+```typescript
+const response = await pf.execute({
+  versionId: 'nvidia-version-id',
+  variables: {
+    ceo_name: "Jensen",
+    project_name: "PromptForge"
+  }
+});
+
+if (response.success) {
+  console.log("NVIDIA Output:", response.data);
+}
 ```
 
 ---
