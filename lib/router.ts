@@ -47,40 +47,88 @@ export async function routeAndExecutePrompt(
         : "gemini-2.5-flash");
 
     // 3. LLM Execution
-    const geminiModel = ai.getGenerativeModel({
-        model: modelName,
-        systemInstruction: systemPrompt
-    });
+    if (modelName.startsWith('nvidia/')) {
+        const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${process.env.NVIDIA_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: modelName,
+                messages: [
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: finalPrompt }
+                ],
+                temperature: 0.7,
+                top_p: 0.9,
+                max_tokens: 1024,
+                stream: false
+            })
+        });
 
-    const response = await geminiModel.generateContent({
-        contents: [{ role: 'user', parts: [{ text: finalPrompt }] }],
-        generationConfig: {
-            // Hardcode temperature for the MVP. You can make this dynamic per version later.
-            temperature: 0.7,
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error?.message || `NVIDIA API error: ${response.status}`);
         }
-    });
 
-    const text = response.response.text();
-    if (!text) {
-        throw new Error("LLM returned an empty response.");
+        const data = await response.json();
+        let text = data.choices[0]?.message?.content || "";
+
+        // Handle Reward models (which might return scores in metadata/content)
+        if (!text && modelName.includes('reward')) {
+            text = JSON.stringify(data.choices[0], null, 2);
+        }
+
+        const tokensInput = data.usage?.prompt_tokens || 0;
+        const tokensOutput = data.usage?.completion_tokens || 0;
+
+        // Approximate NVIDIA costs (varies by model, using a baseline for now)
+        const costMicroUsd = Math.round((tokensInput * 0.1) + (tokensOutput * 0.3));
+
+        return {
+            output: text,
+            modelUsed: modelName,
+            tokensInput,
+            tokensOutput,
+            costMicroUsd
+        };
+
+    } else {
+        // Gemini Execution
+        const geminiModel = ai.getGenerativeModel({
+            model: modelName,
+            systemInstruction: systemPrompt
+        });
+
+        const response = await geminiModel.generateContent({
+            contents: [{ role: 'user', parts: [{ text: finalPrompt }] }],
+            generationConfig: {
+                temperature: 0.7,
+            }
+        });
+
+        const text = response.response.text();
+        if (!text) {
+            throw new Error("LLM returned an empty response.");
+        }
+
+        const usage = response.response.usageMetadata || (response as any).usageMetadata;
+        const tokensInput = usage?.promptTokenCount || 0;
+        const tokensOutput = usage?.candidatesTokenCount || 0;
+
+        const isPro = modelName.includes('pro');
+        const costIn = isPro ? 1.25 : 0.075;
+        const costOut = isPro ? 5.00 : 0.30;
+
+        const costMicroUsd = Math.round((tokensInput * costIn) + (tokensOutput * costOut));
+
+        return {
+            output: text,
+            modelUsed: modelName,
+            tokensInput,
+            tokensOutput,
+            costMicroUsd
+        };
     }
-
-    // 4. Token & Cost Calculation
-    const usage = response.response.usageMetadata || (response as any).usageMetadata;
-    const tokensInput = usage?.promptTokenCount || 0;
-    const tokensOutput = usage?.candidatesTokenCount || 0;
-
-    const isPro = modelName.includes('pro');
-    const costIn = isPro ? 1.25 : 0.075;
-    const costOut = isPro ? 5.00 : 0.30;
-
-    const costMicroUsd = Math.round((tokensInput * costIn) + (tokensOutput * costOut));
-
-    return {
-        output: text,
-        modelUsed: modelName,
-        tokensInput,
-        tokensOutput,
-        costMicroUsd
-    };
 }
