@@ -73,7 +73,7 @@ export default function CommunityPage() {
                             value={newPostContent}
                             onChange={(e) => setNewPostContent(e.target.value)}
                             placeholder="Share an insight, ask a question, or post a prompt architecture..."
-                            className="w-full bg-transparent border-none focus:ring-0 text-white placeholder:text-white/30 resize-none h-24 mb-4 text-lg"
+                            className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-white placeholder:text-white/30 resize-none h-24 mb-4 text-lg"
                         />
                         <div className="flex justify-between items-center border-t border-white/10 pt-4">
                             <span className="text-xs text-gray-500">Supports Markdown-like formatting</span>
@@ -210,7 +210,7 @@ function ThreadItem({ post, onRefresh }: { post: CommunityPost, onRefresh: () =>
                                                 value={replyContent}
                                                 onChange={(e) => setReplyContent(e.target.value)}
                                                 placeholder="Write your response..."
-                                                className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-brand-purple/50 resize-none h-20 mb-2"
+                                                className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-sm text-white outline-none focus:outline-none focus:ring-0 focus:border-brand-purple/50 resize-none h-20 mb-2"
                                             />
                                             <div className="flex justify-end gap-2">
                                                 <Button size="sm" variant="ghost" onClick={() => setIsReplying(false)} className="text-gray-400">Cancel</Button>
