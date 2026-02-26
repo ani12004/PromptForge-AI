@@ -1450,3 +1450,15 @@ FAM | META SEQ | SST SEQ         | RANGE
   0 | 00001190 | 00001189 SST    |                        [=======================================================================]     | 3aefa6fd5cf2deb4-f42f94001fcb5351 (0 MiB, fresh)
   1 | 00001191 | 00001187 SST    |                         O                                                                            | 3ffdfb3b7d50fcf1-3ffdfb3b7d50fcf1 (0 MiB, fresh)
   2 | 00001192 | 00001188 SST    |                         O                                                                            | 3ffdfb3b7d50fcf1-3ffdfb3b7d50fcf1 (0 MiB, fresh)
+Time 2026-02-25T14:54:33.97125Z
+Commit 00001198 4 keys in 15ms 375µs 900ns
+FAM | META SEQ | SST SEQ         | RANGE
+  0 | 00001196 | 00001195 SST    |                        [=======================================================================]     | 3aefa6fd5cf2deb4-f42f94001fcb5351 (0 MiB, fresh)
+  1 | 00001197 | 00001193 SST    |                         O                                                                            | 3ffdfb3b7d50fcf1-3ffdfb3b7d50fcf1 (0 MiB, fresh)
+  2 | 00001198 | 00001194 SST    |                         O                                                                            | 3ffdfb3b7d50fcf1-3ffdfb3b7d50fcf1 (0 MiB, fresh)
+Time 2026-02-25T14:54:39.326395Z
+Commit 00001204 4 keys in 15ms 455µs 200ns
+FAM | META SEQ | SST SEQ         | RANGE
+  0 | 00001202 | 00001201 SST    |                        [=======================================================================]     | 3aefa6fd5cf2deb4-f42f94001fcb5351 (0 MiB, fresh)
+  1 | 00001203 | 00001199 SST    |                         O                                                                            | 3ffdfb3b7d50fcf1-3ffdfb3b7d50fcf1 (0 MiB, fresh)
+  2 | 00001204 | 00001200 SST    |                         O                                                                            | 3ffdfb3b7d50fcf1-3ffdfb3b7d50fcf1 (0 MiB, fresh)
