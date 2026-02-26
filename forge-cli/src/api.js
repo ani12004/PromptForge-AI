@@ -17,10 +17,10 @@ async function generateResponse(prompt, model) {
 
         // Send request to your local or deployed Prompt Forge instance
         // Assuming user runs local for now, but usually they'd specify a host.
-        // We'll default to localhost:3000 but let config override it later.
+        // We'll default to 127.0.0.1 instead of localhost to bypass Node's IPv6 resolution delay on Windows.
         const { getConfig } = require('./config');
         const config = getConfig() || {};
-        const baseUrl = config.host || 'http://localhost:3000';
+        const baseUrl = config.host || 'http://127.0.0.1:3000';
 
         const payload = { prompt };
         if (model) {
