@@ -6,10 +6,10 @@ const { checkAllModelsHealth } = require('./health');
 const { showSessionPanel, showModelComparison, formatAIResponse, showInfoBox, showErrorBox } = require('./ui');
 const { getConfig } = require('./config');
 
-const AVAILABLE_MODELS = ['gpt-4o', 'claude', 'gemini'];
+const AVAILABLE_MODELS = ['nvidia', 'gemini'];
 
 let state = {
-    model: 'gpt-4o',
+    model: 'nvidia',
     status: 'Active',
     autoFailover: true
 };

@@ -1,6 +1,6 @@
 const ora = require('ora');
 
-const MODELS = ['gpt-4o', 'claude', 'gemini'];
+const MODELS = ['nvidia', 'gemini'];
 
 // Simulates checking latency and status for available models
 async function checkAllModelsHealth() {

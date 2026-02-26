@@ -76,8 +76,13 @@ async function executeWithFailover(prompt, primaryModel, autoFailover) {
         }
 
         // Auto-failover logic
-        console.log(chalk.yellow(`\n⚠ Auto-failover triggered. ${primaryModel} failed.`));
-        const allModels = ['gpt-4o', 'claude', 'gemini'].filter(m => m !== primaryModel);
+        if (primaryModel === 'gemini') {
+            console.log(chalk.red(`\n[!] Google Gemini API outage detected. Switching back to Nvidia API...`));
+        } else {
+            console.log(chalk.yellow(`\n⚠ Auto-failover triggered. ${primaryModel} failed.`));
+        }
+
+        const allModels = ['nvidia', 'gemini'].filter(m => m !== primaryModel);
 
         // Find next healthy model (simulated)
         for (const backup of allModels) {
