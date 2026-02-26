@@ -19,7 +19,7 @@ async function generateResponse(prompt, model) {
         // We default to the production URL, but users can override this in their forge.config.json
         const { getConfig } = require('./config');
         const config = getConfig() || {};
-        const baseUrl = config.host || 'https://www.promptforgestudio.com';
+        const baseUrl = config.host || 'https://prompt-forge-studio.vercel.app';
 
         const payload = { prompt };
         if (model) {
