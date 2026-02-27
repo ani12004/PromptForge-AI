@@ -90,11 +90,11 @@ export function Navbar() {
                         <div className="flex items-center gap-3 z-40">
                             <SignedOut>
                                 <Link href="/login">
-                                    <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-white/5">
+                                    <Button variant="ghost" className="hidden sm:inline-flex text-gray-300 hover:text-white hover:bg-white/5">
                                         Log in
                                     </Button>
                                 </Link>
-                                <Link href="/signup">
+                                <Link href="/signup" className="hidden md:block">
                                     <Button className="h-10 px-5 bg-white text-brand-dark hover:bg-gray-100 font-semibold shadow-xl shadow-white/5 border-0 rounded-xl">
                                         Get Started
                                     </Button>
