@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 import { NAV_LINKS } from "@/lib/constants"
 import { Button } from "@/components/ui/Button"
 import { UserMenu } from "@/components/layout/UserMenu"
-import { SignedIn, SignedOut } from "@clerk/nextjs"
+import { SignedIn, SignedOut, ClerkLoaded, ClerkLoading } from "@clerk/nextjs"
 
 export function Navbar() {
     const [isOpen, setIsOpen] = React.useState(false)
@@ -88,23 +88,31 @@ export function Navbar() {
 
                         {/* Actions */}
                         <div className="flex items-center gap-3 z-40">
-                            <SignedOut>
-                                <Link href="/login">
-                                    <Button variant="ghost" className="hidden sm:inline-flex text-gray-300 hover:text-white hover:bg-white/5">
-                                        Log in
-                                    </Button>
-                                </Link>
-                                <Link href="/signup" className="hidden md:block">
-                                    <Button className="h-10 px-5 bg-white text-brand-dark hover:bg-gray-100 font-semibold shadow-xl shadow-white/5 border-0 rounded-xl">
-                                        Get Started
-                                    </Button>
-                                </Link>
-                            </SignedOut>
-                            <div className="relative z-50">
-                                <SignedIn>
-                                    <UserMenu direction="down" />
-                                </SignedIn>
-                            </div>
+                            <ClerkLoading>
+                                <div className="flex items-center gap-3">
+                                    <div className="h-9 w-16 rounded-lg bg-white/5 animate-pulse hidden sm:block" />
+                                    <div className="h-9 w-24 rounded-xl bg-white/10 animate-pulse hidden md:block" />
+                                </div>
+                            </ClerkLoading>
+                            <ClerkLoaded>
+                                <SignedOut>
+                                    <Link href="/login">
+                                        <Button variant="ghost" className="hidden sm:inline-flex text-gray-300 hover:text-white hover:bg-white/5">
+                                            Log in
+                                        </Button>
+                                    </Link>
+                                    <Link href="/signup" className="hidden md:block">
+                                        <Button className="h-10 px-5 bg-white text-brand-dark hover:bg-gray-100 font-semibold shadow-xl shadow-white/5 border-0 rounded-xl">
+                                            Get Started
+                                        </Button>
+                                    </Link>
+                                </SignedOut>
+                                <div className="relative z-50">
+                                    <SignedIn>
+                                        <UserMenu direction="down" />
+                                    </SignedIn>
+                                </div>
+                            </ClerkLoaded>
 
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
