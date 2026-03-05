@@ -9,7 +9,7 @@ const match = envContent.match(/GEMINI_API_KEY=(.*)/);
 const apiKey = match ? match[1].trim() : null;
 
 console.log("Checking Gemini API Models...");
-console.log("API Key found: " + (apiKey ? "Yes (" + apiKey.substring(0, 5) + "...)" : "No"));
+console.log("API Key found: " + (apiKey ? "Yes" : "No"));
 
 const genAI = new GoogleGenerativeAI(apiKey);
 

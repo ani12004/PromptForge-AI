@@ -3,6 +3,7 @@
 import { Resend } from "resend"
 import { z } from "zod"
 import { createAdminClient } from "@/lib/supabaseAdmin"
+import { escapeHtml } from "@/lib/security"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -74,10 +75,16 @@ export async function submitContactForm(prevState: ContactFormState, formData: F
         const logoBuffer = await fs.promises.readFile(logoPath)
         const logoBase64 = logoBuffer.toString("base64")
 
+        // SECURITY: Escape all user input before interpolating into HTML
+        const safeName = escapeHtml(name)
+        const safeEmail = escapeHtml(email)
+        const safeSubject = escapeHtml(subject)
+        const safeMessage = escapeHtml(message)
+
         const { error } = await resend.emails.send({
             from: "PromptForge Contact <onboarding@resend.dev>",
             to: contactEmail,
-            subject: `[Contact Form] ${subject}`,
+            subject: `[Contact Form] ${safeSubject}`,
             replyTo: email,
             html: `
                 <!DOCTYPE html>
@@ -104,18 +111,18 @@ export async function submitContactForm(prevState: ContactFormState, formData: F
                         
                         <div class="field">
                             <div class="label">Subject</div>
-                            <div class="value">${subject}</div>
+                            <div class="value">${safeSubject}</div>
                         </div>
 
                         <div class="field">
                             <div class="label">Active User</div>
-                            <div class="value">${name} <span style="color: #71717a; font-size: 0.9em;">(${email})</span></div>
+                            <div class="value">${safeName} <span style="color: #71717a; font-size: 0.9em;">(${safeEmail})</span></div>
                         </div>
 
                         <div class="field">
                             <div class="label">Message</div>
                             <div class="message-box">
-                                ${message.replace(/\n/g, "<br>")}
+                                ${safeMessage.replace(/\n/g, "<br>")}
                             </div>
                         </div>
 

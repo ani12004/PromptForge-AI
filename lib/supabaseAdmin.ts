@@ -1,5 +1,8 @@
 import 'server-only'
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
+
+// SECURITY: Singleton pattern to avoid creating excessive connections
+let adminInstance: SupabaseClient | null = null;
 
 /**
  * Creates a Supabase client with the Service Role Key.
@@ -7,6 +10,8 @@ import { createClient } from '@supabase/supabase-js'
  * It should ONLY be used in secure server-side contexts (e.g., Webhooks, Cron Jobs).
  */
 export const createAdminClient = () => {
+    if (adminInstance) return adminInstance;
+
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
@@ -14,10 +19,11 @@ export const createAdminClient = () => {
         throw new Error('Missing Supabase Environment Variables for Admin Client')
     }
 
-    return createClient(supabaseUrl, serviceRoleKey, {
+    adminInstance = createClient(supabaseUrl, serviceRoleKey, {
         auth: {
             autoRefreshToken: false,
             persistSession: false
         }
     })
+    return adminInstance;
 }

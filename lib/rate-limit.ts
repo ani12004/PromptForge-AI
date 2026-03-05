@@ -6,9 +6,15 @@ import { redis } from './cache';
  * @param limit Maximum allowed requests in the window
  * @param windowSeconds The time window in seconds
  * @returns boolean where true = allowed, false = rate limited
+ * 
+ * SECURITY: This limiter FAILS CLOSED — if Redis is unavailable, requests are DENIED.
+ * This prevents abuse during infrastructure failures at the cost of availability.
  */
 export async function checkRateLimit(identifier: string, limit: number, windowSeconds: number): Promise<boolean> {
-    if (!redis) return true; // Fail open if Redis is not configured
+    if (!redis) {
+        console.error("[RateLimit] SECURITY: Redis not configured — FAILING CLOSED. All rate-limited requests will be denied.");
+        return false; // Fail closed: deny if Redis is not configured
+    }
 
     const key = `ratelimit:${identifier}`;
 
@@ -19,7 +25,7 @@ export async function checkRateLimit(identifier: string, limit: number, windowSe
         }
         return current <= limit;
     } catch (err) {
-        console.error("[RateLimit] Error connecting to Redis:", err);
-        return true; // Fail open on Redis errors to prevent blocking traffic
+        console.error("[RateLimit] SECURITY: Redis error — FAILING CLOSED.", err);
+        return false; // Fail closed: deny on Redis errors to prevent abuse
     }
 }

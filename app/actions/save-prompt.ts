@@ -81,10 +81,12 @@ export async function getPrompt(id: string, type: 'v1' | 'v2' = 'v1') {
         const supabase = getSupabaseAdmin();
 
         if (type === 'v2') {
+            // SECURITY: Filter by user_id to enforce ownership
             const { data, error } = await supabase
                 .from('v2_prompt_versions')
-                .select('template, v2_prompts(name, description)')
+                .select('template, v2_prompts!inner(name, description, user_id)')
                 .eq('id', id)
+                .eq('v2_prompts.user_id', userId)
                 .single();
 
             if (error || !data) {
@@ -100,11 +102,12 @@ export async function getPrompt(id: string, type: 'v1' | 'v2' = 'v1') {
                 }
             };
         } else {
-            // Try specific version first
+            // SECURITY: Filter by created_by to enforce ownership
             const { data: v1Version, error: v1Error } = await supabase
                 .from('prompt_versions')
                 .select('content')
                 .eq('id', id)
+                .eq('created_by', userId)
                 .single();
 
             if (v1Version) {
@@ -115,10 +118,12 @@ export async function getPrompt(id: string, type: 'v1' | 'v2' = 'v1') {
             }
 
             // Fallback to parent prompt table
+            // SECURITY: Filter by user_id to enforce ownership
             const { data, error } = await supabase
                 .from('prompts')
                 .select('original_prompt, refined_prompt')
                 .eq('id', id)
+                .eq('user_id', userId)
                 .single();
 
             if (error || !data) {

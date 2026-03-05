@@ -4,6 +4,7 @@ import { auth, clerkClient } from "@clerk/nextjs/server"
 import { createClerkSupabaseClient } from "@/lib/supabaseClient"
 import { createAdminClient } from "@/lib/supabaseAdmin"
 import { revalidatePath } from "next/cache"
+import { MAX_CONTENT_LENGTH, isValidUUID } from "@/lib/security"
 
 // Interfaces for our return types
 export interface CommunityLike {
@@ -156,6 +157,7 @@ export async function createPost(content: string) {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
     if (!content.trim()) throw new Error("Content cannot be empty");
+    if (content.length > MAX_CONTENT_LENGTH) throw new Error(`Content cannot exceed ${MAX_CONTENT_LENGTH} characters`);
 
     const supabase = createAdminClient();
 
@@ -178,6 +180,8 @@ export async function createReply(postId: string, content: string) {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
     if (!content.trim()) throw new Error("Content cannot be empty");
+    if (content.length > MAX_CONTENT_LENGTH) throw new Error(`Content cannot exceed ${MAX_CONTENT_LENGTH} characters`);
+    if (!isValidUUID(postId)) throw new Error("Invalid post ID format");
 
     const supabase = createAdminClient();
 

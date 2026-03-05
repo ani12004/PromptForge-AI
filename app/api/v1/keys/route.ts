@@ -1,32 +1,43 @@
 import { NextResponse } from 'next/server';
+import { auth } from '@clerk/nextjs/server';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { generateApiKey } from '@/lib/api-keys';
+import { sanitizeErrorForClient } from '@/lib/security';
 
-export async function GET(req: Request) {
-    const supabase = getSupabaseAdmin();
-    const url = new URL(req.url);
-    const userId = url.searchParams.get('userId');
-
+export async function GET() {
+    // SECURITY: Server-side authentication — userId from Clerk session, not client
+    const { userId } = await auth();
     if (!userId) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const supabase = getSupabaseAdmin();
+
     const { data, error } = await supabase
         .from('v2_api_keys')
         .select('id, name, prefix, created_at, last_used_at, revoked')
-        .eq('user_id', userId)
+        .eq('user_id', userId) // Uses server-verified userId
         .order('created_at', { ascending: false });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) {
+        const msg = sanitizeErrorForClient(error, "API Keys GET");
+        return NextResponse.json({ error: msg }, { status: 500 });
+    }
 
     return NextResponse.json({ keys: data });
 }
 
 export async function POST(req: Request) {
+    // SECURITY: Server-side authentication — userId from Clerk session, not client
+    const { userId } = await auth();
+    if (!userId) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     try {
-        const { name, userId } = await req.json();
-        if (!name || !userId) {
-            return NextResponse.json({ error: "Missing name or userId" }, { status: 400 });
+        const { name } = await req.json();
+        if (!name) {
+            return NextResponse.json({ error: "Missing key name" }, { status: 400 });
         }
 
         const { rawKey, keyHash, prefix } = generateApiKey();
@@ -35,7 +46,7 @@ export async function POST(req: Request) {
         const { data, error } = await supabase
             .from('v2_api_keys')
             .insert({
-                user_id: userId,
+                user_id: userId, // Uses server-verified userId
                 name,
                 key_hash: keyHash,
                 prefix
@@ -51,6 +62,7 @@ export async function POST(req: Request) {
             rawKey: rawKey
         });
     } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+        const msg = sanitizeErrorForClient(err, "API Keys POST");
+        return NextResponse.json({ error: msg }, { status: 500 });
     }
 }

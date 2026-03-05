@@ -7,6 +7,12 @@ const chalk = require('chalk');
 const FORGE_HOME = path.join(os.homedir(), '.forge');
 const AUTH_FILE = path.join(FORGE_HOME, 'auth.json');
 
+// SECURITY NOTE: API keys are stored as plain JSON with 0o600 permissions.
+// For production-grade security, consider using OS-native credential stores:
+//   - macOS: Keychain (via 'keytar' npm package)
+//   - Windows: Credential Manager (via 'keytar')
+//   - Linux: libsecret / GNOME Keyring (via 'keytar')
+
 function ensureForgeHomeDir() {
     if (!fs.existsSync(FORGE_HOME)) {
         fs.mkdirSync(FORGE_HOME, { recursive: true });

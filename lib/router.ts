@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { sanitizeForPrompt } from "./guardrails";
 
 let aiInstance: GoogleGenerativeAI | null = null;
 
@@ -28,11 +29,11 @@ export async function routeAndExecutePrompt(
 
     // 1. Variable Injection
     // Replaces all occurrences of {{variable_name}} with the actual value
+    // SECURITY: Wrap user values in delimiters to reduce prompt injection risk
     let finalPrompt = template;
     for (const [key, value] of Object.entries(variables)) {
-        // Use a global regex to replace all instances of the variable
         const regex = new RegExp(`{{${key}}}`, 'g');
-        finalPrompt = finalPrompt.replace(regex, value);
+        finalPrompt = finalPrompt.replace(regex, sanitizeForPrompt(value));
     }
 
     // 2. Cascading Model Router Logic

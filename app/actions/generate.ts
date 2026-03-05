@@ -130,7 +130,11 @@ export async function refinePrompt(
 
             } catch (authErr) {
                 console.error("Auth/Quota Check Failed:", authErr);
-                // Fail open or closed? Let's fail safe but allow if DB is just temporary down
+                // SECURITY: Fail closed — do not allow requests when quota checks fail
+                return {
+                    success: false,
+                    error: "Unable to verify usage limits. Please try again later."
+                };
             }
         }
 
@@ -371,6 +375,6 @@ QUALITY BAR: Professional, Authoritative, Precise.
 
     } catch (error: any) {
         console.error("Critical Generation Error:", error);
-        return { success: false, error: `Generation failed: ${error.message || "Unknown error"}` };
+        return { success: false, error: "Generation failed. Please try again later." };
     }
 }

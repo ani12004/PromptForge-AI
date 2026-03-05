@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
+import { auth } from "@clerk/nextjs/server"
 import { CHALLENGES } from "@/components/playground/data/challenges"
 import { AnalysisResult, Challenge } from "@/components/playground/types"
+import { checkRateLimit } from "@/lib/rate-limit"
 
 // Interface for the request body
 interface AnalyzeRequest {
@@ -10,6 +12,18 @@ interface AnalyzeRequest {
 
 export async function POST(req: Request) {
     try {
+        // SECURITY: Require authentication
+        const { userId } = await auth();
+        if (!userId) {
+            return new Response("Unauthorized", { status: 401 });
+        }
+
+        // SECURITY: Rate limit — 30 requests per minute per user
+        const isAllowed = await checkRateLimit(`playground_analyze_${userId}`, 30, 60);
+        if (!isAllowed) {
+            return new Response("Rate limit exceeded. Please slow down.", { status: 429 });
+        }
+
         const body: AnalyzeRequest = await req.json()
         const { prompt, scenarioId } = body
 
@@ -25,20 +39,15 @@ export async function POST(req: Request) {
         }
 
         // --- HEURISTIC ANALYSIS SIMULATION ---
-        // Replacing 'any' with explicit logic
-        // We use 'challenge' (was 's') and 'prompt' for scoring
-
         const lengthScore = Math.min(100, Math.max(0, (prompt.length / 50) * 100))
 
-        // Example check: does the prompt satisfy 'fixer' criteria?
         let hasConstraints = false;
         if (challenge.mode === 'fixer') {
-            // Safe access because we checked mode
             hasConstraints = challenge.successCriteria.some((criteria: string) =>
                 prompt.toLowerCase().includes(criteria.split(' ')[0].toLowerCase())
             )
         } else if (challenge.mode === 'precision') {
-            hasConstraints = challenge.constraints.every(c => { // explicit 'c' type inferred or defined if complex
+            hasConstraints = challenge.constraints.every(c => {
                 if (c.type === 'contains') return prompt.includes(String(c.value));
                 return true;
             })

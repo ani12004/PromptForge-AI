@@ -3,10 +3,11 @@ import { getSupabaseAdmin } from '@/lib/supabase';
 import { routeAndExecutePrompt } from '@/lib/router';
 import { validateApiKey } from '@/lib/api-keys';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { sanitizeErrorForClient, MAX_PROMPT_LENGTH } from '@/lib/security';
 import { z } from 'zod';
 
 const cliExecuteSchema = z.object({
-    prompt: z.string().min(1, "Prompt cannot be empty"),
+    prompt: z.string().min(1, "Prompt cannot be empty").max(MAX_PROMPT_LENGTH, `Prompt cannot exceed ${MAX_PROMPT_LENGTH} characters`),
     model: z.string().optional()
 });
 
@@ -79,7 +80,7 @@ export async function POST(req: Request) {
         });
 
     } catch (err: any) {
-        console.error("[API Error] /v1/cli:", err);
-        return NextResponse.json({ error: "Internal Server Error", message: err.message }, { status: 500 });
+        sanitizeErrorForClient(err, "API /v1/cli");
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }

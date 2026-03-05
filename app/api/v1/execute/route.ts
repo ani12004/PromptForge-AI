@@ -5,6 +5,7 @@ import { withCache } from '@/lib/cache';
 import { runGuardrails, validateSchema } from '@/lib/guardrails';
 import { validateApiKey } from '@/lib/api-keys';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { sanitizeErrorForClient, MAX_VARIABLE_KEY_LENGTH, MAX_VARIABLE_VALUE_LENGTH } from '@/lib/security';
 import crypto from 'crypto';
 import { z } from 'zod';
 
@@ -12,7 +13,7 @@ import { z } from 'zod';
 const executeSchema = z.object({
     version_id: z.string().uuid(),
     ab_version_id: z.string().uuid().optional(), // For A/B traffic split
-    variables: z.record(z.string(), z.string()).default({}), // Allows optional variables
+    variables: z.record(z.string().max(MAX_VARIABLE_KEY_LENGTH), z.string().max(MAX_VARIABLE_VALUE_LENGTH)).default({}),
     required_schema: z.any().optional(), // For schema validation
 });
 
@@ -122,32 +123,12 @@ export async function POST(req: Request) {
         }
 
         if (dbError || (!systemPrompt && !template)) {
-            // DEEP DIAGNOSTIC: Check if it exists AT ALL regardless of ownership
-            const { data: v2Exists } = await supabase.from('v2_prompt_versions').select('id, v2_prompts!inner(user_id)').eq('id', active_version_id).maybeSingle();
-            const { data: v1VersionExists } = await supabase.from('prompt_versions').select('id, created_by').eq('id', active_version_id).maybeSingle();
-            const { data: v1PromptExists } = await supabase.from('prompts').select('id, user_id').eq('id', active_version_id).maybeSingle();
-
-            // Check how many keys/prompts this user has in total
-            const { count: totalKeys } = await supabase.from('v2_api_keys').select('*', { count: 'exact', head: true }).eq('user_id', keyContext.user_id);
-            const { count: totalPrompts } = await supabase.from('v2_prompts').select('*', { count: 'exact', head: true }).eq('user_id', keyContext.user_id);
-
-            console.log(`[Execute] 404 Diagnostic - ID: ${active_version_id} | KeyUser: ${keyContext.user_id}`);
-            console.log(`[Execute] Diagnostic - v2Exists: ${!!v2Exists}, v1VExists: ${!!v1VersionExists}, v1PExists: ${!!v1PromptExists}`);
-            console.log(`[Execute] User Stats - Total Keys: ${totalKeys}, Total V2 Prompts: ${totalPrompts}`);
+            // SECURITY: Log diagnostics server-side only — never expose to client
+            console.log(`[Execute] 404 - ID: ${active_version_id} | KeyUser: ${keyContext.user_id}`);
 
             return NextResponse.json({
                 success: false,
-                error: "Prompt version not found",
-                debug: {
-                    receivedVersionId: active_version_id,
-                    workspaceId: keyContext.user_id,
-                    existsInV2: !!v2Exists,
-                    v2Owner: (v2Exists as any)?.v2_prompts?.user_id || null,
-                    existsInV1Version: !!v1VersionExists,
-                    v1VersionOwner: v1VersionExists?.created_by || null,
-                    totalKeysForUser: totalKeys || 0,
-                    totalV2PromptsForUser: totalPrompts || 0
-                }
+                error: "Prompt version not found or access denied."
             }, { status: 404 });
         }
 
@@ -211,7 +192,7 @@ export async function POST(req: Request) {
         });
 
     } catch (err: any) {
-        console.error("[API Error] /v1/execute:", err);
-        return NextResponse.json({ error: "Internal Server Error", message: err.message }, { status: 500 });
+        sanitizeErrorForClient(err, "API /v1/execute");
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }

@@ -85,6 +85,6 @@ export async function auditPrompt(prompt: string): Promise<{ success: boolean, d
 
     } catch (error: any) {
         console.error("Audit Error:", error);
-        return { success: false, error: `Failed to audit: ${error.message || "Unknown error"}` };
+        return { success: false, error: "Failed to audit prompt. Please try again later." };
     }
 }
