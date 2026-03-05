@@ -133,7 +133,7 @@ export function DevDocsClient() {
                 </ul>
             </nav>
             <div className="p-3 border-t border-white/5 text-center">
-                <span className="text-[10px] text-gray-700 uppercase tracking-widest">v1.4.0 · March 2026</span>
+                <span className="text-[10px] text-gray-700 uppercase tracking-widest">v1.5.0 · March 2026</span>
             </div>
         </>
     )
@@ -445,19 +445,20 @@ const DirectorySection = React.memo(function DirectorySection() {
 │   ├── marketing/              # Landing, Pricing, Docs components
 │   ├── ui/                     # Reusable primitives (Button, Card, Toast, etc.)
 │   └── gamification/           # Badge system (BadgeProvider, BadgeToast)
-├── lib/ (12 files)             # Core utilities
+├── lib/ (13 files)             # Core utilities
 │   ├── router.ts               # Cascading AI model router
 │   ├── cache.ts                # Upstash Redis caching
-│   ├── rate-limit.ts           # Fixed-window rate limiter
-│   ├── guardrails.ts           # Input safety (PII, profanity)
+│   ├── rate-limit.ts           # Fixed-window rate limiter (fail-closed)
+│   ├── guardrails.ts           # 4-layer input safety (length, profanity, PII, prompt injection)
+│   ├── security.ts             # Shared security utils (escapeHtml, sanitizeError, UUID)
 │   ├── api-keys.ts             # API key gen + validation
 │   ├── intelligence.ts         # Prompt analysis + cost stats
-│   └── supabase*.ts            # 3 Supabase client variants
+│   └── supabase*.ts            # 3 Supabase client variants (singleton)
 ├── forge-cli/                  # CLI Tool (npm: prompt-forge-ai-cli)
 ├── promptforge-sdk/            # Node.js SDK (npm: promptforge-server-sdk)
 ├── schema.sql                  # Badge database schema + seed
 ├── middleware.ts               # Clerk auth middleware
-├── vercel.json                 # Security headers
+├── vercel.json                 # Security headers + CORS
 └── package.json                # Dependencies`} />
     )
 })
@@ -575,101 +576,103 @@ const supabase = createClerkSupabaseClient(token);
 })
 
 const RoutingSection = React.memo(function RoutingSection() {
-        return (<>
-            <P>Clerk middleware protects authenticated routes. Public marketing pages are accessible without login.</P>
-            <CodeBlock language="typescript" title="middleware.ts — Protected Routes" code={`const isProtectedRoute = createRouteMatcher([
+    return (<>
+        <P>Clerk middleware protects authenticated routes. Public marketing pages are accessible without login.</P>
+        <CodeBlock language="typescript" title="middleware.ts — Protected Routes" code={`const isProtectedRoute = createRouteMatcher([
     '/studio(.*)',
     '/dashboard(.*)',
     '/profile(.*)',
     '/playground(.*)',
+    '/admin(.*)',      // Added in security hardening
+    '/settings(.*)',   // Added in security hardening
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
     if (isProtectedRoute(req)) await auth.protect();
 });`} />
-            <InfoTable
-                headers={["Route Group", "Path", "Auth", "Description"]}
-                rows={[
-                    ["(marketing)", "/, /about, /features, /pricing, /docs, /contact", "❌", "Public marketing pages"],
-                    ["(legal)", "/privacy, /terms", "❌", "Legal documents"],
-                    ["(auth)", "/sign-in, /sign-up", "❌", "Clerk auth pages"],
-                    ["studio", "/studio/*", "✅", "Prompt Studio IDE + sub-routes"],
-                    ["dashboard", "/dashboard", "✅", "User dashboard"],
-                    ["playground", "/playground", "✅", "Gamified learning"],
-                    ["admin", "/admin", "✅ + Admin", "System management"],
-                ]}
-            />
-        </>)
-    })
+        <InfoTable
+            headers={["Route Group", "Path", "Auth", "Description"]}
+            rows={[
+                ["(marketing)", "/, /about, /features, /pricing, /docs, /contact", "❌", "Public marketing pages"],
+                ["(legal)", "/privacy, /terms", "❌", "Legal documents"],
+                ["(auth)", "/sign-in, /sign-up", "❌", "Clerk auth pages"],
+                ["studio", "/studio/*", "✅", "Prompt Studio IDE + sub-routes"],
+                ["dashboard", "/dashboard", "✅", "User dashboard"],
+                ["playground", "/playground", "✅", "Gamified learning"],
+                ["admin", "/admin", "✅ + Admin", "System management"],
+            ]}
+        />
+    </>)
+})
 
 const DesignSystemSection = React.memo(function DesignSystemSection() {
-        return (<>
-            <P>Theme: <strong className="text-white">&quot;Cyber-Modern&quot; Dark Mode</strong>. Defined in <code className="text-brand-purple">globals.css</code> using Tailwind v4 <code className="text-brand-purple">@theme</code> directive.</P>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 my-4">
-                {[
-                    { name: "brand-purple", hex: "#8b5cf6", bg: "bg-[#8b5cf6]" },
-                    { name: "brand-violet", hex: "#d8b4fe", bg: "bg-[#d8b4fe]" },
-                    { name: "brand-indigo", hex: "#6366f1", bg: "bg-[#6366f1]" },
-                    { name: "brand-dark", hex: "#050508", bg: "bg-[#050508] border border-white/10" },
-                    { name: "brand-surface", hex: "#0f0f13", bg: "bg-[#0f0f13] border border-white/10" },
-                    { name: "status-success", hex: "#34d399", bg: "bg-[#34d399]" },
-                    { name: "status-error", hex: "#f87171", bg: "bg-[#f87171]" },
-                ].map(c => (
-                    <div key={c.name} className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02]">
-                        <div className={`w-6 h-6 rounded-md ${c.bg}`} />
-                        <div><p className="text-[11px] text-white font-mono">{c.hex}</p><p className="text-[10px] text-gray-600">{c.name}</p></div>
-                    </div>
-                ))}
-            </div>
-            <InfoTable
-                headers={["Class", "Effect"]}
-                rows={[
-                    [".glass-panel", "Frosted glass (backdrop-blur-xl, translucent surface)"],
-                    [".glass-card", "Interactive glass card with hover transition"],
-                    [".text-gradient", "White → Violet → Purple gradient text"],
-                    [".text-gradient-purple", "Purple → Indigo gradient text"],
-                    [".animate-fade-in-up", "Entrance animation (opacity + translateY)"],
-                    [".animate-float", "6s floating animation"],
-                ]}
-            />
-            <P>Typography: <strong className="text-white">Inter</strong> (UI) + <strong className="text-white">Poppins</strong> (Headings), loaded via <code className="text-brand-purple">next/font/google</code>.</P>
-        </>)
-    })
+    return (<>
+        <P>Theme: <strong className="text-white">&quot;Cyber-Modern&quot; Dark Mode</strong>. Defined in <code className="text-brand-purple">globals.css</code> using Tailwind v4 <code className="text-brand-purple">@theme</code> directive.</P>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 my-4">
+            {[
+                { name: "brand-purple", hex: "#8b5cf6", bg: "bg-[#8b5cf6]" },
+                { name: "brand-violet", hex: "#d8b4fe", bg: "bg-[#d8b4fe]" },
+                { name: "brand-indigo", hex: "#6366f1", bg: "bg-[#6366f1]" },
+                { name: "brand-dark", hex: "#050508", bg: "bg-[#050508] border border-white/10" },
+                { name: "brand-surface", hex: "#0f0f13", bg: "bg-[#0f0f13] border border-white/10" },
+                { name: "status-success", hex: "#34d399", bg: "bg-[#34d399]" },
+                { name: "status-error", hex: "#f87171", bg: "bg-[#f87171]" },
+            ].map(c => (
+                <div key={c.name} className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.02]">
+                    <div className={`w-6 h-6 rounded-md ${c.bg}`} />
+                    <div><p className="text-[11px] text-white font-mono">{c.hex}</p><p className="text-[10px] text-gray-600">{c.name}</p></div>
+                </div>
+            ))}
+        </div>
+        <InfoTable
+            headers={["Class", "Effect"]}
+            rows={[
+                [".glass-panel", "Frosted glass (backdrop-blur-xl, translucent surface)"],
+                [".glass-card", "Interactive glass card with hover transition"],
+                [".text-gradient", "White → Violet → Purple gradient text"],
+                [".text-gradient-purple", "Purple → Indigo gradient text"],
+                [".animate-fade-in-up", "Entrance animation (opacity + translateY)"],
+                [".animate-float", "6s floating animation"],
+            ]}
+        />
+        <P>Typography: <strong className="text-white">Inter</strong> (UI) + <strong className="text-white">Poppins</strong> (Headings), loaded via <code className="text-brand-purple">next/font/google</code>.</P>
+    </>)
+})
 
 const ServerActionsSection = React.memo(function ServerActionsSection() {
-        return (<>
-            <P>All server actions are in <code className="text-brand-purple">app/actions/</code> using the <code className="text-brand-purple">&quot;use server&quot;</code> directive.</P>
-            <InfoTable
-                headers={["Action File", "Key Function", "Description"]}
-                rows={[
-                    ["generate.ts", "refinePrompt()", "Core engine — converts raw input to optimized prompts"],
-                    ["audit.ts", "auditPrompt()", "Pre-execution security & clarity analysis"],
-                    ["analytics.ts", "getAnalytics()", "Dashboard KPI data and usage stats"],
-                    ["gamification.ts", "awardBadge()", "Badge/XP award system"],
-                    ["community.ts", "createPost()", "Forum CRUD (posts, replies, likes)"],
-                    ["contact.ts", "submitContact()", "Contact form + admin inbox + Resend replies"],
-                    ["save-prompt.ts", "savePrompt()", "Prompt persistence & version management"],
-                    ["subscription.ts", "checkTier()", "User subscription tier lookup"],
-                    ["notifications.ts", "getNotifications()", "Notification CRUD"],
-                    ["analyze.ts", "analyzePrompt()", "Prompt structure analysis"],
-                    ["auth.ts", "getAuthUser()", "Auth helper utilities"],
-                ]}
-            />
-            <Callout type="tip">The <code>generate.ts</code> action is the most complex — it handles auth gating, tier detection, rate limiting (Free: 3/min, 15/day | Pro: 15/min, 500/day), feature gating (Granular = Pro only), API key pool selection, provider routing (Gemini/NVIDIA), cascading model fallback (9 Gemini models), and DB persistence.</Callout>
-        </>)
-    })
+    return (<>
+        <P>All server actions are in <code className="text-brand-purple">app/actions/</code> using the <code className="text-brand-purple">&quot;use server&quot;</code> directive.</P>
+        <InfoTable
+            headers={["Action File", "Key Function", "Description"]}
+            rows={[
+                ["generate.ts", "refinePrompt()", "Core engine — converts raw input to optimized prompts"],
+                ["audit.ts", "auditPrompt()", "Pre-execution security & clarity analysis"],
+                ["analytics.ts", "getAnalytics()", "Dashboard KPI data and usage stats"],
+                ["gamification.ts", "awardBadge()", "Badge/XP award system"],
+                ["community.ts", "createPost()", "Forum CRUD (posts, replies, likes)"],
+                ["contact.ts", "submitContact()", "Contact form + admin inbox + Resend replies"],
+                ["save-prompt.ts", "savePrompt()", "Prompt persistence & version management"],
+                ["subscription.ts", "checkTier()", "User subscription tier lookup"],
+                ["notifications.ts", "getNotifications()", "Notification CRUD"],
+                ["analyze.ts", "analyzePrompt()", "Prompt structure analysis"],
+                ["auth.ts", "getAuthUser()", "Auth helper utilities"],
+            ]}
+        />
+        <Callout type="tip">The <code>generate.ts</code> action is the most complex — it handles auth gating, tier detection, rate limiting (Free: 3/min, 15/day | Pro: 15/min, 500/day), feature gating (Granular = Pro only), API key pool selection, provider routing (Gemini/NVIDIA), cascading model fallback (9 Gemini models), and DB persistence.</Callout>
+    </>)
+})
 
 const ApiRoutesSection = React.memo(function ApiRoutesSection() {
-        return (<>
-            <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">POST /api/v1/execute — Prompt Execution</h4>
-            <P>The primary PaaS endpoint for programmatic prompt execution.</P>
-            <CodeBlock language="json" title="Request Body (Zod-validated)" code={`{
+    return (<>
+        <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">POST /api/v1/execute — Prompt Execution</h4>
+        <P>The primary PaaS endpoint for programmatic prompt execution.</P>
+        <CodeBlock language="json" title="Request Body (Zod-validated)" code={`{
     "version_id": "uuid-of-prompt-version",
     "variables": { "name": "Alice", "topic": "Space" },
     "ab_version_id": "optional-uuid-for-ab-testing",
     "required_schema": { "title": "string" }
 }`} />
-            <CodeBlock language="json" title="Success Response (200)" code={`{
+        <CodeBlock language="json" title="Success Response (200)" code={`{
     "success": true,
     "data": "Generated prompt output...",
     "meta": {
@@ -682,121 +685,122 @@ const ApiRoutesSection = React.memo(function ApiRoutesSection() {
         "served_version": "uuid"
     }
 }`} />
-            <InfoTable
-                headers={["Status", "Code", "Cause"]}
-                rows={[
-                    ["401", "MISSING_API_KEY", "No x-api-key header"],
-                    ["403", "INVALID_API_KEY", "Key not found or revoked"],
-                    ["429", "RATE_LIMITED", "Exceeded 120 req/min"],
-                    ["400", "GUARDRAIL_BLOCK", "PII or profanity detected"],
-                    ["404", "NOT_FOUND", "Prompt version not found"],
-                    ["422", "SCHEMA_FAIL", "Output failed schema validation"],
-                ]}
-            />
-            <h4 className="text-xs font-bold text-blue-400 uppercase tracking-wider mt-6 mb-2">Other API Routes</h4>
-            <InfoTable
-                headers={["Route", "Method", "Description"]}
-                rows={[
-                    ["/api/v1/keys", "POST", "Create new API keys (returns raw key once)"],
-                    ["/api/v1/keys/revoke", "POST", "Soft-revoke an API key"],
-                    ["/api/v1/cli", "POST", "CLI proxy endpoint"],
-                    ["/api/webhooks/clerk", "POST", "Clerk → Supabase user sync (Svix verified)"],
-                    ["/api/playground/analyze", "POST", "Playground prompt analysis"],
-                ]}
-            />
-        </>)
-    })
+        <InfoTable
+            headers={["Status", "Code", "Cause"]}
+            rows={[
+                ["401", "MISSING_API_KEY", "No x-api-key header"],
+                ["403", "INVALID_API_KEY", "Key not found or revoked"],
+                ["429", "RATE_LIMITED", "Exceeded 120 req/min"],
+                ["400", "GUARDRAIL_BLOCK", "PII or profanity detected"],
+                ["404", "NOT_FOUND", "Prompt version not found"],
+                ["422", "SCHEMA_FAIL", "Output failed schema validation"],
+            ]}
+        />
+        <h4 className="text-xs font-bold text-blue-400 uppercase tracking-wider mt-6 mb-2">Other API Routes</h4>
+        <InfoTable
+            headers={["Route", "Method", "Description"]}
+            rows={[
+                ["/api/v1/keys", "POST", "Create new API keys (returns raw key once)"],
+                ["/api/v1/keys/revoke", "POST", "Soft-revoke an API key"],
+                ["/api/v1/cli", "POST", "CLI proxy endpoint"],
+                ["/api/webhooks/clerk", "POST", "Clerk → Supabase user sync (Svix verified)"],
+                ["/api/playground/analyze", "POST", "Playground prompt analysis"],
+            ]}
+        />
+    </>)
+})
 
 const LibModulesSection = React.memo(function LibModulesSection() {
-        return (<>
-            <InfoTable
-                headers={["Module", "Key Export", "Description"]}
-                rows={[
-                    ["router.ts", "routeAndExecutePrompt()", "Cascading model router — Flash vs Pro heuristics + NVIDIA support"],
-                    ["cache.ts", "withCache()", "Upstash Redis exact-match caching (1hr TTL, <50ms hits)"],
-                    ["rate-limit.ts", "checkRateLimit()", "Fixed-window rate limiter (fail-open on Redis errors)"],
-                    ["guardrails.ts", "runGuardrails()", "PII detection (email, phone) + profanity filter"],
-                    ["api-keys.ts", "generateApiKey()", "pf_live_ prefixed keys with SHA-256 storage"],
-                    ["intelligence.ts", "analyzePrompt()", "Heuristic prompt analysis + cost optimization stats"],
-                    ["supabase.ts", "getSupabaseAdmin()", "Service Role client for V2 API engine"],
-                    ["supabaseAdmin.ts", "createAdminClient()", "Server-only admin client (webhooks, cron)"],
-                    ["supabaseClient.ts", "createClerkSupabaseClient()", "User-scoped client with Clerk JWT"],
-                    ["admin.ts", "isAdmin()", "Checks profiles.role === 'admin'"],
-                    ["constants.ts", "NAV_LINKS, SITE_CONFIG", "Navigation + site configuration"],
-                    ["utils.ts", "cn()", "clsx + tailwind-merge class merger"],
-                ]}
-            />
-            <Callout type="tip"><strong>Router Heuristics:</strong> prompt length &gt; 4000 chars OR &quot;step-by-step&quot; / &quot;&lt;think&gt;&quot; keywords → routes to <code>gemini-2.0-pro</code>. Otherwise → <code>gemini-2.5-flash</code>. Cost: Pro = 1.25/5.00 µUSD, Flash = 0.075/0.30 µUSD per token (input/output).</Callout>
-        </>)
-    })
+    return (<>
+        <InfoTable
+            headers={["Module", "Key Export", "Description"]}
+            rows={[
+                ["router.ts", "routeAndExecutePrompt()", "Cascading model router — Flash vs Pro heuristics + NVIDIA + <user_input> variable wrapping"],
+                ["cache.ts", "withCache()", "Upstash Redis exact-match caching (1hr TTL, <50ms hits)"],
+                ["rate-limit.ts", "checkRateLimit()", "Fixed-window rate limiter (fail-closed on Redis errors)"],
+                ["guardrails.ts", "runGuardrails()", "4-layer protection: length + profanity + PII (email, phone, SSN, CC) + prompt injection"],
+                ["security.ts", "escapeHtml(), sanitizeErrorForClient()", "Shared security utilities — HTML escaping, error sanitization, UUID validation, input limits"],
+                ["api-keys.ts", "generateApiKey()", "pf_live_ prefixed keys with SHA-256 storage"],
+                ["intelligence.ts", "analyzePrompt()", "Heuristic prompt analysis + cost optimization stats"],
+                ["supabase.ts", "getSupabaseAdmin()", "Service Role client for V2 API engine (singleton)"],
+                ["supabaseAdmin.ts", "createAdminClient()", "Server-only admin client — webhooks, cron (singleton)"],
+                ["supabaseClient.ts", "createClerkSupabaseClient()", "User-scoped client with Clerk JWT"],
+                ["admin.ts", "isAdmin()", "Checks profiles.role === 'admin'"],
+                ["constants.ts", "NAV_LINKS, SITE_CONFIG", "Navigation + site configuration"],
+                ["utils.ts", "cn()", "clsx + tailwind-merge class merger"],
+            ]}
+        />
+        <Callout type="tip"><strong>Router Heuristics:</strong> prompt length &gt; 4000 chars OR &quot;step-by-step&quot; / &quot;&lt;think&gt;&quot; keywords → routes to <code>gemini-2.0-pro</code>. Otherwise → <code>gemini-2.5-flash</code>. Cost: Pro = 1.25/5.00 µUSD, Flash = 0.075/0.30 µUSD per token (input/output).</Callout>
+    </>)
+})
 
 const ComponentsSection = React.memo(function ComponentsSection() {
-        return (<>
-            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Layout (4 components)</h4>
-            <P><code className="text-brand-purple">Shell</code> wraps children with <code className="text-brand-purple">Navbar</code> + <code className="text-brand-purple">Footer</code>. The Navbar is a fixed frosted-glass bar with responsive mobile menu. <code className="text-brand-purple">UserMenu</code> integrates Clerk user dropdown.</P>
-            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4 mb-2">Studio (9 components)</h4>
-            <InfoTable headers={["Component", "Description"]} rows={[
-                ["PromptEditor", "Main text area for raw prompt input"],
-                ["PromptResult", "Displays refined prompt output"],
-                ["AdvancedControls", "Temperature, TopP, TopK sliders"],
-                ["CognitiveStatus", "Animated loader showing generation stages"],
-                ["AuditModal", "Security/quality audit report modal"],
-                ["VersionComparator", "Side-by-side diff view of versions"],
-                ["SavePromptModal", "Save/export prompt dialog"],
-                ["UpgradeModal", "Pro upgrade upsell when limits reached"],
-            ]} />
-            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4 mb-2">UI Primitives (11 components)</h4>
-            <P>Button (CVA variants), Card, Badge, Input, Accordion, Slider, Toast, CopyButton, SpotlightCard, PricingToggle, Separator.</P>
-            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4 mb-2">Playground (12 components)</h4>
-            <P>PlaygroundClient orchestrator, GameShell, HowToPlay modal, AnalysisPanel, 4 game mode components (FixerMode, BuilderMode, BattleMode, PrecisionMode), data files, and types.</P>
-        </>)
-    })
+    return (<>
+        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Layout (4 components)</h4>
+        <P><code className="text-brand-purple">Shell</code> wraps children with <code className="text-brand-purple">Navbar</code> + <code className="text-brand-purple">Footer</code>. The Navbar is a fixed frosted-glass bar with responsive mobile menu. <code className="text-brand-purple">UserMenu</code> integrates Clerk user dropdown.</P>
+        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4 mb-2">Studio (9 components)</h4>
+        <InfoTable headers={["Component", "Description"]} rows={[
+            ["PromptEditor", "Main text area for raw prompt input"],
+            ["PromptResult", "Displays refined prompt output"],
+            ["AdvancedControls", "Temperature, TopP, TopK sliders"],
+            ["CognitiveStatus", "Animated loader showing generation stages"],
+            ["AuditModal", "Security/quality audit report modal"],
+            ["VersionComparator", "Side-by-side diff view of versions"],
+            ["SavePromptModal", "Save/export prompt dialog"],
+            ["UpgradeModal", "Pro upgrade upsell when limits reached"],
+        ]} />
+        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4 mb-2">UI Primitives (11 components)</h4>
+        <P>Button (CVA variants), Card, Badge, Input, Accordion, Slider, Toast, CopyButton, SpotlightCard, PricingToggle, Separator.</P>
+        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4 mb-2">Playground (12 components)</h4>
+        <P>PlaygroundClient orchestrator, GameShell, HowToPlay modal, AnalysisPanel, 4 game mode components (FixerMode, BuilderMode, BattleMode, PrecisionMode), data files, and types.</P>
+    </>)
+})
 
 const StudioSection = React.memo(function StudioSection() {
-        return (<>
-            <P>The Studio (<code className="text-brand-purple">/studio</code>) is the primary IDE workspace — a <strong className="text-white">split-panel interface</strong> for prompt engineering.</P>
-            <P><strong className="text-white">Desktop:</strong> Side-by-side (Input | Output). <strong className="text-white">Mobile:</strong> Stacked. Left sidebar provides quick navigation to History, Analytics, Keys, Notifications.</P>
-            <P><strong className="text-white">Workflow:</strong> User enters raw prompt → adjusts controls (Temperature, TopP, TopK, detail level) → clicks Generate → <code className="text-brand-purple">refinePrompt()</code> server action → CognitiveStatus shows thinking stages → refined prompt appears → user can Audit, Compare versions, or Save.</P>
-            <InfoTable
-                headers={["Feature", "Free Tier", "Pro Tier"]}
-                rows={[
-                    ["Generations/day", "15", "500"],
-                    ["Rate limit", "3/min", "15/min"],
-                    ["Granular mode", "❌", "✅"],
-                    ["API key priority", "Standard pool", "\"Viper\" priority pool"],
-                ]}
-            />
-        </>)
-    })
+    return (<>
+        <P>The Studio (<code className="text-brand-purple">/studio</code>) is the primary IDE workspace — a <strong className="text-white">split-panel interface</strong> for prompt engineering.</P>
+        <P><strong className="text-white">Desktop:</strong> Side-by-side (Input | Output). <strong className="text-white">Mobile:</strong> Stacked. Left sidebar provides quick navigation to History, Analytics, Keys, Notifications.</P>
+        <P><strong className="text-white">Workflow:</strong> User enters raw prompt → adjusts controls (Temperature, TopP, TopK, detail level) → clicks Generate → <code className="text-brand-purple">refinePrompt()</code> server action → CognitiveStatus shows thinking stages → refined prompt appears → user can Audit, Compare versions, or Save.</P>
+        <InfoTable
+            headers={["Feature", "Free Tier", "Pro Tier"]}
+            rows={[
+                ["Generations/day", "15", "500"],
+                ["Rate limit", "3/min", "15/min"],
+                ["Granular mode", "❌", "✅"],
+                ["API key priority", "Standard pool", "\"Viper\" priority pool"],
+            ]}
+        />
+    </>)
+})
 
 const GamificationSection = React.memo(function GamificationSection() {
-        return (<>
-            <P><strong className="text-white">15+ unique badges</strong> across 5 rarity tiers, with <strong className="text-white">confetti effects</strong> for Expert/Legendary. Managed via <code className="text-brand-purple">BadgeProvider</code> (global React context).</P>
-            <InfoTable
-                headers={["Tier", "Examples", "Count"]}
-                rows={[
-                    ["Common", "Prompt Rookie, Curious Mind, Helper", "3"],
-                    ["Skilled", "Constraint Master, Battle Analyst, Builder Apprentice, Consistent", "4"],
-                    ["Advanced", "Prompt Surgeon, Precision Engineer, Battle Commander, Streak Mindset", "4"],
-                    ["Expert", "Prompt Architect, Master Fixer, Oracle", "3"],
-                    ["Legendary", "Legend of PromptForge", "1"],
-                ]}
-            />
-            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4 mb-2">Playground Game Modes</h4>
-            <InfoTable headers={["Mode", "Description", "Learning Goal"]} rows={[
-                ["Fixer", "Debug broken prompts", "Identify and fix common prompt issues"],
-                ["Builder", "Construct from templates", "Learn structured prompt patterns"],
-                ["Battle", "Predict which prompt wins", "Develop prompt evaluation skills"],
-                ["Precision", "Match exact constraints", "Master constraint engineering"],
-            ]} />
-        </>)
-    })
+    return (<>
+        <P><strong className="text-white">15+ unique badges</strong> across 5 rarity tiers, with <strong className="text-white">confetti effects</strong> for Expert/Legendary. Managed via <code className="text-brand-purple">BadgeProvider</code> (global React context).</P>
+        <InfoTable
+            headers={["Tier", "Examples", "Count"]}
+            rows={[
+                ["Common", "Prompt Rookie, Curious Mind, Helper", "3"],
+                ["Skilled", "Constraint Master, Battle Analyst, Builder Apprentice, Consistent", "4"],
+                ["Advanced", "Prompt Surgeon, Precision Engineer, Battle Commander, Streak Mindset", "4"],
+                ["Expert", "Prompt Architect, Master Fixer, Oracle", "3"],
+                ["Legendary", "Legend of PromptForge", "1"],
+            ]}
+        />
+        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4 mb-2">Playground Game Modes</h4>
+        <InfoTable headers={["Mode", "Description", "Learning Goal"]} rows={[
+            ["Fixer", "Debug broken prompts", "Identify and fix common prompt issues"],
+            ["Builder", "Construct from templates", "Learn structured prompt patterns"],
+            ["Battle", "Predict which prompt wins", "Develop prompt evaluation skills"],
+            ["Precision", "Match exact constraints", "Master constraint engineering"],
+        ]} />
+    </>)
+})
 
 const V2PaaSSection = React.memo(function V2PaaSSection() {
-        return (<>
-            <P>The V2 engine provides <strong className="text-white">headless prompt execution</strong> via REST API for machine-to-machine integration.</P>
-            <Callout type="info"><strong>Key decisions:</strong> Isolated V2 schema, linear versioning (no Git branching), ownership enforcement (API key user_id must match prompt user_id), published-only execution, V1 fallback for backwards compatibility.</Callout>
-            <CodeBlock language="text" title="Execution Pipeline" code={`POST /api/v1/execute
+    return (<>
+        <P>The V2 engine provides <strong className="text-white">headless prompt execution</strong> via REST API for machine-to-machine integration.</P>
+        <Callout type="info"><strong>Key decisions:</strong> Isolated V2 schema, linear versioning (no Git branching), ownership enforcement (API key user_id must match prompt user_id), published-only execution, V1 fallback for backwards compatibility.</Callout>
+        <CodeBlock language="text" title="Execution Pipeline" code={`POST /api/v1/execute
   ├── Auth: x-api-key → SHA-256 → v2_api_keys lookup
   ├── Rate Limit: 120/min/key (Redis INCR)
   ├── Validate: Zod schema (version_id UUID, variables)
@@ -812,14 +816,14 @@ const V2PaaSSection = React.memo(function V2PaaSSection() {
   ├── Schema Validate: Optional JSON output check
   ├── Telemetry: Async insert to v2_execution_logs
   └── Return: JSON { success, data, meta }`} />
-        </>)
-    })
+    </>)
+})
 
 const SDKSection = React.memo(function SDKSection() {
-        return (<>
-            <P><strong className="text-white">npm:</strong> <code className="text-brand-purple">promptforge-server-sdk</code> v1.0.7 · <strong className="text-white">License:</strong> MIT</P>
-            <CodeBlock language="bash" code={`npm install promptforge-server-sdk`} />
-            <CodeBlock language="typescript" title="Usage Example" code={`import { PromptForgeClient } from 'promptforge-server-sdk';
+    return (<>
+        <P><strong className="text-white">npm:</strong> <code className="text-brand-purple">promptforge-server-sdk</code> v1.0.7 · <strong className="text-white">License:</strong> MIT</P>
+        <CodeBlock language="bash" code={`npm install promptforge-server-sdk`} />
+        <CodeBlock language="typescript" title="Usage Example" code={`import { PromptForgeClient } from 'promptforge-server-sdk';
 
 const client = new PromptForgeClient({
     apiKey: process.env.PROMPTFORGE_API_KEY,
@@ -838,77 +842,132 @@ if (result.success) {
     console.log(result.meta.latencyMs); // Performance data
     console.log(result.meta.cached);    // Cache hit?
 }`} />
-            <InfoTable headers={["Method", "Description"]} rows={[
-                ["execute(params)", "Execute a prompt version with variables"],
-                ["abTest(params)", "Run an A/B test experiment"],
-                ["getLogs(params?)", "Retrieve execution logs"],
-                ["getCosts()", "Get cost analytics"],
-            ]} />
-            <Callout type="warn"><strong>Never</strong> call the SDK from client-side code — your API key will be exposed. Use it in Server Actions or API Routes only.</Callout>
-        </>)
-    })
+        <InfoTable headers={["Method", "Description"]} rows={[
+            ["execute(params)", "Execute a prompt version with variables"],
+            ["abTest(params)", "Run an A/B test experiment"],
+            ["getLogs(params?)", "Retrieve execution logs"],
+            ["getCosts()", "Get cost analytics"],
+        ]} />
+        <Callout type="warn"><strong>Never</strong> call the SDK from client-side code — your API key will be exposed. Use it in Server Actions or API Routes only.</Callout>
+    </>)
+})
 
 const CLISection = React.memo(function CLISection() {
-        return (<>
-            <P><strong className="text-white">npm:</strong> <code className="text-brand-purple">prompt-forge-ai-cli</code> v1.0.0 · <strong className="text-white">License:</strong> ISC</P>
-            <CodeBlock language="bash" code={`npm install -g prompt-forge-ai-cli
+    return (<>
+        <P><strong className="text-white">npm:</strong> <code className="text-brand-purple">prompt-forge-ai-cli</code> v1.0.0 · <strong className="text-white">License:</strong> ISC</P>
+        <CodeBlock language="bash" code={`npm install -g prompt-forge-ai-cli
 forge init my-project
 cd my-project
 forge   # Launch interactive studio`} />
-            <InfoTable headers={["Command", "Description"]} rows={[
-                [":help", "Show all available commands"],
-                [":model", "Switch primary AI model"],
-                [":auto", "Toggle auto-failover ON/OFF"],
-                [":debug", "Toggle debug mode (HTTP status, latency, tokens)"],
-                [":doctor", "Run connectivity diagnostics"],
-                [":benchmark", "Compare all models on same prompt"],
-                [":health", "Show model health statistics"],
-                [":history", "Show session prompt history"],
-                [":key", "Set your PromptForge API key"],
-            ]} />
-            <P>Built with: Commander.js, chalk, figlet, boxen, ora, gradient-string. Features intelligent failover with exponential backoff, multi-model support, persistent health tracking (<code className="text-brand-purple">~/.forge/health.json</code>), and structured JSON logging.</P>
-        </>)
-    })
+        <InfoTable headers={["Command", "Description"]} rows={[
+            [":help", "Show all available commands"],
+            [":model", "Switch primary AI model"],
+            [":auto", "Toggle auto-failover ON/OFF"],
+            [":debug", "Toggle debug mode (HTTP status, latency, tokens)"],
+            [":doctor", "Run connectivity diagnostics"],
+            [":benchmark", "Compare all models on same prompt"],
+            [":health", "Show model health statistics"],
+            [":history", "Show session prompt history"],
+            [":key", "Set your PromptForge API key"],
+        ]} />
+        <P>Built with: Commander.js, chalk, figlet, boxen, ora, gradient-string. Features intelligent failover with exponential backoff, multi-model support, persistent health tracking (<code className="text-brand-purple">~/.forge/health.json</code>), and structured JSON logging.</P>
+    </>)
+})
 
 const SecuritySection = React.memo(function SecuritySection() {
-        return (<>
-            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Security Headers (vercel.json)</h4>
-            <InfoTable headers={["Header", "Value"]} rows={[
-                ["Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload"],
-                ["Content-Security-Policy", "self + Clerk + Cloudflare + Google Fonts + Supabase"],
-                ["X-Frame-Options", "DENY"],
-                ["X-Content-Type-Options", "nosniff"],
-                ["Referrer-Policy", "strict-origin-when-cross-origin"],
-                ["Permissions-Policy", "geolocation=(), camera=(), microphone=()"],
-            ]} />
-            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4 mb-2">API Security</h4>
-            <P>API Keys are SHA-256 hashed (raw key never stored). Rate limiting at 120 req/min/key via Redis. Input guardrails block PII (email, phone patterns) and profanity. Webhook signatures verified via Svix.</P>
-            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4 mb-2">SEO</h4>
-            <P>Comprehensive OpenGraph + Twitter Card meta tags. Google Site Verification active. Dynamic sitemap covers 10 public routes. robots.txt disallows <code className="text-brand-purple">/dashboard/</code>, <code className="text-brand-purple">/studio/</code>, <code className="text-brand-purple">/admin/</code>.</P>
-        </>)
-    })
+    return (<>
+        <Callout type="info">A comprehensive security audit was completed on March 2026, remediating <strong>22 vulnerabilities</strong> (5 Critical, 9 High, 7 Medium, 3 Low) across input validation, authentication, API security, and secure coding practices.</Callout>
+
+        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Security Headers (vercel.json)</h4>
+        <InfoTable headers={["Header", "Value"]} rows={[
+            ["Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload"],
+            ["Content-Security-Policy", "self + Clerk + Cloudflare + Google Fonts + Supabase; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"],
+            ["X-Frame-Options", "DENY"],
+            ["X-Content-Type-Options", "nosniff"],
+            ["Referrer-Policy", "strict-origin-when-cross-origin"],
+            ["Permissions-Policy", "geolocation=(), camera=(), microphone=()"],
+            ["Access-Control-Allow-Origin", "https://prompt-forge-studio.vercel.app (API routes only)"],
+        ]} />
+
+        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-6 mb-2">Authentication & Authorization Hardening</h4>
+        <InfoTable headers={["Change", "Before", "After"]} rows={[
+            ["API key routes (/v1/keys)", "Client-supplied userId (IDOR)", "Server-side auth() from Clerk"],
+            ["API key revocation", "Client-supplied userId", "Server-side auth() + ownership check"],
+            ["/admin, /settings routes", "Client-side check only", "Added to Clerk middleware.ts"],
+            ["getPrompt() action", "No ownership filter", "Added .eq('user_id', userId) on all queries"],
+            ["Auth/quota failure", "Fail-open (allow request)", "Fail-closed (return error)"],
+        ]} />
+
+        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-6 mb-2">Input Validation & AI Security</h4>
+        <P>The <code className="text-brand-purple">guardrails.ts</code> module now provides <strong className="text-white">4-layer protection</strong> applied to all user inputs:</P>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 my-3">
+            {[
+                { layer: "1. Length", desc: "Max 10,000 characters per input", color: "blue" },
+                { layer: "2. Profanity", desc: "Blocked word patterns", color: "amber" },
+                { layer: "3. PII Detection", desc: "Email, phone, SSN, credit card regex", color: "rose" },
+                { layer: "4. Prompt Injection", desc: "5 adversarial patterns (ignore, override, system prompt)", color: "red" },
+            ].map(g => (
+                <div key={g.layer} className={`p-3 rounded-lg bg-${g.color}-500/5 border border-${g.color}-500/10`}>
+                    <p className={`text-xs font-bold text-${g.color}-400 mb-1`}>{g.layer}</p>
+                    <p className="text-xs text-gray-500">{g.desc}</p>
+                </div>
+            ))}
+        </div>
+        <P>User variable values are wrapped in <code className="text-brand-purple">&lt;user_input&gt;</code> delimiters during template substitution to help LLMs distinguish between instructions and user data.</P>
+
+        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-6 mb-2">API Security</h4>
+        <InfoTable headers={["Feature", "Implementation"]} rows={[
+            ["API Key Storage", "SHA-256 hashed (raw key never stored)"],
+            ["Rate Limiting", "120 req/min/key via Redis, fail-closed on Redis errors"],
+            ["CORS", "Restricted to app domain via vercel.json"],
+            ["Error Sanitization", "Generic errors to client; detailed logs server-side only"],
+            ["Debug Leak Prevention", "No internal IDs, ownership data, or counts in error responses"],
+            ["Webhook Verification", "Clerk webhooks verified via Svix signatures"],
+            ["Playground Auth", "/api/playground/analyze requires Clerk auth + rate limiting"],
+        ]} />
+
+        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-6 mb-2">Shared Security Module (lib/security.ts)</h4>
+        <CodeBlock language="typescript" title="lib/security.ts — Key Exports" code={`// HTML escaping for XSS prevention
+escapeHtml(str: string): string
+
+// Safe error messages for client responses
+sanitizeErrorForClient(error: unknown, context: string): string
+
+// UUID format validation
+isValidUUID(value: string): boolean
+
+// Centralized input limits
+MAX_CONTENT_LENGTH = 5000
+MAX_VARIABLE_KEY_LENGTH = 100
+MAX_VARIABLE_VALUE_LENGTH = 5000
+MAX_PROMPT_LENGTH = 10000`} />
+
+        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-6 mb-2">SEO</h4>
+        <P>Comprehensive OpenGraph + Twitter Card meta tags. Google Site Verification active. Dynamic sitemap covers 10 public routes. robots.txt disallows <code className="text-brand-purple">/dashboard/</code>, <code className="text-brand-purple">/studio/</code>, <code className="text-brand-purple">/admin/</code>.</P>
+    </>)
+})
 
 const DeploymentSection = React.memo(function DeploymentSection() {
-        return (<>
-            <P>Deployed on <strong className="text-white">Vercel</strong> with <code className="text-brand-purple">standalone</code> output mode. Remote images allowed from <code className="text-brand-purple">img.clerk.com</code>.</P>
-            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4 mb-2">Post-Deployment Checklist</h4>
-            <div className="space-y-2 my-3">
-                {[
-                    "Set all environment variables in Vercel Dashboard",
-                    "Configure Clerk webhook URL → /api/webhooks/clerk",
-                    "Run database migrations in Supabase SQL editor",
-                    "Verify Google Search Console verification",
-                    "Test API key generation at /studio/keys",
-                    "Validate webhook sync by creating a test user",
-                ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-3 text-sm text-gray-400">
-                        <div className="w-5 h-5 rounded-md bg-brand-purple/10 border border-brand-purple/20 flex items-center justify-center text-brand-purple text-[10px] font-bold mt-0.5 shrink-0">{i + 1}</div>
-                        {item}
-                    </div>
-                ))}
-            </div>
-        </>)
-    })
+    return (<>
+        <P>Deployed on <strong className="text-white">Vercel</strong> with <code className="text-brand-purple">standalone</code> output mode. Remote images allowed from <code className="text-brand-purple">img.clerk.com</code>.</P>
+        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4 mb-2">Post-Deployment Checklist</h4>
+        <div className="space-y-2 my-3">
+            {[
+                "Set all environment variables in Vercel Dashboard",
+                "Configure Clerk webhook URL → /api/webhooks/clerk",
+                "Run database migrations in Supabase SQL editor",
+                "Verify Google Search Console verification",
+                "Test API key generation at /studio/keys",
+                "Validate webhook sync by creating a test user",
+            ].map((item, i) => (
+                <div key={i} className="flex items-start gap-3 text-sm text-gray-400">
+                    <div className="w-5 h-5 rounded-md bg-brand-purple/10 border border-brand-purple/20 flex items-center justify-center text-brand-purple text-[10px] font-bold mt-0.5 shrink-0">{i + 1}</div>
+                    {item}
+                </div>
+            ))}
+        </div>
+    </>)
+})
 
 
 // ─── Data ────────────────────────────────────────────────────────────
