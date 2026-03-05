@@ -164,9 +164,18 @@ DETAIL LEVEL: ${modifier}
 QUALITY BAR: Professional, Authoritative, Precise.
 `;
 
+        const providerMapping: Record<string, string> = {
+            nvidia: "nvidia/nemotron-3-nano-30b-a3b",
+            groq: "llama-3.3-70b-versatile",
+            gemini: "gemini-2.5-flash"
+        };
+
+        const provider = options.provider || "gemini";
+        const model = options.model || providerMapping[provider] || "gemini-2.5-flash";
+
         // --- GENERATION ROUTING ---
-        const result = await generateResponse(options.provider || "gemini", {
-            model: options.model || (options.provider === "nvidia" ? "nvidia/nemotron-3-nano-30b-a3b" : "gemini-2.0-flash"),
+        const result = await generateResponse(provider as any, {
+            model: model,
             prompt: prompt,
             systemPrompt: systemInstruction,
             temperature: options.temperature ?? 0.7,

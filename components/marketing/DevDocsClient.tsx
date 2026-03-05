@@ -392,7 +392,7 @@ const TechStackSection = React.memo(function TechStackSection() {
                 ["Supabase", "^2.91.0", "PostgreSQL database + auth"],
                 ["Upstash Redis", "^1.36.2", "Serverless caching & rate limiting"],
                 ["Google Generative AI", "^0.24.1", "Gemini LLM models"],
-                ["Groq & DeepSeek", "REST API", "Additional LLM providers"],
+                ["Groq", "REST API", "High-performance Llama models"],
                 ["NVIDIA AI", "REST API", "Llama/Nemotron models"],
                 ["Zod", "^4.3.6", "Runtime schema validation"],
                 ["Resend", "^6.8.0", "Transactional email"],
@@ -449,7 +449,7 @@ const DirectorySection = React.memo(function DirectorySection() {
 │   └── gamification/           # Badge system (BadgeProvider, BadgeToast)
 ├── lib/ (16 files)             # Core utilities
 │   ├── ai/                     # [NEW] Multi-provider AI system
-│   │   ├── providers/          # Specific implementations (Gemini, Nvidia, Groq, DeepSeek)
+│   │   ├── providers/          # Specific implementations (Gemini, Nvidia, Groq)
 │   │   ├── router.ts           # Provider selection logic
 │   │   └── types.ts            # Standardized AI interfaces
 │   ├── router.ts               # Cascading AI model router (Now uses lib/ai)
@@ -487,7 +487,6 @@ const EnvVarsSection = React.memo(function EnvVarsSection() {
                 ["GEMINI_API_KEY_5", "⚡", "Additional fallback pool"],
                 ["NVIDIA_API_KEY", "⚡", "NVIDIA AI (Llama/Nemotron)"],
                 ["GROQ_API_KEY", "✅", "Groq AI (Llama 3/Mixtral)"],
-                ["DEEPSEEK_API_KEY", "✅", "DeepSeek AI (Chat/Reasoner)"],
                 ["UPSTASH_REDIS_REST_URL", "⚡", "Upstash Redis URL"],
                 ["UPSTASH_REDIS_REST_TOKEN", "⚡", "Upstash Redis token"],
                 ["RESEND_API_KEY", "⚡", "Email service (admin inbox)"],
@@ -666,7 +665,7 @@ const ServerActionsSection = React.memo(function ServerActionsSection() {
                 ["auth.ts", "getAuthUser()", "Auth helper utilities"],
             ]}
         />
-        <Callout type="tip">The <code>generate.ts</code> action is the most complex — it now uses a <strong>modular provider system</strong> (Gemini, NVIDIA, Groq, DeepSeek). It handles auth gating, tier detection, rate limiting, feature gating (Granular = Pro only), and cascades through providers/models to ensure successful generation.</Callout>
+        <Callout type="tip">The <code>generate.ts</code> action is the most complex — it now uses a <strong>modular provider system</strong> (Gemini, NVIDIA, Groq). It handles auth gating, tier detection, rate limiting, feature gating (Granular = Pro only), and cascades through providers/models to ensure successful generation.</Callout>
     </>)
 })
 
@@ -739,7 +738,7 @@ const LibModulesSection = React.memo(function LibModulesSection() {
                 ["utils.ts", "cn()", "clsx + tailwind-merge class merger"],
             ]}
         />
-        <Callout type="tip"><strong>Router & Provider System:</strong> The system now uses a modular <code>lib/ai</code> architecture. It supports automatic provider selection and model-specific heuristics (e.g., routing &gt;4k tokens to Pro models). Supports 4 major providers: Google Gemini, NVIDIA, Groq, and DeepSeek.</Callout>
+        <Callout type="tip"><strong>Router & Provider System:</strong> The system now uses a modular <code>lib/ai</code> architecture. It supports automatic provider selection and model-specific heuristics (e.g., routing &gt;4k tokens to Pro models). Supports 3 major providers: Google Gemini, NVIDIA, and Groq.</Callout>
     </>)
 })
 
@@ -821,7 +820,7 @@ const V2PaaSSection = React.memo(function V2PaaSSection() {
   │   ├── HIT → Return cached (0 tokens, ~50ms)
   │   └── MISS → Continue to router
   ├── Router: Heuristic model selection
-  ├── Provider: Multi-LLM adapter (Gemini, NVIDIA, Groq, DeepSeek)
+  ├── Provider: Multi-LLM adapter (Gemini, NVIDIA, Groq)
   ├── Execute: Standardized provider implementation
   ├── Schema Validate: Optional JSON output check
   ├── Telemetry: Async insert to v2_execution_logs

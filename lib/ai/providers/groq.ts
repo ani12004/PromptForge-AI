@@ -15,10 +15,10 @@ export class GroqProvider extends BaseAIProvider {
             options
         );
 
-        // Approximate cost for llama3-8b-8192 (very cheap)
+        // Approximate cost for llama-3.3-70b-versatile ($0.59 / 1M tokens)
         const tokensInput = result.usage?.promptTokens || 0;
         const tokensOutput = result.usage?.completionTokens || 0;
-        const costMicroUsd = Math.round((tokensInput * 0.05) + (tokensOutput * 0.1));
+        const costMicroUsd = Math.round((tokensInput * 0.59) + (tokensOutput * 0.59));
 
         return { ...result, costMicroUsd };
     }

@@ -24,10 +24,11 @@ export function AdvancedControls({ options, onChange }: AdvancedControlsProps) {
     }
 
     const currentProvider = options.provider || "gemini"
-    const currentModel = options.model || "gemini-1.5-flash"
+    const currentModel = options.model || "gemini-2.5-flash"
 
     const PROVIDERS: Record<string, { id: string; name: string }[]> = {
         gemini: [
+            { id: "gemini-2.5-flash", name: "Gemini 2.5 Flash" },
             { id: "gemini-2.0-flash", name: "Gemini 2.0 Flash" },
             { id: "gemini-2.0-pro-exp-02-05", name: "Gemini 2.0 Pro" },
             { id: "gemini-1.5-pro", name: "Gemini 1.5 Pro" },
@@ -38,13 +39,9 @@ export function AdvancedControls({ options, onChange }: AdvancedControlsProps) {
             { id: "nvidia/llama-3.1-405b-instruct", name: "Llama 3.1 405B" }
         ],
         groq: [
-            { id: "llama3-8b-8192", name: "Llama 3 8B (Fast)" },
-            { id: "llama3-70b-8192", name: "Llama 3 70B" },
+            { id: "llama-3.3-70b-versatile", name: "Llama 3.3 70B (Versatile)" },
+            { id: "llama-3.1-8b-instant", name: "Llama 3.1 8B (Fast)" },
             { id: "mixtral-8x7b-32768", name: "Mixtral 8x7B" }
-        ],
-        deepseek: [
-            { id: "deepseek-chat", name: "DeepSeek Chat" },
-            { id: "deepseek-reasoner", name: "DeepSeek Reasoner" }
         ]
     }
 

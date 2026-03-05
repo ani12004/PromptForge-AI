@@ -117,7 +117,6 @@ The application follows a **three-layer architecture**:
 │                    ┌──────────────────────┐          │
 │                    │ AI PROVIDER SYSTEM   │          │
 │                    │ Gemini, NVIDIA, Groq │          │
-│                    │ DeepSeek (R1/Chat)   │          │
 │                    └──────────────────────┘          │
 └─────────────────────────────────────────────────────┘
 ```
@@ -135,7 +134,7 @@ SDK/CLI → POST /api/v1/execute
   → Variable Injection ({{var}} replacement)
   → Exact-Match Cache Check (MD5 hash → Redis)
   → [Cache Miss] → AI Router (Modular Provider System)
-  → LLM Execution (Gemini, NVIDIA, Groq, or DeepSeek)
+  → LLM Execution (Gemini 2.5 Flash, NVIDIA, or Groq)
   → Schema Validation (optional)
   → Async Telemetry Log (v2_execution_logs)
   → JSON Response
@@ -208,7 +207,7 @@ PromptForge AI/
 │
 ├── lib/                          # Core utility libraries (16 files)
 │   ├── ai/                       # [NEW] Multi-provider AI system
-│   │   ├── providers/            # Specific implementations (Gemini, Nvidia, Groq, DeepSeek)
+│   │   ├── providers/            # Specific implementations (Gemini, Nvidia, Groq)
 │   │   ├── router.ts             # Provider selection logic
 │   │   └── types.ts              # Standardized AI interfaces
 │   ├── router.ts                 # Cascading AI model router (integrated with lib/ai)
@@ -281,9 +280,8 @@ Create a `.env.local` file in the project root with the following required varia
 | `GEMINI_API_KEY_2` | ⚡ | Secondary key for free-tier users ("Gamer") |
 | `GEMINI_API_KEY_4` | ⚡ | Priority key for Pro users ("Viper") |
 | `GEMINI_API_KEY_5` | ⚡ | Additional fallback key |
-| `NVIDIA_API_KEY` | ⚡ | NVIDIA AI API key for Llama/Nemotron models |
-| `GROQ_API_KEY` | ✅ | Groq AI (Llama 3/Mixtral) |
-| `DEEPSEEK_API_KEY` | ✅ | DeepSeek AI (Chat/Reasoner) |
+| `NVIDIA_API_KEY` | ⚡ | NVIDIA AI API key for Llama/Nemotron models. Supported models: `nemotron-3-nano-30b-a3b`, `llama-3.1-405b` |
+| `GROQ_API_KEY` | ✅ | Groq AI API key. Supported models: `llama-3.3-70b-versatile`, `llama-3.1-8b-instant`, `mixtral-8x7b-32768` |
 | `UPSTASH_REDIS_REST_URL` | ⚡ | Upstash Redis REST URL (caching + rate limiting) |
 | `UPSTASH_REDIS_REST_TOKEN` | ⚡ | Upstash Redis REST token |
 | `RESEND_API_KEY` | ⚡ | Resend email service key (admin inbox replies) |
@@ -570,8 +568,10 @@ The heart of PromptForge. Converts raw user input into optimized prompts.
 7. API key pool selection based on tier
 8. System prompt construction with detail level modifier
 9. Provider routing (NVIDIA direct API or Gemini cascading fallback)
-10. Gemini cascading fallback: tries models in order — `gemini-3.1-pro` → `gemini-3-pro` → `gemini-3-flash` → `gemini-2.5-pro` → `gemini-2.5-flash` → `gemini-2-pro-exp` → `gemini-2-flash` → `gemini-1.5-pro` → `gemini-1.5-flash`
-11. DB persistence (prompt + version insert)
+10. Gemini cascading fallback: tries models in order —
+- **Gemini**: `gemini-2.5-flash`, `gemini-1.5-pro`, etc.
+- **NVIDIA**: `nemotron-3-nano-30b-a3b`, `llama-3.1-405b`
+- **Groq**: `llama-3.3-70b-versatile`, `llama-3.1-8b-instant`, `mixtral-8x7b-32768`
 12. Returns `{ success, content, promptId, versionId }`
 
 **Detail Levels:**
@@ -690,7 +690,7 @@ Analyzes prompt structure for the Playground learning environment.
 |---|---|---|
 | Gemini Pro | 1.25 µUSD | 5.00 µUSD |
 | Gemini Flash | 0.075 µUSD | 0.30 µUSD |
-| NVIDIA/Groq/DeepSeek | ~0.1 µUSD | ~0.3 µUSD |
+| NVIDIA/Groq | ~0.1 µUSD | ~0.3 µUSD |
 
 ### `cache.ts` — Exact-Match Caching
 **Function:** `withCache<T>(key, fetcher, ttlSeconds?)`
