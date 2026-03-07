@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { Terminal, Package, Command, CheckCircle2, Zap, Activity, Bug, BarChart3, Clock, Shield, HelpCircle } from "lucide-react"
+import { Terminal, Package, Command, CheckCircle2, Zap, Activity, Bug, BarChart3, Clock, Shield, HelpCircle, Globe } from "lucide-react"
 import CopyButton from "@/components/ui/CopyButton"
 
 export const metadata: Metadata = {
@@ -148,6 +148,37 @@ export default function CLI_Docs_Page() {
 Next steps:
   cd my-project
   forge`} />
+                    </section>
+
+                    {/* Registry Commands */}
+                    <section id="registry" className="space-y-6">
+                        <h2 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
+                            <Globe className="h-8 w-8 text-violet-500" />
+                            Hub Registry Commands
+                        </h2>
+                        <p className="text-lg">
+                            The CLI integrates directly with the PromptForge Hub. You can search, pull, and push prompts without leaving your terminal.
+                        </p>
+
+                        <div className="space-y-4">
+                            <div className="glass-panel p-6 rounded-2xl border border-white/5 bg-white/[0.02]">
+                                <h3 className="text-xl font-bold text-white mb-2 font-mono">forge search {'<query>'}</h3>
+                                <p className="text-gray-400 mb-4">Search the global prompt registry for publicly available prompts.</p>
+                                <CodeBlock code={`forge search "marketing outline"`} copyText={`forge search "marketing outline"`} />
+                            </div>
+
+                            <div className="glass-panel p-6 rounded-2xl border border-white/5 bg-white/[0.02]">
+                                <h3 className="text-xl font-bold text-white mb-2 font-mono">forge pull {'<identifier>'}</h3>
+                                <p className="text-gray-400 mb-4">Pull a prompt from the registry by its username/slug combination to use it locally.</p>
+                                <CodeBlock code={`forge pull "ani12004/marketing-outline"`} copyText={`forge pull "ani12004/marketing-outline"`} />
+                            </div>
+
+                            <div className="glass-panel p-6 rounded-2xl border border-white/5 bg-white/[0.02]">
+                                <h3 className="text-xl font-bold text-white mb-2 font-mono">forge push {'<file>'}</h3>
+                                <p className="text-gray-400 mb-4">Publish a local prompt JSON configuration to your PromptForge Hub profile.</p>
+                                <CodeBlock code={`forge push prompts/my-awesome-prompt.json`} copyText={`forge push prompts/my-awesome-prompt.json`} />
+                            </div>
+                        </div>
                     </section>
 
                     {/* Interactive Studio */}
